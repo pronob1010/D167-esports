@@ -1,8 +1,16 @@
 from django.contrib import admin
 
-# Register your models here.
+ 
 from.models import *
+class MatchTeamDetailsAdmin(admin.TabularInline):
+    model = MatchTeamDetails
 
-admin.site.register(Matche)
-admin.site.register(Matche_Categories)
-admin.site.register(Matche_Level)
+class PlayersPointTableAdmin(admin.TabularInline):
+    model = PlayersPointTable
+
+class MatchAdmin(admin.ModelAdmin):
+    inlines = [MatchTeamDetailsAdmin,PlayersPointTableAdmin]
+
+admin.site.register(Match , MatchAdmin)
+admin.site.register(MatchCategories)
+admin.site.register(MatchLevel)

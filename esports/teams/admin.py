@@ -1,14 +1,14 @@
-from re import A
+
 from django.contrib import admin
 
 # Register your models here.
 from .models import *
-admin.site.register(Team_Categories)
+admin.site.register(TeamCategories)
 
-class Team_Players_Admin(admin.TabularInline):
-    model = Team_Players
+class TeamPlayersAdmin(admin.TabularInline):
+    model = TeamPlayers
 
-class Team_Admin(admin.ModelAdmin):
-    inlines = [Team_Players_Admin]
+class TeamAdmin(admin.ModelAdmin):
+    inlines = [TeamPlayersAdmin]
 
-admin.site.register(Team, Team_Admin)
+admin.site.register(Team, TeamAdmin)

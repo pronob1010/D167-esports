@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'Accounts',
     'matches',
     'players',
     'teams',
@@ -54,6 +55,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'esports.urls'
+
+AUTH_USER_MODEL = 'Accounts.User'
 
 TEMPLATES = [
     {
@@ -112,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 

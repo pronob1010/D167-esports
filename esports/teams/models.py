@@ -7,13 +7,13 @@ from django.db.models.fields import NullBooleanField
 
 from players.models import Player
 
-class Team_Categories(models.Model):
+class TeamCategories(models.Model):
     title = models.CharField(max_length=25)
 class Team(models.Model):
-    Team_Name = models.CharField(max_length=50)
-    Team_About = models.TextField(max_length=300, null=True, blank=True)
-    Team_Typte = models.ManyToManyField(Team_Categories,null=True, blank=True)
+    TeamName = models.CharField(max_length=50)
+    TeamAbout = models.TextField(max_length=300, null=True, blank=True)
+    TeamTypte = models.ManyToManyField(TeamCategories)
 
-class Team_Players(models.Model):
+class TeamPlayers(models.Model):
     Team = models.ForeignKey(Team, on_delete=CASCADE)
     player = models.ForeignKey(Player, on_delete=CASCADE)
