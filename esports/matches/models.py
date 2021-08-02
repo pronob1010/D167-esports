@@ -15,6 +15,7 @@ class Match(models.Model):
     MatchCategory = models.ForeignKey(MatchCategories, on_delete=CASCADE, default=None)
     MatchLevel = models.ForeignKey(MatchLevel, on_delete=CASCADE, default=None)
     Featured = models.BooleanField(default=False)
+    Countdown_Expected = models.BooleanField(default=False)
     TimeDate = models.TimeField(null=True, blank=True)
     MatchAbout = models.TextField(max_length=300, null=True, blank=True)
 
