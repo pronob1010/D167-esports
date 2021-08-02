@@ -1,0 +1,784 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="col-md-12">
+        <h4>Last matche</h4>
+    </div>
+    <div class="col-md-12 overflow-scroll">
+
+        <table>
+            <tr>
+                <th>competitor</th>
+                <th>gp</th>
+                <th>gs</th>
+                <th>min</th>
+                <th>fgm-a</th>
+                <th>fg%</th>
+                <th>3pm-a</th>
+                <th>3p%</th>
+                <th>om</th>
+                <th>or</th>
+                <th>to</th>
+                <th>pts</th>
+            </tr>
+            <tr>
+                <td>
+                    <span class="team"><img src="{% static 'images/soccer/team-logo1.png'  %}" width="30" height="30"
+                            alt="team-logo"></span>
+                    <span>Team 1</span>
+                </td>
+                <td>2</td>
+                <td>55</td>
+                <td>62</td>
+                <td>5</td>
+                <td>0</td>
+                <td>8</td>
+                <td>89</td>
+                <td>7</td>
+                <td>2</td>
+                <td>2</td>
+                <td><span>12</span></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="team"><img src="{% static 'images/soccer/team-logo2.png'  %}" width="30" height="30"
+                            alt="team-logo"></span>
+                    <span>Team 2</span>
+                </td>
+                <td>2</td>
+                <td>55</td>
+                <td>62</td>
+                <td>5</td>
+                <td>0</td>
+                <td>8</td>
+                <td>89</td>
+                <td>7</td>
+                <td>2</td>
+                <td>2</td>
+                <td><span>12</span></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="team"><img src="{% static 'images/soccer/team-logo3.png'  %}" width="30" height="30"
+                            alt="team-logo"></span>
+                    <span>Team 3</span>
+                </td>
+                <td>2</td>
+                <td>55</td>
+                <td>62</td>
+                <td>5</td>
+                <td>0</td>
+                <td>8</td>
+                <td>89</td>
+                <td>7</td>
+                <td>2</td>
+                <td>2</td>
+                <td><span>12</span></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="team"><img src="{% static 'images/soccer/team-logo4.png'  %}" width="30" height="30"
+                            alt="team-logo"></span>
+                    <span>Team 4</span>
+                </td>
+                <td>2</td>
+                <td>55</td>
+                <td>62</td>
+                <td>5</td>
+                <td>0</td>
+                <td>8</td>
+                <td>89</td>
+                <td>7</td>
+                <td>2</td>
+                <td>2</td>
+                <td><span>12</span></td>
+            </tr>
+        </table>
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h6>Other matches</h6>
+        </div>
+        <div class="col-md-12">
+            <div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="broadcast-item">
+                    <div class="item-header" id="headingOne">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-2">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="arrow"><i
+                                        class="fa fa-caret-down" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="col-md-11 col-sm-10">
+                                <div class="item-head-body">
+                                    <a href="matches.html"><img src="{% static 'images/common/channel-logo.png' %}"
+                                            width="40" height="40" alt="channel-logo"></a>
+
+                                    <span class="info">
+                                        <span class="what">25 sep 2016 / 7:30 PM</span>
+                                        <span class="then">National cup - semifinal</span>
+                                    </span>
+                                    <span class="marker">live</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="img-wrap"><img src="{% static 'images/soccer/broad-img.jpg' %}" alt="broad-img">
+                        </div>
+                        <div class="item-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="title">Match details</div>
+                                    <p>Selvage mixtape coloring book, street art swag sriracha activated charcoal
+                                        vegan hammock selfies distillery wayfarers dreamcatcher lyft beard. </p>
+                                    <div class="title">Match Time</div>
+                                    <p>7:30 PM, Saturday<br>29 Sep 2016</p>
+                                    <div class="title">Stadium</div>
+                                    <p>Fulham Rd, Fulham, London SW6 1HS, <br>Stamford Bridge</p>
+                                    <div class="title">weather forecast</div>
+                                    <div class="live-match-weather">
+                                        <div class="icon"><img src="{% static 'images/common/wether-sun.png' %}"
+                                                alt="wether-sun"></div>
+                                        <div class="info">
+                                            <div class="degree">7 °C</div>
+                                            <div class="text">Partly cloudy night</div>
+                                        </div>
+                                    </div>
+                                    <a href="upcoming-match.html" class="btn">View match page</a>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="title">Lineups</div>
+                                    <div class="lineup-list">
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="broadcast-item">
+                    <div class="item-header" id="headingOne">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-2">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="arrow"><i
+                                        class="fa fa-caret-down" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="col-md-11 col-sm-10">
+                                <div class="item-head-body">
+                                    <a href="matches.html"><img src="{% static 'images/common/channel-logo.png' %}"
+                                            width="40" height="40" alt="channel-logo"></a>
+
+                                    <span class="info">
+                                        <span class="what">25 sep 2016 / 7:30 PM</span>
+                                        <span class="then">National cup - semifinal</span>
+                                    </span>
+                                    <span class="marker">live</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="img-wrap"><img src="{% static 'images/soccer/broad-img.jpg' %}" alt="broad-img">
+                        </div>
+                        <div class="item-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="title">Match details</div>
+                                    <p>Selvage mixtape coloring book, street art swag sriracha activated charcoal
+                                        vegan hammock selfies distillery wayfarers dreamcatcher lyft beard. </p>
+                                    <div class="title">Match Time</div>
+                                    <p>7:30 PM, Saturday<br>29 Sep 2016</p>
+                                    <div class="title">Stadium</div>
+                                    <p>Fulham Rd, Fulham, London SW6 1HS, <br>Stamford Bridge</p>
+                                    <div class="title">weather forecast</div>
+                                    <div class="live-match-weather">
+                                        <div class="icon"><img src="{% static 'images/common/wether-sun.png' %}"
+                                                alt="wether-sun"></div>
+                                        <div class="info">
+                                            <div class="degree">7 °C</div>
+                                            <div class="text">Partly cloudy night</div>
+                                        </div>
+                                    </div>
+                                    <a href="upcoming-match.html" class="btn">View match page</a>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="title">Lineups</div>
+                                    <div class="lineup-list">
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="broadcast-item">
+                    <div class="item-header" id="headingOne">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-2">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="arrow"><i
+                                        class="fa fa-caret-down" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="col-md-11 col-sm-10">
+                                <div class="item-head-body">
+                                    <a href="matches.html"><img src="{% static 'images/common/channel-logo.png' %}"
+                                            width="40" height="40" alt="channel-logo"></a>
+
+                                    <span class="info">
+                                        <span class="what">25 sep 2016 / 7:30 PM</span>
+                                        <span class="then">National cup - semifinal</span>
+                                    </span>
+                                    <span class="marker">live</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="img-wrap"><img src="{% static 'images/soccer/broad-img.jpg' %}" alt="broad-img">
+                        </div>
+                        <div class="item-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="title">Match details</div>
+                                    <p>Selvage mixtape coloring book, street art swag sriracha activated charcoal
+                                        vegan hammock selfies distillery wayfarers dreamcatcher lyft beard. </p>
+                                    <div class="title">Match Time</div>
+                                    <p>7:30 PM, Saturday<br>29 Sep 2016</p>
+                                    <div class="title">Stadium</div>
+                                    <p>Fulham Rd, Fulham, London SW6 1HS, <br>Stamford Bridge</p>
+                                    <div class="title">weather forecast</div>
+                                    <div class="live-match-weather">
+                                        <div class="icon"><img src="{% static 'images/common/wether-sun.png' %}"
+                                                alt="wether-sun"></div>
+                                        <div class="info">
+                                            <div class="degree">7 °C</div>
+                                            <div class="text">Partly cloudy night</div>
+                                        </div>
+                                    </div>
+                                    <a href="upcoming-match.html" class="btn">View match page</a>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="title">Lineups</div>
+                                    <div class="lineup-list">
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="broadcast-item">
+                    <div class="item-header" id="headingOne">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-2">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="arrow"><i
+                                        class="fa fa-caret-down" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="col-md-11 col-sm-10">
+                                <div class="item-head-body">
+                                    <a href="matches.html"><img src="{% static 'images/common/channel-logo.png' %}"
+                                            width="40" height="40" alt="channel-logo"></a>
+
+                                    <span class="info">
+                                        <span class="what">25 sep 2016 / 7:30 PM</span>
+                                        <span class="then">National cup - semifinal</span>
+                                    </span>
+                                    <span class="marker">live</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="img-wrap"><img src="{% static 'images/soccer/broad-img.jpg' %}" alt="broad-img">
+                        </div>
+                        <div class="item-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="title">Match details</div>
+                                    <p>Selvage mixtape coloring book, street art swag sriracha activated charcoal
+                                        vegan hammock selfies distillery wayfarers dreamcatcher lyft beard. </p>
+                                    <div class="title">Match Time</div>
+                                    <p>7:30 PM, Saturday<br>29 Sep 2016</p>
+                                    <div class="title">Stadium</div>
+                                    <p>Fulham Rd, Fulham, London SW6 1HS, <br>Stamford Bridge</p>
+                                    <div class="title">weather forecast</div>
+                                    <div class="live-match-weather">
+                                        <div class="icon"><img src="{% static 'images/common/wether-sun.png' %}"
+                                                alt="wether-sun"></div>
+                                        <div class="info">
+                                            <div class="degree">7 °C</div>
+                                            <div class="text">Partly cloudy night</div>
+                                        </div>
+                                    </div>
+                                    <a href="upcoming-match.html" class="btn">View match page</a>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="title">Lineups</div>
+                                    <div class="lineup-list">
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="left">
+                                                <div class="number"><span>1</span></div>
+                                                <div class="name">Borjan (GK)</div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="name">Borjan (GK)</div>
+                                                <div class="number"><span>2</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="pagination-wrap">
+                <ul class="pagination">
+                    <li><a href="#"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+                    <li><a href="#">1</a></li>
+                    <li class="active"><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

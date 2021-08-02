@@ -3,4 +3,6 @@ from django.urls import path
 from. import views
 urlpatterns = [
     path('matches/', views.matches, name="matches"),
+    path('live/', views.liveMatches, name="live"),
+    path('upcoming/', views.upCommingMatches, name="upcoming"),
 ]

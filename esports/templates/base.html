@@ -45,33 +45,16 @@
                 <div class="collapse navbar-collapse" id="team-menu">
                     <ul class="main-menu nav">
                         <li class="active">
-                            <a href="index-2.html"><span>Home</span></a>
-                            <ul>
-                                <li><a href="amateurs.html"><span>Amateures Home</span></a></li>
-                            </ul>
+                            <a href="{% url 'index' %}"><span>Home</span></a>
                         </li>
                         <li>
-                            <a href="matches.html"><span>Matches</span></a>
+                            <a href="{% url 'matches' %}"><span>Matches</span></a>
                             <ul>
-                                <li>
-                                    <a href="standing-cup.html"><span>Standings<i class="fa fa-long-arrow-right"
-                                                aria-hidden="true"></i></span></a>
-                                    <ul>
-                                        <li><a href="standings.html"><span>championship</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="club-stats.html"><span>club stats</span></a></li>
-                                <li><a href="match-live.html"><span>match live</span></a></li>
-                                <li><a href="broadcasts.html"><span>broadcasts</span></a></li>
-                                <li><a href="upcoming-match.html"><span>upcoming match</span></a></li>
-                                <li>
-                                    <a href="championships-archive.html"><span>championships archive<i
-                                                class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a>
-                                    <ul>
-                                        <li><a href="championship.html"><span>championship information</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="live-text-stream.html"><span>Text stream</span></a></li>
+                                <li><a href="{% url 'live' %}"><span>Stream</span></a></li>
+                            
+                                <li><a href="{% url 'upcoming' %}"><span>upcoming match</span></a></li>
+                                
+                                <li><a href="#"><span>tournament registration </span></a></li>
                             </ul>
                         </li>
                         <li>
@@ -81,56 +64,18 @@
                                 <li><a href="player-second-page.html"><span>player second page</span></a></li>
                             </ul>
                         </li>
-                        <li><a href="news.html"><span>News</span></a></li>
+                        
                         <li><a href="store.html"><span>Store</span></a></li>
                         <li><a href="contacts.html"><span>Contact</span></a></li>
+
                         <li>
-                            <a href="#other"><span>other</span></a>
-                            <ul>
-                                <li><a href="404.html"><span>404</span></a></li>
-                                <li><a href="offline.html"><span>offline</span></a></li>
-                                <li><a href="coming-soon.html"><span>comming soon</span></a></li>
-                                <li><a href="search.html"><span>search</span></a></li>
-                                <li><a href="donations.html"><span>donations</span></a></li>
-                                <li><a href="trophies.html"><span>trophies</span></a></li>
-                                <li><a href="about-club.html"><span>about club</span></a></li>
-                                <li><a href="checkout.html"><span>checkout</span></a></li>
-                            </ul>
-                        </li>
-                        <li class="cart full">
-                            <a href="#cart">
-                                <span><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                            <a href="#">
+                                <span><i class="fa fa-user-circle-o" aria-hidden="true" style="font-size:16px"></i></span>
                             </a>
-                            <div class="cart-drop">
-                                <table class="ct">
-                                    <tr>
-                                        <td class="delete"><a href="#"><i class="fa fa-close"
-                                                    aria-hidden="true"></i></a></td>
-                                        <td class="info">
-                                            <img class="product-image"
-                                                src="{% static 'images/common/cart-product.jpg' %}" alt="product-image">
-                                            <em>Men's T-Shirt<br><em class="price">1 x £ 60</em></em>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="delete"><a href="#"><i class="fa fa-close"
-                                                    aria-hidden="true"></i></a></td>
-                                        <td class="info">
-                                            <img class="product-image"
-                                                src="{% static 'images/common/cart-product.jpg' %}" alt="product-image">
-                                            <em>Men's T-Shirt<br><em class="price">1 x £ 60</em></em>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div class="wrap">
-                                    <div class="total-text">Subtotal: </div>
-                                    <div class="total-digit">£ 120</div>
-                                </div>
-                                <div class="wrap btn-wrap">
-                                    <a href="cart.html" class="btn view">View cart</a>
-                                    <a href="checkout.html" class="btn check">checkout cart</a>
-                                </div>
-                            </div>
+                            <ul>
+                                <li><a href="#"><span>Login</span></a></li>
+                                <li><a href="#"><span>Signup</span></a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
