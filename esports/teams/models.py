@@ -9,11 +9,19 @@ from players.models import Player
 
 class TeamCategories(models.Model):
     title = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.title
 class Team(models.Model):
     TeamName = models.CharField(max_length=50)
     TeamAbout = models.TextField(max_length=300, null=True, blank=True)
     TeamTypte = models.ManyToManyField(TeamCategories)
 
+    def __str__(self):
+        return self.TeamName  
 class TeamPlayers(models.Model):
     Team = models.ForeignKey(Team, on_delete=CASCADE)
     player = models.ForeignKey(Player, on_delete=CASCADE)
+
+    def __str__(self):
+        return self.player.name

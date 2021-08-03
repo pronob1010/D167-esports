@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
     'Accounts',
     'matches',
     'players',
@@ -58,6 +59,7 @@ ROOT_URLCONF = 'esports.urls'
 
 AUTH_USER_MODEL = 'Accounts.User'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -76,6 +78,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CRISPY_TEMPLATE_PACK = "bootstrap"
 
 WSGI_APPLICATION = 'esports.wsgi.application'
 

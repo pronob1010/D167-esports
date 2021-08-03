@@ -9,4 +9,7 @@ def index(request):
     context = {
         'index_data' : index_data
     }
-    return render(request, 'index.html', context)
+    return render(request, 'administration/index.html', context)
+
+def contact(request):
+    return render(request, 'administration/contacts.html', {})

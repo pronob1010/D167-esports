@@ -10,5 +10,8 @@ class Player(models.Model):
     nationality = models.CharField(max_length=200)
     age = models.IntegerField()
     about = models.TextField(max_length=400, null=True, blank=True)
-    speciality = models.TextField(max_length=200, null=True, blank=True)
+    speciality = models.CharField(max_length=200, null=True, blank=True)
     present_position = models.TextField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.name

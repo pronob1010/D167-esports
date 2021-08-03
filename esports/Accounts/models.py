@@ -4,7 +4,7 @@ from . manager import UserManager
 
 class User(AbstractUser):
     username = models.CharField(max_length=20)
-    phone = models.TextField(max_length=15, unique=True)
+    phone = models.CharField(max_length=15, unique=True)
     email = models.EmailField(unique=True, null=True, blank=True)
 
     forget_password = models.CharField(max_length=100, null=True, blank=True)
@@ -17,4 +17,4 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.username
+        return self.phone

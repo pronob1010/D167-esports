@@ -12,5 +12,5 @@ class MatchAdmin(admin.ModelAdmin):
     inlines = [MatchTeamDetailsAdmin,PlayersPointTableAdmin]
 
 admin.site.register(Match , MatchAdmin)
-admin.site.register(MatchCategories)
-admin.site.register(MatchLevel)
+admin.site.register(SEASON)
+admin.site.register(MatchRound)
