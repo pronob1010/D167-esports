@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
+    'smart_selects',
     'crispy_forms',
     'Accounts',
     'matches',
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,12 +63,14 @@ ROOT_URLCONF = 'esports.urls'
 AUTH_USER_MODEL = 'Accounts.User'
 
 
+USE_DJANGO_JQUERY = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            # os.path.join('BASE_DIR','templates')
-            'templates'
+            os.path.join('BASE_DIR','../templates')
+            # 'templates'
         ],
         'APP_DIRS': True,
         'OPTIONS': {

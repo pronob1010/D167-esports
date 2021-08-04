@@ -4,237 +4,88 @@
 
 <div class="container">
     <!--STANDING TABLE WRAP BEGIN-->
+    <!-- <hr>
+    {% for key, value in unique_team.items %}
 
+    {% for s in value %}
+    <td class="points"><span>26</span></td>
+    <td>{{s}}</td>
+ 
+    {% endfor %}
+ <hr>
+    {% endfor %} -->
+    <hr>
     <section class="standing-table-wrap">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <h4>Premier league</h4>
                     <ul class="tab-filters" role="tablist">
-                        <li class="active"><a href="#Season1" role="tab" data-toggle="tab">Season 1</a></li>
-                        <li><a href="#Season2" role="tab" data-toggle="tab">Season 2</a></li>
-                        <li><a href="#Season3" role="tab" data-toggle="tab">Season 3</a></li>
-                        <li><a href="#Season4" role="tab" data-toggle="tab">Season 4</a></li>
+                        {% for data in season_table_data_1 %}
+                        <li class="active"><a href="#{{data.slug}}" id="passdata" value="{{data.slug}}" role="tab" data-toggle="tab">{{data.SEASON_title}}</a>
+                        </li>
+                        {% endfor %}
+
+                        {% for data in season_table_data %}
+                        <li class=""><a href="#{{data.slug}}" id="passdata" value="{{data.slug}}" role="tab" data-toggle="tab">{{data.SEASON_title}}</a>
+                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
 
                 <div class="col-md-12 col-sm-12 col-xs-12 overflow-scroll standings-table">
                     <div class="tab-content">
-                        <div class="tab-pane fade in active" id="Season1" role="tabpanel">
+                        <div class="tab-pane fade in active" id="" role="tabpanel">
                             <table class="standing-full">
                                 <tr>
-                                    <th>club</th>
+                                    <th>Team1</th>
                                     <th>played</th>
-                                    <th>won</th>
-                                    <th>drawn</th>
-                                    <th>lost</th>
-                                    <th>gd</th>
-                                    <th>points</th>
+                                    <th>Match Win</th>
+                                    <th>Placement Point</th>
+                                    <th>Kill Point</th>
+                                    <th>Total points</th>
                                 </tr>
+                                {% for key,value in unique_team.items %}
                                 <tr>
-                                    <td class="up">
-                                        <i class="fa fa-caret-up" aria-hidden="true"></i> 1 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo1.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 1
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>+16</td>
-                                    <td class="points"><span>26</span></td>
+                                    <td class="up"> 1 <span class="team"><img src="{{value.0}}" width="30" height="30" alt="team-logo"> </span>{{value.1}}
+                                </td>
+                                <td>{{value.2}}</td>
+                                <td>{{value.3}}</td>
+                                <td>{{value.4}}</td>
+                                <td>{{value.5}}</td>
+                                <td class="points"><span>{{value.6}}</span></td>
                                 </tr>
-                                <tr>
-                                    <td class="down">
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i> 2 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo2.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 2
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>+14</td>
-                                    <td class="points"><span>23</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="down">
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i> 2 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo3.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 3
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>+13</td>
-                                    <td class="points"><span>23</span></td>
-                                </tr>
-
+                                {% endfor %}
                             </table>
                         </div>
-                        <div class="tab-pane fade" id="Season2" role="tabpanel">
+
+                        {% for data in season_table_data %}
+                        <div class="tab-pane fade in" id="{{data.slug}}" role="tabpanel">
                             <table class="standing-full">
                                 <tr>
-                                    <th>club</th>
+                                    <th>Team</th>
                                     <th>played</th>
-                                    <th>won</th>
-                                    <th>drawn</th>
-                                    <th>lost</th>
-                                    <th>gd</th>
-                                    <th>points</th>
+                                    <th>Match Win</th>
+                                    <th>Placement Point</th>
+                                    <th>Kill Point</th>
+                                    <th>Total points</th>
                                 </tr>
+                                {% for key,value in unique_team.items %}
                                 <tr>
-                                    <td class="up">
-                                        <i class="fa fa-caret-up" aria-hidden="true"></i> 1 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo1.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 1
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>+16</td>
-                                    <td class="points"><span>26</span></td>
+                                    <td class="up"> 1 <span class="team"><img src="{{value.0}}" width="30" height="30" alt="team-logo"> </span>{{value.1}}
+                                </td>
+                                <td>{{value.2}}</td>
+                                <td>{{value.3}}</td>
+                                <td>{{value.4}}</td>
+                                <td>{{value.5}}</td>
+                                <td class="points"><span>{{value.6}}</span></td>
                                 </tr>
-                                <tr>
-                                    <td class="down">
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i> 2 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo2.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 2
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>+14</td>
-                                    <td class="points"><span>23</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="down">
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i> 2 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo3.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 3
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>+13</td>
-                                    <td class="points"><span>23</span></td>
-                                </tr>
-
+                                {% endfor %}
                             </table>
                         </div>
-                        <div class="tab-pane fade" id="Season3" role="tabpanel">
-                            <table class="standing-full">
-                                <tr>
-                                    <th>club</th>
-                                    <th>played</th>
-                                    <th>won</th>
-                                    <th>drawn</th>
-                                    <th>lost</th>
-                                    <th>gd</th>
-                                    <th>points</th>
-                                </tr>
-                                <tr>
-                                    <td class="up">
-                                        <i class="fa fa-caret-up" aria-hidden="true"></i> 1 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo1.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 1
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>+16</td>
-                                    <td class="points"><span>26</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="down">
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i> 2 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo2.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 2
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>+14</td>
-                                    <td class="points"><span>23</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="down">
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i> 2 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo3.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 3
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>+13</td>
-                                    <td class="points"><span>23</span></td>
-                                </tr>
-
-                            </table>
-                        </div>
-                        <div class="tab-pane fade" id="Season4" role="tabpanel">
-                            <table class="standing-full">
-                                <tr>
-                                    <th>club</th>
-                                    <th>played</th>
-                                    <th>won</th>
-                                    <th>drawn</th>
-                                    <th>lost</th>
-                                    <th>gd</th>
-                                    <th>points</th>
-                                </tr>
-                                <tr>
-                                    <td class="up">
-                                        <i class="fa fa-caret-up" aria-hidden="true"></i> 1 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo1.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 1
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>2</td>
-                                    <td>1</td>
-                                    <td>+16</td>
-                                    <td class="points"><span>26</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="down">
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i> 2 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo2.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 2
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>+14</td>
-                                    <td class="points"><span>23</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="down">
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i> 2 <span class="team"><img
-                                                src="{% static 'images/soccer/team-logo3.png' %}" width="30" height="30"
-                                                alt="team-logo"> </span>Team 3
-                                    </td>
-                                    <td>11</td>
-                                    <td>8</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>+13</td>
-                                    <td class="points"><span>23</span></td>
-                                </tr>
-
-                            </table>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
-               
             </div>
         </div>
     </section>
@@ -921,5 +772,11 @@
 
     </div>
 </div>
+<script>
+    document.getElementById('passdata').addEventListener("click", myfunction);
 
+    function myfunction(e){
+        console.log(e.target.value);
+    }
+</script>
 {% endblock %}

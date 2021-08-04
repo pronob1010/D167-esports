@@ -3,7 +3,7 @@ from django.contrib import admin
  
 from.models import *
 class MatchTeamDetailsAdmin(admin.TabularInline):
-    model = MatchTeamDetails
+    model = RegisteredTeams
 
 class PlayersPointTableAdmin(admin.TabularInline):
     model = PlayersPointTable
@@ -13,4 +13,5 @@ class MatchAdmin(admin.ModelAdmin):
 
 admin.site.register(Match , MatchAdmin)
 admin.site.register(SEASON)
+admin.site.register(PlayersPointTable)
 admin.site.register(MatchRound)
