@@ -100,54 +100,92 @@ def data_table(request, slug):
         group_table_data = MatchGroup.objects.filter(Round__slug = slug)
         if group_slug is not None:
             match_table_data = RegisteredTeams.objects.filter(Match__Match_Group__slug = group_slug)
-            # print(match_table_data)
+            print(match_table_data)
             table_title = MatchGroup.objects.get(slug = group_slug).Group_title
+
+            unique_team = {}
+            j = 0 
+            for u in match_table_data:
+                info = []
+                if u.Team.slug not in info:
+                    j+=1
+                    team_slug = u.Team.slug
+                    info.append(u.Team.Team_image.url)
+                    info.append(u.Team.TeamName)
+                    
+                    
+                    win_count = RegisteredTeams.objects.filter(Q(Match__Match_Group__slug = group_slug) &Q(Team__slug = u.Team.slug) & Q(Win = True)).count()
+                    play_count = RegisteredTeams.objects.filter(Q(Match__Match_Group__slug = group_slug) & Q(Team__slug = u.Team.slug)).count()
+                    print(RegisteredTeams.objects.filter(Q(Match__Match_Group__slug = group_slug) & Q(Team__slug = u.Team.slug)).count())
+                    placement_point = RegisteredTeams.objects.filter(Q(Match__Match_Group__slug = group_slug) & Q(Team__slug = u.Team.slug))
+
+
+                    pp = []
+                    for i in placement_point:
+                        pp.append(i.Placement_Point)
+                    total_pp = sum(pp)
+                    
+                    kill_point = PlayersPointTable.objects.filter(Q(Match__Match_Round__slug = slug) & Q(teamName__Team__slug = u.Team.slug))
+                    kills = []
+                    for k in kill_point:
+                        kills.append(k.kill_Point)
+                    total_kill_point = sum(kills)
+                    total_point = total_kill_point + total_pp
+                    # print(win_count,play_count,total_pp,total_kill_point,total_point)
+                    info.append(play_count)
+                    info.append(win_count)
+                    info.append(total_pp)
+                    info.append(total_kill_point) 
+                    info.append(total_point)
+                    # print(info)
+
+                unique_team[team_slug] = info
+            
         else:
             match_table_data = RegisteredTeams.objects.filter(Match__Match_Round__slug = slug)
         # print(match_table_data)
             table_title = MatchRound.objects.get(slug = slug).Round_title
 
+            unique_team = {}
+            j = 0 
+            for u in match_table_data:
+                info = []
+                if u.Team.slug not in info:
+                    j+=1
+                    team_slug = u.Team.slug
+                    info.append(u.Team.Team_image.url)
+                    info.append(u.Team.TeamName)
+                    
+                    
+                    win_count = RegisteredTeams.objects.filter(Q(Match__Match_Round__slug = slug) &Q(Team__slug = u.Team.slug) & Q(Win = True)).count()
+                    play_count = RegisteredTeams.objects.filter(Q(Match__Match_Round__slug = slug) & Q(Team__slug = u.Team.slug)).count()
+                    placement_point = RegisteredTeams.objects.filter(Q(Match__Match_Round__slug = slug) & Q(Team__slug = u.Team.slug))
 
-        unique_team = {}
-        j = 0 
-        for u in match_table_data:
-            info = []
-            if u.Team.slug not in info:
-                j+=1
-                team_slug = u.Team.slug
-                info.append(u.Team.Team_image.url)
-                info.append(u.Team.TeamName)
-                
-                
-                win_count = RegisteredTeams.objects.filter(Q(Match__Match_Round__slug = slug) &Q(Team__slug = u.Team.slug) & Q(Win = True)).count()
-                play_count = RegisteredTeams.objects.filter(Q(Match__Match_Round__slug = slug) & Q(Team__slug = u.Team.slug)).count()
-                placement_point = RegisteredTeams.objects.filter(Q(Match__Match_Round__slug = slug) & Q(Team__slug = u.Team.slug))
 
+                    pp = []
+                    for i in placement_point:
+                        pp.append(i.Placement_Point)
+                    total_pp = sum(pp)
+                    
+                    kill_point = PlayersPointTable.objects.filter(Q(Match__Match_Round__slug = slug) & Q(teamName__Team__slug = u.Team.slug))
+                    kills = []
+                    for k in kill_point:
+                        kills.append(k.kill_Point)
+                    total_kill_point = sum(kills)
+                    total_point = total_kill_point + total_pp
+                    # print(win_count,play_count,total_pp,total_kill_point,total_point)
+                    info.append(play_count)
+                    info.append(win_count)
+                    info.append(total_pp)
+                    info.append(total_kill_point) 
+                    info.append(total_point)
+                    # print(info)
 
-                pp = []
-                for i in placement_point:
-                    pp.append(i.Placement_Point)
-                total_pp = sum(pp)
-                
-                kill_point = PlayersPointTable.objects.filter(Q(Match__Match_Round__slug = slug) & Q(teamName__Team__slug = u.Team.slug))
-                kills = []
-                for k in kill_point:
-                    kills.append(k.kill_Point)
-                total_kill_point = sum(kills)
-                total_point = total_kill_point + total_pp
-                # print(win_count,play_count,total_pp,total_kill_point,total_point)
-                info.append(play_count)
-                info.append(win_count)
-                info.append(total_pp)
-                info.append(total_kill_point) 
-                info.append(total_point)
-                # print(info)
+                unique_team[team_slug] = info
 
-            unique_team[team_slug] = info
-
-        # print(unique_team)
-        
-    #This section provide season level match information
+            # print(unique_team)
+            
+        #This section provide season level match information
     else:
         match_table_data = RegisteredTeams.objects.filter(Match__Match_SEASON__slug = slug)
         table_title = SEASON.objects.get(slug = slug).SEASON_title
@@ -190,7 +228,7 @@ def data_table(request, slug):
             unique_team[team_slug] = info
 
         # print(unique_team)
-    print(unique_team)
+    # print(unique_team)
     
     #final sorting
     unique_team = sorted(unique_team.items(), key = lambda x:(x[1][6]), reverse=True)
