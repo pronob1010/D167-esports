@@ -45,12 +45,24 @@
             <nav class="navbar">
                 <div class="collapse navbar-collapse" id="team-menu">
                     <ul class="main-menu nav">
-                        <li class="active">
+                        {% with url_name=request.resolver_match.url_name %}
+                        <li class="{% if url_name == 'index' %}active{% endif %}">
                             <a href="{% url 'index' %}"><span>Home</span></a>
                         </li>
-                        <li>
-                            <a href="{% url 'matches' %}"><span>Matches</span></a>
+                        <li class="{% if url_name == 'matches' %}active{% endif %}">
+                            <a href="#"><span>Tournament</span></a>
                             <ul>
+                                {% for s in nav_season %}
+                                <li class="">
+                                    <a href="{% url "table" s.0 %}"><span>{{s.1}}</span></a>
+                                    <ul>
+                                        {% for k, v in s.2.items %}
+                                        <li><a href="{% url "table" k %}"><span> {{v}}</span></a> </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endfor %}
+
                                 <li><a href="{% url 'live' %}"><span>Stream</span></a></li>
 
                                 <li><a href="{% url 'upcoming' %}"><span>upcoming match</span></a></li>
@@ -58,17 +70,21 @@
                                 <li><a href="#"><span>tournament registration </span></a></li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="{% if url_name == 'teams' %}active{% endif %}">
                             <a href="{% url 'teams' %}"><span>Team</span></a>
                             <ul>
                                 <li><a href="{% url 'player' %}"><span>player first page</span></a></li>
                             </ul>
                         </li>
 
-                        <li><a href="store.html"><span>Store</span></a></li>
-                        <li><a href="{% url 'contact' %}"><span>Contact</span></a></li>
-
                         <li>
+                            <a href="store.html"><span>Store</span></a>
+                        </li>
+                        <li class="{% if url_name == 'contact' %}active{% endif %}">
+                            <a href="{% url 'contact' %}"><span>Contact</span></a>
+                        </li>
+
+                        <li class="{% if url_name == 'index' %}active{% endif %}">
                             <a href="#">
                                 <span><i class="fa fa-user-circle-o" aria-hidden="true"
                                         style="font-size:16px"></i></span>
@@ -78,6 +94,7 @@
                                 <li><a href="{% url 'signup' %}"><span>Signup</span></a></li>
                             </ul>
                         </li>
+                        {% endwith %}
                     </ul>
                 </div>
             </nav>
@@ -227,7 +244,7 @@
 
     <script type="text/javascript" src="{% static '/smart-selects/admin/js/chainedfk.js' %}"></script>
     <script type="text/javascript" src="{% static '/smart-selects/admin/js/bindfields.js' %}"></script>
-    
+
     </body>
 
 </html>

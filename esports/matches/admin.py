@@ -13,5 +13,7 @@ class MatchAdmin(admin.ModelAdmin):
 
 admin.site.register(Match , MatchAdmin)
 admin.site.register(SEASON)
+admin.site.register(MatchGroup)
 admin.site.register(PlayersPointTable)
 admin.site.register(MatchRound)
+admin.site.register(RegisteredTeams)

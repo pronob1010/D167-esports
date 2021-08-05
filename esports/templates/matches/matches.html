@@ -3,33 +3,24 @@
 {% block content %}
 
 <div class="container">
-    <!--STANDING TABLE WRAP BEGIN-->
-    <!-- <hr>
-    {% for key, value in unique_team.items %}
-
-    {% for s in value %}
-    <td class="points"><span>26</span></td>
-    <td>{{s}}</td>
- 
-    {% endfor %}
- <hr>
-    {% endfor %} -->
-    <hr>
     <section class="standing-table-wrap">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <h4>Premier league</h4>
+                    <!-- <h4>{{table_title}} Point Table </h4> -->
                     <ul class="tab-filters" role="tablist">
-                        {% for data in season_table_data_1 %}
-                        <li class="active"><a href="#{{data.slug}}" id="passdata" value="{{data.slug}}" role="tab" data-toggle="tab">{{data.SEASON_title}}</a>
+                        <!-- {% for data in group_table_data_1 %}
+                        <li class=""><a href="#{{data.slug}}" onclick="myfunction(event)" value="{{data.slug}}"
+                                role="tab" data-toggle="tab">{{data.Group_title}}</a>
                         </li>
-                        {% endfor %}
-
-                        {% for data in season_table_data %}
-                        <li class=""><a href="#{{data.slug}}" id="passdata" value="{{data.slug}}" role="tab" data-toggle="tab">{{data.SEASON_title}}</a>
-                        </li>
-                        {% endfor %}
+                        {% endfor %} -->
+                        {% if group_table_data is not None %}
+                            {% for data in group_table_data %}
+                            <li class="active"><a href="#{{data.slug}}" onclick="myfunction(event)" value="{{data.slug}}"
+                                    role="tab" data-toggle="tab">{{data.Group_title}}</a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
                     </ul>
                 </div>
 
@@ -37,31 +28,7 @@
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="" role="tabpanel">
                             <table class="standing-full">
-                                <tr>
-                                    <th>Team1</th>
-                                    <th>played</th>
-                                    <th>Match Win</th>
-                                    <th>Placement Point</th>
-                                    <th>Kill Point</th>
-                                    <th>Total points</th>
-                                </tr>
-                                {% for key,value in unique_team.items %}
-                                <tr>
-                                    <td class="up"> 1 <span class="team"><img src="{{value.0}}" width="30" height="30" alt="team-logo"> </span>{{value.1}}
-                                </td>
-                                <td>{{value.2}}</td>
-                                <td>{{value.3}}</td>
-                                <td>{{value.4}}</td>
-                                <td>{{value.5}}</td>
-                                <td class="points"><span>{{value.6}}</span></td>
-                                </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-
-                        {% for data in season_table_data %}
-                        <div class="tab-pane fade in" id="{{data.slug}}" role="tabpanel">
-                            <table class="standing-full">
+                                <h6>{{table_title}} Point Table </h6>
                                 <tr>
                                     <th>Team</th>
                                     <th>played</th>
@@ -72,13 +39,41 @@
                                 </tr>
                                 {% for key,value in unique_team.items %}
                                 <tr>
-                                    <td class="up"> 1 <span class="team"><img src="{{value.0}}" width="30" height="30" alt="team-logo"> </span>{{value.1}}
-                                </td>
-                                <td>{{value.2}}</td>
-                                <td>{{value.3}}</td>
-                                <td>{{value.4}}</td>
-                                <td>{{value.5}}</td>
-                                <td class="points"><span>{{value.6}}</span></td>
+                                    <td class="up"> 1 <span class="team"><img src="{{value.0}}" width="30" height="30"
+                                                alt="team-logo"> </span>{{value.1}}
+                                    </td>
+                                    <td>{{value.2}}</td>
+                                    <td>{{value.3}}</td>
+                                    <td>{{value.4}}</td>
+                                    <td>{{value.5}}</td>
+                                    <td class="points"><span>{{value.6}}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+
+                        {% for data in group_table_data %}
+                        <div class="tab-pane fade in" id="{{data.slug}}" role="tabpanel">
+                            <table class="standing-full">
+                                <tr>
+                                    <th>Team</th>
+                                    <th>played</th>
+                                    <th>Match Win</th>
+                                    <th>Placement Point</th>
+                                    <th>Kill Point</th>
+                                    <th>Total points</th>
+                                </tr>
+                                
+                                {% for key,value in unique_team.items %}
+                                <tr>
+                                    <td class="up"> 1 <span class="team"><img src="{{value.0}}" width="30" height="30"
+                                                alt="team-logo"> </span>{{value.1}}
+                                    </td>
+                                    <td>{{value.2}}</td>
+                                    <td>{{value.3}}</td>
+                                    <td>{{value.4}}</td>
+                                    <td>{{value.5}}</td>
+                                    <td class="points"><span>{{value.6}}</span></td>
                                 </tr>
                                 {% endfor %}
                             </table>
@@ -773,10 +768,15 @@
     </div>
 </div>
 <script>
-    document.getElementById('passdata').addEventListener("click", myfunction);
+    function myfunction(e) {
+        var clickedvalue = e.target.attributes.value.value;
 
-    function myfunction(e){
-        console.log(e.target.value);
+        // console.log(season);
+        var url = new URL(window.location);
+        url.searchParams.append('data', clickedvalue);
+        location.replace(url.href);
+        // history.pushState({}, null, url.href);
+        // history.go()
     }
 </script>
 {% endblock %}
