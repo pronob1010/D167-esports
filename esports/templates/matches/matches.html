@@ -37,16 +37,16 @@
                                     <th>Kill Point</th>
                                     <th>Total points</th>
                                 </tr>
-                                {% for key,value in unique_team.items %}
+                                {% for i in unique_team %}
                                 <tr>
-                                    <td class="up"> 1 <span class="team"><img src="{{value.0}}" width="30" height="30"
-                                                alt="team-logo"> </span>{{value.1}}
+                                    <td class="up"> 1 <span class="team"><img src="{{i.1.0}}" width="30" height="30"
+                                                alt="team-logo"> </span>{{i.1.1}}
                                     </td>
-                                    <td>{{value.2}}</td>
-                                    <td>{{value.3}}</td>
-                                    <td>{{value.4}}</td>
-                                    <td>{{value.5}}</td>
-                                    <td class="points"><span>{{value.6}}</span></td>
+                                    <td>{{i.1.2}}</td>
+                                    <td>{{i.1.3}}</td>
+                                    <td>{{i.1.4}}</td>
+                                    <td>{{i.1.5}}</td>
+                                    <td class="points"><span>{{i.1.6}}</span></td>
                                 </tr>
                                 {% endfor %}
                             </table>
@@ -64,16 +64,16 @@
                                     <th>Total points</th>
                                 </tr>
                                 
-                                {% for key,value in unique_team.items %}
+                                {% for i in unique_team %}
                                 <tr>
-                                    <td class="up"> 1 <span class="team"><img src="{{value.0}}" width="30" height="30"
-                                                alt="team-logo"> </span>{{value.1}}
+                                    <td class="up"> 1 <span class="team"><img src="{{i.1.0}}" width="30" height="30"
+                                                alt="team-logo"> </span>{{i.1.1}}
                                     </td>
-                                    <td>{{value.2}}</td>
-                                    <td>{{value.3}}</td>
-                                    <td>{{value.4}}</td>
-                                    <td>{{value.5}}</td>
-                                    <td class="points"><span>{{value.6}}</span></td>
+                                    <td>{{i.1.2}}</td>
+                                    <td>{{i.1.3}}</td>
+                                    <td>{{i.1.4}}</td>
+                                    <td>{{i.1.5}}</td>
+                                    <td class="points"><span>{{i.1.6}}</span></td>
                                 </tr>
                                 {% endfor %}
                             </table>

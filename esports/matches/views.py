@@ -192,8 +192,8 @@ def data_table(request, slug):
         # print(unique_team)
     print(unique_team)
     
-    
-    # unique_team = sorted(unique_team.items(), key = lambda x:(x[1][6]), reverse=True)
+    #final sorting
+    unique_team = sorted(unique_team.items(), key = lambda x:(x[1][6]), reverse=True)
     # for i in unique_team_new:
     #     print(i[0],i[1][1])
 
