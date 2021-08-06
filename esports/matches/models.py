@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import TextField, related
 from teams.models import Team
-from django.template.defaultfilters import slugify
+from django.template.defaultfilters import default, slugify
 class SEASON(models.Model):
     SEASON_title = models.CharField(max_length=25)
     slug = models.SlugField(unique=True, null=True, blank=True)
@@ -48,10 +48,17 @@ class Match(models.Model):
     Match_SEASON = models.ForeignKey(SEASON, on_delete=CASCADE, default=None)
     Match_Round = models.ForeignKey(MatchRound, on_delete=CASCADE, default=None)
     Match_Group = models.ForeignKey(MatchGroup, on_delete=CASCADE, default=None)
+    image = models.ImageField(upload_to = "matches", default="../static/images/715035.png", null=True, blank=True)
     Featured = models.BooleanField(default=False)
     Countdown_Expected = models.BooleanField(default=False)
     TimeDate = models.DateTimeField(null=True, blank=True)
     MatchAbout = models.TextField(max_length=300, null=True, blank=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+    
+    def save(self, *args, **kwargs):  # new
+        if not self.slug:
+            self.slug = slugify(self.Match_Title + self.Match_Group.Group_title +"-"+ self.Match_Round.Round_title+"-"+ self.Match_SEASON.SEASON_title)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.Match_Title + "-" + self.Match_Group.Group_title + "-" + self.Match_Round.Round_title + "-" + self.Match_SEASON.SEASON_title
