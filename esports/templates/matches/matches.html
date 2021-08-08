@@ -6,24 +6,6 @@
     <section class="standing-table-wrap">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <!-- <h4>{{table_title}} Point Table </h4> -->
-                    <ul class="tab-filters" role="tablist">
-                        <!-- {% for data in group_table_data_1 %}
-                        <li class=""><a href="#{{data.slug}}" onclick="myfunction(event)" value="{{data.slug}}"
-                                role="tab" data-toggle="tab">{{data.Group_title}}</a>
-                        </li>
-                        {% endfor %} -->
-                        {% if group_table_data is not None %}
-                        {% for data in group_table_data %}
-                        <li class="active"><a href="#{{data.slug}}" onclick="myfunction(event)" value="{{data.slug}}"
-                                role="tab" data-toggle="tab">{{data.Group_title}}</a>
-                        </li>
-                        {% endfor %}
-                        {% endif %}
-                    </ul>
-                </div>
-
                 <div class="col-md-12 col-sm-12 col-xs-12 overflow-scroll standings-table">
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="" role="tabpanel">
@@ -81,95 +63,128 @@
                         {% endfor %}
                     </div>
                 </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                     
+                    <!-- <h4>{{table_title}} Point Table </h4> -->
+                    <ul class="pagination" role="tablist">
+                        <!-- {% for data in group_table_data_1 %}
+                        <li class=""><a href="#{{data.slug}}" onclick="myfunction(event)" value="{{data.slug}}"
+                                role="tab" data-toggle="tab">{{data.Group_title}}</a>
+                        </li>
+                        {% endfor %} -->
+                        {% if group_table_data is not None %}
+                        {% for data in group_table_data %}
+                        <li class=""><a href="#{{data.slug}}" onclick="myfunction(event)" value="{{data.slug}}"
+                                role="tab" data-toggle="tab">{{data.Group_title}}</a>
+                        </li>
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                 
+                </div>
             </div>
-        </div>
-    </section>
 
-    <!--STANDING TABLE WRAP END-->
-     
 
-    {% if single_match_related_info is not None %}
-    <div class="row">
-        <div class="col-md-12">
-            <h6>{{table_title}} All matches</h6>
-        </div>
-        <div class="col-md-12">
-            <div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
-                {% for single_match in single_match_related_info %}
-                {% for i in single_match %}
-                <div class="broadcast-item">
-                    <div class="item-header" id="headingOne">
-                        <div class="row">
-                            <div class="col-md-1 col-sm-2">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#{{i.0}}"
-                                    class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
-                            </div>
-                            <div class="col-md-11 col-sm-10">
-                                <div class="item-head-body">
-                                    <a href="matches.html"><img src="{% static 'images/common/channel-logo.png' %}"
-                                            width="40" height="40" alt="channel-logo"></a>
+            <!--STANDING TABLE WRAP END-->
 
-                                    <span class="info">
-                                        <span class="what">{{i.4.time}}/{{i.4.date}}</span>
-                                        <span class="then">{{i.1}}</span>
-                                    </span>
-                                    <span class="marker">live</span>
+
+            {% if single_match_related_info is not None %}
+            <div class="row">
+                <div class="col-md-12">
+                    <h6>{{table_title}} All matches</h6>
+                </div>
+                <div class="col-md-12">
+                    <div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
+                        {% for single_match in single_match_related_info %}
+                        {% for i in single_match %}
+                        <div class="broadcast-item">
+                            <div class="item-header" id="headingOne">
+                                <div class="row">
+                                    <div class="col-md-1 col-sm-2">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#{{i.0}}"
+                                            class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div class="col-md-11 col-sm-10">
+                                        <div class="item-head-body">
+                                            <a href="matches.html"><img
+                                                    src="{% static 'images/common/channel-logo.png' %}" width="40"
+                                                    height="40" alt="channel-logo"></a>
+
+                                            <span class="info">
+                                                <span class="what">{{i.4.time}}/{{i.4.date}}</span>
+                                                <span class="then">{{i.1}}</span>
+                                            </span>
+                                            <span class="marker">live</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div id="{{i.0}}" class="panel-collapse collapse" role="tabpanel"
-                        aria-labelledby="headingOne">
-                        <div class="img-wrap"><img src="{{i.2.url}}" alt="broad-img">
-                        </div>
-                        <div class="item-body">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="title">Match details</div>
-                                    <p>{{i.3}}</p>
-                                    <div class="title">Match Time</div>
-                                    <p>{{i.4.time}}<br>{{i.4.date}}</p>
-
-                                    <a href="upcoming-match.html" class="btn">View match page</a>
+                            <div id="{{i.0}}" class="panel-collapse collapse" role="tabpanel"
+                                aria-labelledby="headingOne">
+                                <div class="img-wrap"><img src="{{i.2.url}}" alt="broad-img">
                                 </div>
-                                <div class="col-md-7">
-                                    <div class="title">Teams</div>
-                                    <div class="lineup-list">
-                                        <div class="item">
-                                            <ul class="categories-list">
+                                <div class="item-body">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="title">Match details</div>
+                                            <p>{{i.3}}</p>
+                                            <div class="title">Match Time</div>
+                                            <p>{{i.4.time}}<br>{{i.4.date}}</p>
 
-                                                {% for j in i.5 %}
-                                                <li>
-                                                    <a href=""><span class="count"><i class="fa fa-low-vision" aria-hidden="true"></i></span>{{j.1}}</a>
-                                                    <ul>
-                                                        {% for k in j.2 %}
-                                                        <li><a href="#"><span class="count"><i class="fa fa-thumb-tack" aria-hidden="true"></i></span>{{k.0}}</a></li>
+                                            <a href="upcoming-match.html" class="btn">View match page</a>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="title">Teams</div>
+                                            <div class="lineup-list">
+                                                <div class="item">
+                                                    <ul class="categories-list">
+
+                                                        {% for j in i.5 %}
+                                                        {% if j.1 is not None %}
+                                                        <li>
+                                                            <a><span class="count"><i class="fa fa-low-vision"
+                                                                        aria-hidden="true"></i></span>{{j.1}}</a>
+                                                            <ul>
+                                                                {% for k in j.2 %}
+                                                                {% if k.0 is not None %}
+                                                                <li><a href="#"><span class="count"><i
+                                                                                class="fa fa-thumb-tack"
+                                                                                aria-hidden="true"></i></span>{{k.0}}
+                                                                        <span style="margin-left: 5rem;"><i
+                                                                                class="fa fa-user-times"
+                                                                                aria-hidden="true"></i> {{k.1}}
+                                                                            kills</span></a></li>
+                                                                {% endif %}
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </li>
+                                                        {% endif %}
                                                         {% endfor %}
-                                                    </ul>
-                                                </li>
-                                                {% endfor %}
 
-                                            </ul>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
+                        {% endfor %}
+
                     </div>
                 </div>
-                {% endfor %}
-                {% endfor %}
-
             </div>
+            {% else %}
+            <div class="row">
+                <div class="container">
+                    <h4>For match detils, go to round level and select an Group. </h4>
+                </div>
+            </div>
+            {% endif %}
         </div>
-    </div>
-    {% else %}
-    <div class="row">
-        <div class="container">
-            <h4>For match detils, go to round level and select an Group. </h4>
-        </div>
-    </div>
-    {% endif %}
+    </section>
 </div>
 <script>
     function myfunction(e) {
