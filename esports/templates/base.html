@@ -33,8 +33,8 @@
     <!--MAIN MENU WRAP BEGIN-->
     <div class="main-menu-wrap sticky-menu">
         <div class="container">
-            <a href="index-2.html" class="custom-logo-link"><img src="{{site_data.primary_logo.url}}" alt="logo" style="height: 10rem;"
-                    class="custom-logo"></a>
+            <a href="{% url 'index' %}" class="custom-logo-link"><img src="{{site_data.primary_logo.url}}" alt="logo"
+                    style="height: 10rem;" class="custom-logo"></a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#team-menu"
                 aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
@@ -52,18 +52,19 @@
                         <li class="{% if url_name == 'matches' %}active{% endif %}">
                             <a href="#"><span>Tournament</span></a>
                             <ul>
-                                {% for s in nav_season %}
+                                {% for s in nav_Tournament %}
                                 <li class="">
                                     <a href="{% url "table" s.0 %}"><span>{{s.1}}</span></a>
                                     <ul>
                                         {% for k, v in s.2.items %}
                                         <li><a href="{% url "table" k %}"><span> {{v}}</span></a> </li>
                                         {% endfor %}
+                                        {% if s.3 is True %}
+                                            <li><a href="{% url 'ranklist' s.0 %}">MVP</a></li>
+                                        {% endif %}
                                     </ul>
                                 </li>
                                 {% endfor %}
-
-                                <li><a href="{% url 'live' %}"><span>Stream</span></a></li>
 
                                 <li><a href="{% url 'upcoming' %}"><span>upcoming match</span></a></li>
 
@@ -77,8 +78,11 @@
                             </ul>
                         </li>
 
-                        <li>
+                        <!-- <li>
                             <a href="store.html"><span>Store</span></a>
+                        </li> -->
+                        <li class="{% if url_name == 'live' %}active{% endif %}">
+                            <a href="{% url 'live' %}"><span>Stream</span></a>
                         </li>
                         <li class="{% if url_name == 'contact' %}active{% endif %}">
                             <a href="{% url 'contact' %}"><span>Contact</span></a>

@@ -190,7 +190,7 @@
     function myfunction(e) {
         var clickedvalue = e.target.attributes.value.value;
 
-        // console.log(season);
+        // console.log(Tournament);
         var url = new URL(window.location);
         url.searchParams.append('data', clickedvalue);
         location.replace(url.href);

@@ -7,7 +7,7 @@ def index(request):
     index_data = SiteInfo.objects.get(id=1)
     featured = Match.objects.filter(Featured = True)[:1]
     featured1 = Match.objects.filter(Featured = True)[1:]
-    print(featured)
+    # print(featured)
     context = {
         'index_data' : index_data,
         'featured':featured,

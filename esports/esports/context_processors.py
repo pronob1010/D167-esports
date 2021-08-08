@@ -3,7 +3,7 @@ from administration . models import SiteInfo
 def extras(request):
     site_data = SiteInfo.objects.get(id=1)
     match_data = MatchGroup.objects.all()
-
+# ---------------------------------
     # unique_tournament = []
     # for t in match_data:
     #     t_li = []
@@ -12,24 +12,24 @@ def extras(request):
     #         t_li.append(t.Tournament.slug)
     #         t_li.append(t.Tournament.Tournament_title)
 
-    #         season = SEASON.objects.filter(Tournament__slug = t.Tournament.slug)
-    #         unique_season = {}
-    #         for s in season:
+    #         Tournament = Tournament.objects.filter(Tournament__slug = t.Tournament.slug)
+    #         unique_Tournament = {}
+    #         for s in Tournament:
     #             li = []
     #             if s.slug not in li:
     #                 li.append(s.slug)
-    #                 li.append(s.SEASON_title)
+    #                 li.append(s.Tournament_title)
                     
-    #                 round = MatchRound.objects.filter(Season__slug=s.slug)
+    #                 round = MatchRound.objects.filter(Tournament__slug=s.slug)
     #                 rounds = {}
     #                 for r in round:
     #                     if r.slug not in rounds:
     #                         rounds[r.slug] = r.Round_title
     #                 li.append(rounds)
 
-    #             unique_season[s.slug] = li
-    #         if unique_season not in t_li:
-    #             t_li.append(unique_season)
+    #             unique_Tournament[s.slug] = li
+    #         if unique_Tournament not in t_li:
+    #             t_li.append(unique_Tournament)
         
     #     if t_li not in unique_tournament:
     #         unique_tournament.append(t_li)
@@ -64,24 +64,25 @@ def extras(request):
     #                             <li><a href="#"><span>tournament registration </span></a></li>
     #                         </ul>
         
-            
-    unique_season = []
+    # ------------------------------------------   
+    unique_Tournament = []
     for s in match_data:
         li = []
-        if s.Season.slug not in li:
-            li.append(s.Season.slug)
-            li.append(s.Season.SEASON_title)
-
-            round= MatchRound.objects.filter(Season__slug=s.Season.slug)
+        if s.Tournament.slug not in li:
+            li.append(s.Tournament.slug)
+            li.append(s.Tournament.Tournament_title)
+            
+            round= MatchRound.objects.filter(Tournament__slug=s.Tournament.slug)
             rounds = {}
             for r in round:
                 if r.slug not in rounds:
                     rounds[r.slug]=r.Round_title
             li.append(rounds)
-        if li not in unique_season:
-            unique_season.append(li)
+            li.append(s.Tournament.mvp_expected)
+        if li not in unique_Tournament:
+            unique_Tournament.append(li)
 
 
     # return {"unique_tournament":unique_tournament,"site_data":site_data}
-    return {"nav_season":unique_season,"site_data":site_data}
+    return {"nav_Tournament":unique_Tournament,"site_data":site_data}
     # return {}
