@@ -8,14 +8,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="captain-bage">Captain</div>
-                <h4 class="player-name">central midfielder</h4>
+                <div class="captain-bage"><i class="fa fa-address-card" aria-hidden="true"></i></div>
+                <h4 class="player-name">{{player.username}}</h4>
             </div>
             <div class="col-md-6">
 
                 <div class="player-photo">
-                    <div class="number">15</div>
-                    <img class="img-responsive" src="{% static 'images/soccer/single-player-photo.png' %}" alt="player">
+                    <div class="number"></div>
+                    <img class="img-responsive" src="{{player.photo.url}}" alt="player">
                 </div>
             </div>
             <div class="col-md-6">
@@ -26,167 +26,38 @@
                             <div class="col-md-3 col-sm-3 col-xs-3">
                                 <div class="item">Nationality:</div>
                             </div>
-                            <div class="col-md-9 col-sm-9 col-xs-9"><img src="{% static 'images/common/fr-flag.png' %}"
-                                    alt="flag">France</div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">{{player.nationality}}</div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                <div class="item">Position:</div>
+                                <div class="item">Speciality:</div>
                             </div>
-                            <div class="col-md-9 col-sm-9 col-xs-9">Right Forward</div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">{{player.speciality}}</div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
                                 <div class="item">Age:</div>
                             </div>
-                            <div class="col-md-9 col-sm-9 col-xs-9">24</div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">{{player.age}}</div>
                         </div>
                     </div>
-                    <h6>club history</h6>
+                    
+                    <h6>About</h6>
+                    <p>{{player.about}}</p>
+
+                    <h6>Personal Dashboard</h6>
                     <div class="overflow-scroll">
                         <table>
                             <tr>
-                                <th>Season</th>
-                                <th class="club">Club</th>
-                                <th>Games</th>
-                                <th>Goals</th>
+                                <th>Date</th>
+                                <th class="club">Team</th>
+                                <th>Kills</th>
                             </tr>
+                            {% for personal in personal_match_data %}
                             <tr>
-                                <td>2016/2017</td>
-                                <td class="club"><img src="{% static 'images/soccer/team-logo1.png' %}" width="30" height="30"
-                                        alt="trophy"> Internacional</td>
-                                <td>27</td>
-                                <td><span>10</span></td>
+                                <td>{{personal.Match.TimeDate.date}}</td>
+                                <td class="club"><img src="{{personal.teamName.Team.Team_image.url}}" width="30" height="30"
+                                        alt="trophy"> {{personal.teamName.Team.TeamName}}</td>
+                                <td><span>{{personal.kill_Point}}</span></td>
                             </tr>
-                            <tr>
-                                <td>2016/2017</td>
-                                <td class="club"><img src="{% static 'images/soccer/team-logo2.png' %}" width="30" height="30"
-                                        alt="trophy"> Internacional</td>
-                                <td>27</td>
-                                <td><span>10</span></td>
-                            </tr>
+                            {% endfor %}
                         </table>
-                    </div>
-                    <h6>About</h6>
-                    <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you
-                    </p>
-                    <h6>Trophies</h6>
-                    <ul class="player-trophey">
-                        <li>
-                            <img src="{% static 'images/common/am-trophey1.png' %}" width="100" height="150" alt="trophy">
-                            <div class="year">2012</div>
-                        </li>
-                        <li>
-                            <img src="{% static 'images/common/am-trophey.png' %}" width="100" height="150" alt="trophy">
-                            <div class="year">2015</div>
-                        </li>
-                        <li>
-                            <img src="{% static 'images/common/am-trophey2.png' %}" width="100" height="150" alt="trophy">
-                            <div class="year">2017</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="container last-hockey-macthes">
-                <div class="row">
-                    <div class="col-md-12 overflow-scroll">
-                        <h6>Last five matches</h6>
-                        <table>
-                            <tbody><tr>
-                                <th>competitor</th>
-                                <th>gp</th>
-                                <th>gs</th>
-                                <th>min</th>
-                                <th>fgm-a</th>
-                                <th>fg%</th>
-                                <th>3pm-a</th>
-                                <th>3p%</th>
-                                <th>om</th>
-                                <th>or</th>
-                                <th>to</th>
-                                <th>pts</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="matches.html">
-                                        <span class="team">
-                                            <img src="{% static 'images/common/team-logo1.png' %}" width="30" height="30" alt="main-match-icon">
-                                        </span>
-                                        <span>Team 1</span>
-                                    </a>
-                                </td>
-                                <td>2</td>
-                                <td>55</td>
-                                <td>62</td>
-                                <td>5</td>
-                                <td>0</td>
-                                <td>8</td>
-                                <td>89</td>
-                                <td>7</td>
-                                <td>2</td>
-                                <td>2</td>
-                                <td><span>12</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="matches.html">
-                                        <span class="team">
-                                            <img src="{% static 'images/common/team-logo2.png' %}" width="30" height="30" alt="main-match-icon">
-                                        </span>
-                                        <span>Team 2</span>
-                                    </a>
-                                </td>
-                                <td>2</td>
-                                <td>55</td>
-                                <td>62</td>
-                                <td>5</td>
-                                <td>0</td>
-                                <td>8</td>
-                                <td>89</td>
-                                <td>7</td>
-                                <td>2</td>
-                                <td>2</td>
-                                <td><span>12</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="matches.html">
-                                        <span class="team">
-                                            <img src="{% static 'images/common/team-logo3.png' %}" width="30" height="30" alt="main-match-icon">
-                                        </span>
-                                        <span>Team 3</span>
-                                    </a>
-                                </td>
-                                <td>2</td>
-                                <td>55</td>
-                                <td>62</td>
-                                <td>5</td>
-                                <td>0</td>
-                                <td>8</td>
-                                <td>89</td>
-                                <td>7</td>
-                                <td>2</td>
-                                <td>2</td>
-                                <td><span>12</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="matches.html">
-                                        <span class="team">
-                                            <img src="{% static 'images/common/team-logo4.png' %}" width="30" height="30" alt="main-match-icon">
-                                        </span>
-                                        <span>Team 4</span>
-                                    </a>
-                                </td>
-                                <td>2</td>
-                                <td>55</td>
-                                <td>62</td>
-                                <td>5</td>
-                                <td>0</td>
-                                <td>8</td>
-                                <td>89</td>
-                                <td>7</td>
-                                <td>2</td>
-                                <td>2</td>
-                                <td><span>12</span></td>
-                            </tr>
-                        </tbody></table>
                     </div>
                 </div>
             </div>

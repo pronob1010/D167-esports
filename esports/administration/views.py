@@ -13,8 +13,18 @@ def index(request):
         'featured':featured,
         'featured1':featured1,
         }
-   
+
     return render(request, 'administration/index.html', context)
+
+
+
+def liveMatches(request):
+    broadcast_data = broadcast.objects.all()
+    context = {
+        "broadcast_data":broadcast_data,
+    }
+    return render(request, 'matches/matchlive.html', context)
+
 
 def contact(request):
     return render(request, 'administration/contacts.html', {})

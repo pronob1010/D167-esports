@@ -153,6 +153,8 @@ def data_table(request, slug):
                                         if j.teamName.Team.slug == k.teamName.Team.slug:
                                             player_data_sub2.append(k.player.player.username)
                                             player_data_sub2.append(k.kill_Point)
+                                            player_data_sub2.append(k.player.player.slug)
+                                            
 
                                     if player_data_sub2 not in player_data_sub:
                                         player_data_sub.append(player_data_sub2)
@@ -299,6 +301,7 @@ def data_table(request, slug):
                 kills = []
                 for k in kill_point:
                     kills.append(k.kill_Point)
+
                 total_kill_point = sum(kills)
                 total_point = total_kill_point + total_pp
                 # print(win_count,play_count,total_pp,total_kill_point,total_point)
@@ -329,14 +332,28 @@ def data_table(request, slug):
 
     return render(request, 'matches/matches.html', context)
 
-def liveMatches(request):
-    return render(request, 'matches/matchlive.html', {})
 
 def upCommingMatches(request):
     return render(request, 'matches/upcomingmatch.html', {})
 
 def rankList(request, slug):
     rank_data = models.PlayersPointTable.objects.filter(Q(Match__Match_Tournament__slug= slug) and Q(Match__Match_Tournament__mvp_expected = True) and Q(Match__Use_for_Ranking = True))
+    match_list = []
+    for i in rank_data:
+        if i.Match.Match_Round.Round_title not in match_list:
+            match_list.append(i.Match.Match_Round.Round_title)
+    
+    turnamentdetails  =  models.PlayersPointTable.objects.filter(Match__Match_Tournament__slug= slug)
+    turnament_details = []
+    for i in turnamentdetails:
+        turnament_details.append(i.Match.Match_Tournament.about)
+    
+
+    mvp_top = models.PlayersPointTable.objects.filter(Match__Match_Tournament__slug= slug)
+    mvp_count = 0
+    for m in mvp_top:
+        mvp_count = m.Match.Match_Tournament.number_of_mvp
+
     players = {}
     for p in rank_data:
         single = []
@@ -346,22 +363,28 @@ def rankList(request, slug):
         single.append(p.player.player.age)
         single.append(p.player.player.nationality)
         single.append(p.teamName.Team.TeamName)
-
         
-        single.append(p.kill_Point)
+        kill_point = models.PlayersPointTable.objects.filter(Q(Match__Match_Tournament__slug= slug) and Q(Match__Match_Tournament__mvp_expected = True) and Q(Match__Use_for_Ranking = True) and Q(player__player__slug = p.player.player.slug ))
+        kills = []
+        for k in kill_point:
+            kills.append(k.kill_Point)
+        total_kill_point = sum(kills)
 
+        single.append(total_kill_point)
+        
         players[p.player.player.slug] = single
 
-    sorted_players = sorted(players.items(), key = lambda x:(x[1][5]), reverse=True)
+    sorted_players_all = sorted(players.items(), key = lambda x:(x[1][6]), reverse=True)
     # for i in sorted_players:
     #     print(i[0],i[1][5])
 
-    print(sorted_players)
+    sorted_players_top = sorted_players_all[:mvp_count]
+    print(sorted_players_top)
     context = {
-        "sorted_players":sorted_players
+        "turnament_details":turnament_details,
+        "match_list":match_list,
+        "sorted_players":sorted_players_all,
+        "sorted_players_top":sorted_players_top,
     }
-
-
-
 
     return render(request, 'matches/rank_list.html', context )

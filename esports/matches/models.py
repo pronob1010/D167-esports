@@ -21,6 +21,8 @@ class Tournament(models.Model):
     Tournament_title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, null=True, blank=True)
     mvp_expected = models.BooleanField(default=False)
+    number_of_mvp = models.PositiveIntegerField(default=0)
+    about = models.TextField(max_length=500, null=True, blank=True)
 
     def save(self, *args, **kwargs):  # new
         if not self.slug:

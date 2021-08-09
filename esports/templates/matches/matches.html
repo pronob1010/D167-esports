@@ -48,7 +48,7 @@
 
                                 {% for i in unique_team %}
                                 <tr>
-                                    <td class="up"> 1 <span class="team"><img src="{{i.1.0}}" width="30" height="30"
+                                    <td class="up"> {{forloop.counter}} <span class="team"><img src="{{i.1.0}}" width="30" height="30"
                                                 alt="team-logo"> </span>{{i.1.1}}
                                     </td>
                                     <td>{{i.1.2}}</td>
@@ -147,9 +147,9 @@
                                                             <ul>
                                                                 {% for k in j.2 %}
                                                                 {% if k.0 is not None %}
-                                                                <li><a href="#"><span class="count"><i
-                                                                                class="fa fa-thumb-tack"
-                                                                                aria-hidden="true"></i></span>{{k.0}}
+                                                                <li><a href="{% url 'player' k.2 %}"><span class="count">
+                                                                    <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+                                                                </span>{{k.0}}
                                                                         <span style="margin-left: 5rem;"><i
                                                                                 class="fa fa-user-times"
                                                                                 aria-hidden="true"></i> {{k.1}}
