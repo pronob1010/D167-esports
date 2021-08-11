@@ -1,453 +1,96 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container">
+<section style="background:url('https://fazeclan.com/images/inner-page/inner-page-brand-bg-tabletMedium.webp')">
 
-    <div class="col-md-12">
-        <h4>defenders</h4>
-    </div>
-
-    <div class="part-list">
-        <div class="row">
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo5.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo1.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo2.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo3.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo4.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo5.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo2.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo3.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo4.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'teamdetails' %}" class="item">
-                    <span class="logo"><img src="{% static 'images/soccer/team-logo5.png' %}" width="80" height="80" alt="club-image"></span>
-                    <span class="name">Djurgardens IF</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably
-            haven't
-            heard of them tumeric venmo deep v mixtape semiotics brunch. </p>
-    </div>
-</div>
- 
-<!--CLUB STAFF TOP END-->
-
-
-<!--MAIN CLUB STAFF BEGIN-->
-<section class="main-club-stuff">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="soccer-h4">club stuff</h4>
-                <ul class="player-filters" role="tablist">
-                    <li class="active">
-                        <a href="#managers" role="tab" data-toggle="tab">
-                            Managers
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#firstteam" role="tab" data-toggle="tab">
-                            First team
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#academy" role="tab" data-toggle="tab">
-                            Academy
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+                <h4 class="hockey-stats-h4"> </h4>
 
-    <div class="tab-content">
-        <div class="tab-pane active" id="managers" role="tabpanel">
-            <div id="managers_carousel" class="carousel slide main-stuff-slider" data-ride="carousel">
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
+                <div class="single-player-stats players_statistic_slider team_custom_part">
+                    <div class="player-stat-slider tab-content">
+                        <div id="slider" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner tab-content" role="listbox">
+                                <div class="item active tab-pane" id="goalkeepers">
+
+                                    <div class="wrap">
+                                        <a href="">
+                                            <div class="stat stat_custom">
+                                                <div class="progress-wrap">
+                                                    <div class="progress-item">
+                                                        <h2 class="custom_head">Team</h2>
+
+                                                        <h1 class="custom_head_2">
+                                                            CSGO</h1>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="image"
+                                                style="background: url('https://fazeclan.com/images/team-card-bg.png');">
+                                                <a href="" title="player-image">
+                                                    <img class="stat_custom_img" src="https://www.menabytes.com/wp-content/uploads/2019/04/Yalla-Esports-Team.jpg"
+                                                        alt="player-image">
+                                                </a>
+                                            </div>
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
+
+
+
 
                             </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#managers_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#managers_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
                 </div>
-            </div>
-        </div>
 
-        <div class="tab-pane" id="academy" role="tabpanel">
-            <div id="academy_carousel" class="carousel slide main-stuff-slider" data-ride="carousel">
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Vito<br>Palet</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
+                <div class="single-player-stats players_statistic_slider team_custom_part">
+                    <div class="player-stat-slider tab-content">
+                        <div id="slider" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner tab-content" role="listbox">
+                                <div class="item active tab-pane" id="goalkeepers">
+
+                                    <div class="wrap">
+                                        <a href="">
+                                            <div class="stat stat_custom">
+                                                <div class="progress-wrap">
+                                                    <div class="progress-item">
+                                                        <h2 class="custom_head">Team</h2>
+
+                                                        <h1
+                                                            style="padding: 0 rem !important; color: rgb(243, 0, 0);">
+                                                            PUBG MOBILE  EMULATOR</h1>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="image"
+                                                style="background: url('https://fazeclan.com/images/team-card-bg.png');">
+                                                <a href="" title="player-image">
+                                                    <img src="https://www.menabytes.com/wp-content/uploads/2019/04/Yalla-Esports-Team.jpg"
+                                                        alt="player-image">
+                                                </a>
+                                            </div>
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Melet</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marse</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
+
+
+
 
                             </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marsan</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Luscas<br>Mars</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Mafo</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#academy_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#academy_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
                 </div>
+                
             </div>
-        </div>
 
-        <div class="tab-pane" id="firstteam" role="tabpanel">
-            <div id="firstteam_carousel" class="carousel slide main-stuff-slider" data-ride="carousel">
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">James<br>Deshon</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Deshon<br>James</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">James<br>Deshon</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marsh</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Luca<br>Mas</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucasoto<br>Marsh</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#firstteam_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#firstteam_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 </section>
-<!--MAIN CLUB STAFF END-->
+<!--CLUB STAFF TOP END-->
 
-<!--SPONSOR BOX BEGIN-->
-<div class="am-sponsor-box">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 text-center">
-                <p class="text">Whatever copper mug etsy, tilde listicle hammock gastropub literally franzen fanny pack
-                    typewriter meditation.<br> Organic chartreuse bicycle rights pinterest, cray humblebrag fap
-                    gochujang church-key brooklyn food truck letterpress cred. </p>
-            </div>
-            <div class="col-xs-3 text-center">
-                <img class="sponsor-icons" src="{% static 'images/common/sponsor-img3.png' %}" alt="sponsor image">
-            </div>
-            <div class="col-xs-3 text-center">
-                <img class="sponsor-icons" src="{% static 'images/common/sponsor-img.png' %}" alt="sponsor image">
-            </div>
-            <div class="col-xs-3 text-center">
-                <img class="sponsor-icons" src="{% static 'images/common/sponsor-img1.png' %}" alt="sponsor image">
-            </div>
-            <div class="col-xs-3 text-center">
-                <img class="sponsor-icons" src="{% static 'images/common/sponsor-img2.png' %}" alt="sponsor image">
-            </div>
-        </div>
-    </div>
-</div>
-<!--SPONSOR BOX END-->
+
 {% endblock %}

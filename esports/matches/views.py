@@ -114,7 +114,7 @@ def data_table(request, slug):
             
             #match_data_retrive_test
             # for i in unique_team_for_match:
-            #     print(i.Match.Match_Title,"|", iTeamName, "|", i.player.player.username,"|", i.kill_Point )
+            #     print(i.Match.Match_Title,"|", iTeamName, "|", i.player.player.in_game_name,"|", i.kill_Point )
             #     # for j in i.teamName:
             #     #     print(j)
             
@@ -149,9 +149,9 @@ def data_table(request, slug):
                                 
                                 for k in unique_team_for_match:
                                     player_data_sub2 = []
-                                    if k.player.player.username not in player_data_sub2:
+                                    if k.player.player.in_game_name not in player_data_sub2:
                                         if j.teamName.Team.slug == k.teamName.Team.slug:
-                                            player_data_sub2.append(k.player.player.username)
+                                            player_data_sub2.append(k.player.player.in_game_name)
                                             player_data_sub2.append(k.kill_Point)
                                             player_data_sub2.append(k.player.player.slug)
                                             
@@ -178,11 +178,11 @@ def data_table(request, slug):
             
             # for k in unique_team_for_match:
             #     player_data_sub2 = []
-            #     if k.player.player.username not in player_data_sub2:
+            #     if k.player.player.in_game_name not in player_data_sub2:
             #         if unique_team_for_match[2].teamName.Team.slug == k.teamName.Team.slug:
-            #             player_data_sub2.append(k.player.player.username)
+            #             player_data_sub2.append(k.player.player.in_game_name)
             #             player_data_sub2.append(k.kill_Point)
-            #             print(k.player.player.username, k.kill_Point)
+            #             print(k.player.player.in_game_name, k.kill_Point)
             #     if player_data_sub2 not in player_data_sub:
             #         player_data_sub.append(player_data_sub2)
                 
@@ -358,7 +358,7 @@ def rankList(request, slug):
     for p in rank_data:
         single = []
         single.append(p.player.player.slug)
-        single.append(p.player.player.username)
+        single.append(p.player.player.in_game_name)
         single.append(p.player.player.photo)
         single.append(p.player.player.age)
         single.append(p.player.player.nationality)

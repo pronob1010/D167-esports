@@ -48,8 +48,8 @@
 
                                 {% for i in unique_team %}
                                 <tr>
-                                    <td class="up"> {{forloop.counter}} <span class="team"><img src="{{i.1.0}}" width="30" height="30"
-                                                alt="team-logo"> </span>{{i.1.1}}
+                                    <td class="up"> {{forloop.counter}} <span class="team"><img src="{{i.1.0}}"
+                                                width="30" height="30" alt="team-logo"> </span>{{i.1.1}}
                                     </td>
                                     <td>{{i.1.2}}</td>
                                     <td>{{i.1.3}}</td>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                     
+
                     <!-- <h4>{{table_title}} Point Table </h4> -->
                     <ul class="pagination" role="tablist">
                         <!-- {% for data in group_table_data_1 %}
@@ -80,7 +80,7 @@
                         {% endfor %}
                         {% endif %}
                     </ul>
-                 
+
                 </div>
             </div>
 
@@ -147,9 +147,11 @@
                                                             <ul>
                                                                 {% for k in j.2 %}
                                                                 {% if k.0 is not None %}
-                                                                <li><a href="{% url 'player' k.2 %}"><span class="count">
-                                                                    <i class="fa fa-thumb-tack" aria-hidden="true"></i>
-                                                                </span>{{k.0}}
+                                                                <li><a href="{% url 'player' k.2 %}"><span
+                                                                            class="count">
+                                                                            <i class="fa fa-thumb-tack"
+                                                                                aria-hidden="true"></i>
+                                                                        </span>{{k.0}}
                                                                         <span style="margin-left: 5rem;"><i
                                                                                 class="fa fa-user-times"
                                                                                 aria-hidden="true"></i> {{k.1}}
@@ -199,3 +201,6 @@
     }
 </script>
 {% endblock %}
+
+
+

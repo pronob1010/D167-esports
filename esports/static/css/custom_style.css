@@ -1,0 +1,27 @@
+.team_custom_part{
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+}
+.stat_custom{
+    width: 40% !important; 
+    background: #181818!important;
+    color: #fff !important;
+}
+.stat_custom>div>div>h2{
+    color: rgb(255, 255, 255);
+}
+.stat_custom:hover{
+    background: rgb(0, 8, 27) !important;
+    color: #000 !important;
+    transition: .3s ease-in-out;
+    transform: scale(1.1);
+}
+
+.custom_head{
+    padding: 0rem !important; 
+}
+
+.custom_head_2{
+    padding: 0 rem !important; 
+    color: rgb(226, 4, 4);
+}

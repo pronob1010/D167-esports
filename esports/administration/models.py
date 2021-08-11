@@ -14,9 +14,14 @@ class SiteInfo(models.Model):
     physical_address = models.CharField(max_length=100)
 
 class SocialMediaLinks(models.Model):
-    site = models.OneToOneField(SiteInfo, on_delete=CASCADE)
-    title = models.CharField(max_length=20)
-    link = models.URLField()
+    discord = models.URLField(null=True, blank=True)
+    twitch = models.URLField(null=True, blank=True)
+    facebook = models.URLField(null=True, blank=True)
+    twitter = models.URLField(null=True, blank=True)
+    linkedin = models.URLField(null=True, blank=True)
+    instagram = models.URLField(null=True, blank=True)
+    youtube = models.URLField(null=True, blank=True)
+
 
 
 class broadcast(models.Model):
@@ -28,3 +33,4 @@ class broadcast(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+

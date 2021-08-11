@@ -17,15 +17,22 @@
     <link href="{% static 'dev-assets/preloader-default.css' %}" rel="stylesheet" type="text/css" />
     <!-- <link href="{% static 'dev-assets/demo-switcher.css' %}" rel="stylesheet" type="text/css"/> -->
     <link href="{% static 'css-min/soccer.min.css' %}" rel="stylesheet" type="text/css" />
-    <link href="/your-path-to-fontawesome/css/all.css" rel="stylesheet">
+    
+    <link href="{% static 'css/custom_style.css' %}" rel="stylesheet" type="text/css">
 </head>
-
+<body > 
 <div>
     <div class="preloader-wrapper" id="preloader">
-        <div class="motion-line dark-big"></div>
-        <div class="motion-line yellow-big"></div>
+        <div class="motion-line dark-big">
+            
+        </div>
+        <div class="motion-line yellow-big">
+           
+        </div>
         <div class="motion-line dark-small"></div>
-        <div class="motion-line yellow-normal"></div>
+        <div class="motion-line yellow-normal">
+            <img src="{{site_data.primary_logo.url}}" alt="logo" >
+        </div>
         <div class="motion-line yellow-small1"></div>
         <div class="motion-line yellow-small2"></div>
     </div>
@@ -92,8 +99,15 @@
                                         style="font-size:16px"></i></span>
                             </a>
                             <ul>
-                                <li><a href="#"><span>Login</span></a></li>
+                                {% if user.is_authenticated %}
+                                <li><a href="#"><span>{{user.username}}</span></a></li>
+
+                                <li><a href="{% url 'logout' %}"><span>Logout</span></a></li>
+                                {% else %}
+                                <li><a href="{% url 'login' %}"><span>Login</span></a></li>
+                                
                                 <li><a href="{% url 'signup' %}"><span>Signup</span></a></li>
+                                {% endif %}
                             </ul>
                         </li>
                         {% endwith %}

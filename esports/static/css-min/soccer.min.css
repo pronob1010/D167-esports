@@ -16780,7 +16780,7 @@ body {
 }
 
 a {
-    color: #ffa000;
+    color: #E80030;
     text-decoration: none;
     outline: 0;
     transition: all .4s
@@ -17055,7 +17055,7 @@ h5.esport-landing-header {
 }
 
 .cart-drop table .delete a:hover:before {
-    background: #fc0
+    background: #e4002b
 }
 
 .cart-drop table td.info {
@@ -17162,7 +17162,7 @@ h5.esport-landing-header {
     padding: 15px 24px 13px 24px;
     border-radius: 9px;
     border: none;
-    background: #fc0;
+    background: #e4002b;
     font-size: 16px;
     color: #141414;
     text-transform: uppercase;
@@ -17329,7 +17329,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
 
 .main-menu>li:hover>a {
     background: 0 0;
-    color: #fc0
+    color: #e4002b
 }
 
 .main-menu>li a:focus {
@@ -17354,7 +17354,8 @@ body.admin-bar .is-sticky .main-menu-wrap {
     content: '';
     width: 100%;
     height: 2px !important;
-    background: #fc0;
+    background: #e4002b;
+    /* background: rgb(255, 0, 0); */
     bottom: 30px;
     left: 0;
     position: absolute;
@@ -17385,7 +17386,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #fc0;
+    background: #e4002b;
     position: absolute;
     top: -2px;
     right: -3px;
@@ -17415,7 +17416,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
 }
 
 .main-menu>li>ul li {
-    border-left: 2px solid #fc0;
+    border-left: 2px solid #e4002b;
     margin: 0;
     display: block;
     position: relative;
@@ -17433,12 +17434,13 @@ body.admin-bar .is-sticky .main-menu-wrap {
 }
 
 .main-menu>li>ul>li:hover {
-    background: #fc0;
+    background: #e4002b;
+    
     border-left: 2px solid #000
 }
 
 .main-menu>li>ul>li:hover>a {
-    color: #000
+    color: rgb(255, 255, 255)
 }
 
 .main-menu>li>ul li a i {
@@ -17460,12 +17462,12 @@ body.admin-bar .is-sticky .main-menu-wrap {
 }
 
 .main-menu>li>ul>li>ul li:hover {
-    background: #fc0;
+    background: #e4002b;
     border-left: 2px solid #000
 }
 
 .main-menu>li>ul>li>ul li:hover a {
-    color: #000
+    color: rgb(255, 255, 255)
 }
 
 
@@ -17520,9 +17522,9 @@ body.admin-bar .is-sticky .main-menu-wrap {
     margin-top: 65px;
     padding: 9px 26px 8px 26px;
     display: inline-block;
-    background: #fc0;
+    background: #e4002b;
     border-radius: 9px;
-    color: #141414;
+    color: #ffffff;
     font-size: 16px;
     font-family: Montserrat, sans-serif;
     text-transform: uppercase
@@ -17597,7 +17599,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
     margin-top: 65px;
     padding: 9px 26px 8px 26px;
     display: inline-block;
-    background: #fc0;
+    background: #e4002b;
     border-radius: 9px;
     color: #141414;
     font-size: 16px;
@@ -17764,9 +17766,9 @@ body.admin-bar .is-sticky .main-menu-wrap {
 .call-to-action .join {
     padding: 9px 31px 10px 31px;
     display: inline-block;
-    background: #fc0;
+    background: #e4002b;
     border-radius: 9px;
-    color: #141414;
+    color: #ffffff;
     font-size: 16px;
     font-family: Montserrat, sans-serif;
     text-transform: uppercase
@@ -17791,7 +17793,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
 }
 
 #show-all-link:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .store-list-item>div {
@@ -17857,7 +17859,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
     transform: rotate(9deg);
     transition: all .4s;
     top: 100%;
-    background: #fc0;
+    background: #e4002b;
     z-index: 0
 }
 
@@ -17914,7 +17916,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
     font-size: 12px;
     color: #141414;
     float: left;
-    background: #fc0
+    background: #e4002b
 }
 
 .store-list-item .btn:last-child {
@@ -18034,7 +18036,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
 .footer .footer-left:before {
     content: '';
     margin-bottom: -100%;
-    background-color: rgba(255, 204, 0, .7);
+    background-color: rgba(255, 0, 0, 0.7);
     top: 0;
     bottom: 0;
     right: -30px;
@@ -18117,7 +18119,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
 }
 
 .footer .foot-news .item .name:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .footer .foot-news .item .date {
@@ -18242,7 +18244,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
     content: '';
     width: 100%;
     height: 2px !important;
-    background: #fc0;
+    background: #e4002b;
     bottom: 30px;
     left: 0;
     position: absolute;
@@ -18322,7 +18324,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
 }
 
 .main-match-shedule.amateurs-match-shedule>ul.player-filters li a:before {
-    background: #ffa000
+    background: #E80030
 }
 
 .image-header {
@@ -18352,7 +18354,7 @@ body.admin-bar .is-sticky .main-menu-wrap {
 .image-header .info:before {
     content: '';
     margin-bottom: -100%;
-    background-color: rgba(255, 204, 0, .7);
+    background-color: rgba(255, 0, 0, 0.7);
     top: 0;
     bottom: 0;
     right: -30px;
@@ -18593,7 +18595,7 @@ ul.team-legend {
     top: 0;
     bottom: 0;
     left: 0;
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s;
     z-index: -1
 }
@@ -18614,7 +18616,7 @@ ul.team-legend {
     width: 100%;
     transition: all .6s;
     margin-top: 0;
-    border: solid #fc0;
+    border: solid #e4002b;
     border-width: 0 0 0 2px;
     position: relative;
     background: #141414;
@@ -18661,7 +18663,7 @@ ul.team-legend {
 }
 
 .categories-list>li ul li:hover a {
-    color: #fc0
+    color: #e4002b
 }
 
 .categories-list>li:hover>ul {
@@ -18749,7 +18751,7 @@ ul.team-legend {
     display: block;
     height: 39px;
     line-height: 39px;
-    background: #fc0;
+    background: #e4002b;
     color: #141414
 }
 
@@ -18793,7 +18795,7 @@ ul.team-legend {
 }
 
 .recent-news .item .date a:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .recent-news .item .name {
@@ -18805,7 +18807,7 @@ ul.team-legend {
 }
 
 .recent-news .item .name:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .content {
@@ -18829,8 +18831,8 @@ ul.team-legend {
 }
 
 .tags a:hover {
-    background: #fc0;
-    border-color: #fc0
+    background: #e4002b;
+    border-color: #e4002b
 }
 
 .news-list .item {
@@ -18851,7 +18853,7 @@ ul.team-legend {
     line-height: normal;
     text-transform: uppercase;
     color: #fff;
-    background: #fc0
+    background: #e4002b
 }
 
 .news-list .item .img-wrap .bage:before {
@@ -18914,7 +18916,7 @@ ul.team-legend {
     left: 0;
     right: 0;
     opacity: 0;
-    background: #fc0;
+    background: #e4002b;
     transform: skewY(4deg);
     z-index: 0;
     transition: all .3s;
@@ -18988,7 +18990,7 @@ ul.team-legend {
 }
 
 .news-list .item .info .continue:hover {
-    color: #fc0
+    color: #e4002b
 }
 
 .news-list .item .info .comment-quantity {
@@ -19042,7 +19044,7 @@ ul.team-legend {
 }
 
 .sidebar-btn {
-    background: #fc0;
+    background: #e4002b;
     font-size: 12px;
     text-transform: uppercase;
     color: #141414
@@ -19070,7 +19072,7 @@ ul.team-legend {
 }
 
 .champ-nav-list li a:hover {
-    background: #fc0;
+    background: #e4002b;
     color: #141414
 }
 
@@ -19148,7 +19150,7 @@ ul.team-legend {
 }
 
 .news-single .item .top-info .date a:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .news-single .item .top-info .comment-quantity {
@@ -19435,7 +19437,7 @@ blockquote p.name {
 }
 
 .share-box .share-socials li a:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .comments-wrap {
@@ -19484,7 +19486,7 @@ blockquote p.name {
 }
 
 .comment-item .info .date a:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .comment-item .info .date .quote {
@@ -19579,7 +19581,7 @@ blockquote p.name {
 .leave-comment-wrap .comment-submit {
     padding: 18px 30px 16px 30px;
     border-radius: 9px;
-    background: #fc0;
+    background: #e4002b;
     border: none;
     font-size: 12px;
     text-transform: uppercase;
@@ -19966,7 +19968,7 @@ td a {
 }
 
 .player-hockey-wrap .circle-item path {
-    stroke: #fc0
+    stroke: #e4002b
 }
 
 .player-hockey-wrap .circle-item>.text {
@@ -19976,7 +19978,7 @@ td a {
 #circle-bar2 .progressbar-text,
 #circle-bar3 .progressbar-text {
     font-size: 12px;
-    color: #fc0;
+    color: #e4002b;
     font-family: Montserrat
 }
 
@@ -20012,7 +20014,7 @@ td a {
     position: relative;
     margin: 10px;
     margin-top: 20px;
-    color: #fc0
+    color: #e4002b
 }
 
 .canvas-minutes {
@@ -20038,7 +20040,7 @@ td a {
 }
 
 .player-hockey-wrap .number {
-    color: #fc0;
+    color: #e4002b;
     font-size: 40px;
     font-family: Montserrat
 }
@@ -20103,7 +20105,7 @@ td a {
 }
 
 .filter-wrap .ui-widget-header {
-    background: #fc0
+    background: #e4002b
 }
 
 .filter-wrap .ui-slider .ui-slider-handle {
@@ -20113,7 +20115,7 @@ td a {
     border: none;
     cursor: pointer;
     border-radius: 50%;
-    background: #fc0
+    background: #e4002b
 }
 
 .filter-wrap .filter-title {
@@ -20395,7 +20397,7 @@ td a {
 
 .product-right-info .details ul li {
     padding-bottom: 3px;
-    color: #ffa000
+    color: #E80030
 }
 
 .product-right-info .details ul li span {
@@ -20404,7 +20406,7 @@ td a {
 
 .product-right-info .details ul li a {
     font-size: 16px;
-    color: #ffa000
+    color: #E80030
 }
 
 .product-right-info .socials {
@@ -20463,7 +20465,7 @@ td a {
 }
 
 .feat-show-all:hover {
-    color: #fc0
+    color: #e4002b
 }
 
 [type=checkbox].filter-check:checked,
@@ -20564,7 +20566,7 @@ label:hover:before {
 .post-password-form input[type=submit] {
     border-radius: 3px;
     font-size: 16px;
-    background-color: #fc0;
+    background-color: #e4002b;
     color: #141414;
     font-family: "Open Sans", sans-serif;
     font-weight: 400;
@@ -20693,7 +20695,7 @@ label:hover:before {
 }
 
 .cart-table tr:hover .delete a:before {
-    background: #fc0
+    background: #e4002b
 }
 
 .cart-table tr:hover .delete a i {
@@ -20741,7 +20743,7 @@ label:hover:before {
     bottom: 0;
     right: -30px;
     left: 0;
-    background: #fc0;
+    background: #e4002b;
     transform: skew(-6deg);
     transition: all .4s
 }
@@ -20765,7 +20767,7 @@ label:hover:before {
     font-size: 12px;
     text-transform: uppercase;
     font-family: Montserrat, sans-serif;
-    background: #fc0;
+    background: #e4002b;
     border: none;
     color: #141414
 }
@@ -20905,7 +20907,7 @@ label:hover:before {
     color: #141414;
     transition: all .4s;
     font-family: Montserrat, sans-serif;
-    background: #fc0;
+    background: #e4002b;
     border-radius: 8px;
     border: none;
     width: 100%;
@@ -20941,7 +20943,7 @@ label:hover:before {
     background: #fcfcfc;
     border-radius: 0;
     overflow-x: hidden;
-    border: solid #fc0;
+    border: solid #e4002b;
     border-width: 0 0 0 5px
 }
 
@@ -20974,7 +20976,7 @@ label:hover:before {
 }
 
 .team-alert .close:hover:before {
-    background: #fc0
+    background: #e4002b
 }
 
 .team-alert .close:hover span {
@@ -21086,7 +21088,7 @@ label:hover:before {
 }
 
 .search-item .info .name:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .search-item .info .wrap {
@@ -21112,12 +21114,12 @@ label:hover:before {
 
 .search-item .info>p span {
     padding: 0 2px;
-    background: #fc0
+    background: #e4002b
 }
 
 .search-item .info .name span {
     padding: 0 2px;
-    background: #fc0
+    background: #e4002b
 }
 
 .search-item .info .read-more {
@@ -21125,7 +21127,7 @@ label:hover:before {
     display: inline-block;
     font-size: 12px;
     text-transform: uppercase;
-    color: #ffa000;
+    color: #E80030;
     font-family: Montserrat, sans-serif
 }
 
@@ -21309,7 +21311,7 @@ overflow-scroll.table tr td {
         margin: 33px 0 0 0;
         display: block;
         z-index: 1;
-        background: #ffa000
+        background: #E80030
     }
 
     .navbar-toggle .icon-bar {
@@ -21396,6 +21398,7 @@ overflow-scroll.table tr td {
 
     .main-menu>li>ul>li:hover {
         background: 0 0;
+     
         border-left: none
     }
 
@@ -21405,11 +21408,11 @@ overflow-scroll.table tr td {
     }
 
     .main-menu>li>ul>li>ul li:hover>a {
-        color: #ffa000
+        color: #E80030
     }
 
     .main-menu>li>ul>li:hover>a {
-        color: #fc0
+        color: #e4002b
     }
 
     .main-menu>li>a>span:before {
@@ -21946,7 +21949,7 @@ overflow-scroll.table tr td {
 }
 
 .socials li a:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .top-contacts .contacts {
@@ -21976,11 +21979,11 @@ overflow-scroll.table tr td {
 }
 
 .top-contacts .contacts li a:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .top-contacts .contacts li a:hover .fa {
-    color: #ffa000
+    color: #E80030
 }
 
 .top-search {
@@ -22125,16 +22128,16 @@ overflow-scroll.table tr td {
 }
 
 .main-slider .nav-arrow:hover {
-    background: #fc0;
+    background: #e4002b;
     color: #000
 }
 
 .main-slider .nav-arrow.left-arrow:hover:before {
-    background: #fc0
+    background: #e4002b
 }
 
 .main-slider .nav-arrow.right-arrow:hover:before {
-    background: #fc0
+    background: #e4002b
 }
 
 .main-slider .carousel-indicators {
@@ -22231,10 +22234,10 @@ overflow-scroll.table tr td {
 
 .main-slider-caption .booking a {
     padding: 15px 24px 15px 24px;
-    background: #ffa000;
+    background: #E80030;
     overflow: hidden;
     border-radius: 23px;
-    color: #141414;
+    color: #ffffff;
     font-size: 16px;
     font-family: Montserrat, sans-serif;
     text-transform: uppercase
@@ -22242,7 +22245,7 @@ overflow-scroll.table tr td {
 
 .main-slider-caption .booking a:hover {
     border-radius: 9px;
-    background: #fc0
+    background: #e4002b
 }
 
 .main-slider-caption .title {
@@ -22301,7 +22304,7 @@ overflow-scroll.table tr td {
     left: 0;
     position: absolute;
     bottom: -6px;
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -22838,7 +22841,7 @@ overflow-scroll.table tr td {
 .main-next-match .booking {
     padding: 0 15px 0 15px;
     display: inline-block;
-    background: #ffa000;
+    background: #E80030;
     border-radius: 9px;
     color: #141414;
     font-size: 12px;
@@ -22870,7 +22873,7 @@ overflow-scroll.table tr td {
 }
 
 .main-lates-matches .item:hover {
-    border-bottom: 1px solid #fc0;
+    border-bottom: 1px solid #e4002b;
     transition: all .5s
 }
 
@@ -23026,7 +23029,7 @@ overflow-scroll.table tr td {
     left: 0;
     bottom: 0;
     height: 6px;
-    background: #ffa000;
+    background: #E80030;
     transition: all .4s
 }
 
@@ -23170,7 +23173,7 @@ overflow-scroll.table tr td {
     top: 0;
     bottom: 0;
     left: 0;
-    background: #ffa000
+    background: #E80030
 }
 
 .players_statistic_slider .player-stat-slider .item .progress-line .bar.bar-1 {
@@ -23293,7 +23296,7 @@ overflow-scroll.table tr td {
     left: 0;
     bottom: 0;
     height: 6px;
-    background: #ffa000;
+    background: #E80030;
     transition: all .4s
 }
 
@@ -23357,8 +23360,8 @@ overflow-scroll.table tr td {
 }
 
 .best-players-list .item:first-child .achievement {
-    color: #141414;
-    background: #ffa000
+    color: #ffffff;
+    background: #E80030
 }
 
 .best-players-list .item:first-child .achievement:before {
@@ -23370,7 +23373,7 @@ overflow-scroll.table tr td {
     bottom: 0;
     transform: skew(-10deg);
     z-index: -1;
-    background: #ffa000
+    background: #E80030
 }
 
 .best-players-list .item .achievement:before {
@@ -23487,7 +23490,7 @@ overflow-scroll.table tr td {
 }
 
 .main-award-slider .nav-arrow:hover {
-    background: #fc0;
+    background: #e4002b;
     color: #141414
 }
 
@@ -23610,7 +23613,7 @@ overflow-scroll.table tr td {
     position: absolute;
     color: #000;
     font-size: 12px;
-    background: #fc0
+    background: #e4002b
 }
 
 .main-stuff-slider .nav-arrow.left-arrow {
@@ -23627,7 +23630,7 @@ overflow-scroll.table tr td {
     bottom: 0;
     width: 12px;
     transform: skew(-10deg);
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -23639,7 +23642,7 @@ overflow-scroll.table tr td {
     bottom: 0;
     width: 12px;
     transform: skew(-10deg);
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -23655,11 +23658,11 @@ overflow-scroll.table tr td {
 }
 
 .main-stuff-slider .nav-arrow.left-arrow:hover:before {
-    background: #141414
+    background: #ffffff
 }
 
 .main-stuff-slider .nav-arrow.right-arrow:hover:before {
-    background: #141414
+    background: #ffffff
 }
 
 .players-slider ul {
@@ -23694,7 +23697,7 @@ overflow-scroll.table tr td {
     left: 0;
     bottom: 0;
     height: 6px;
-    background: #ffa000;
+    background: #E80030;
     transition: all .4s
 }
 
@@ -23746,7 +23749,7 @@ overflow-scroll.table tr td {
 }
 
 .main-sponsor-slider .nav-arrow:hover {
-    background: #fc0;
+    background: #e4002b;
     color: #141414
 }
 
@@ -23768,7 +23771,7 @@ overflow-scroll.table tr td {
     position: relative;
     font-size: 16px;
     text-transform: uppercase;
-    background: #fc0;
+    background: #e4002b;
     color: #292929;
     font-family: Montserrat, sans-serif;
     z-index: 1
@@ -23785,7 +23788,7 @@ overflow-scroll.table tr td {
     left: -10000%;
     top: 0;
     bottom: 0;
-    background: #fc0;
+    background: #e4002b;
     right: 0;
     z-index: 0
 }
@@ -23796,7 +23799,7 @@ overflow-scroll.table tr td {
     top: 0;
     bottom: 0;
     width: 40px;
-    background: #fc0;
+    background: #e4002b;
     right: -20px;
     z-index: 1;
     transform: skew(-10deg)
@@ -24128,11 +24131,11 @@ overflow-scroll.table tr td {
 }
 
 #circle_3>svg>path {
-    stroke: #fc0
+    stroke: #e4002b
 }
 
 #circle_4>svg>path {
-    stroke: #fc0
+    stroke: #e4002b
 }
 
 #circle_3>div.progressbar-text {
@@ -24631,7 +24634,7 @@ overflow-scroll.table tr td {
     top: 0;
     left: 0;
     bottom: 0;
-    background: #fc0
+    background: #e4002b
 }
 
 .match-stat-table .item .percent-bar .bar.bar-1 {
@@ -24815,7 +24818,7 @@ overflow-scroll.table tr td {
 }
 
 .match-lineup .member .card.yellow {
-    background: #ffa000
+    background: #E80030
 }
 
 .match-lineup .member .card.red {
@@ -25013,7 +25016,7 @@ overflow-scroll.table tr td {
 }
 
 .share-box .share-socials li a:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 @media (max-width:767px) {
@@ -25774,7 +25777,7 @@ overflow-scroll.table tr td {
 }
 
 .staff-box .item:hover .info:before {
-    background: #fc0;
+    background: #e4002b;
     right: -50px
 }
 
@@ -25845,7 +25848,7 @@ overflow-scroll.table tr td {
     text-transform: uppercase;
     color: #fff;
     font-family: Montserrat, sans-serif;
-    background: #ffa000;
+    background: #E80030;
     position: relative
 }
 
@@ -25856,7 +25859,7 @@ overflow-scroll.table tr td {
 .staff-box .info .role:before {
     content: '';
     width: 100%;
-    background: #ffa000;
+    background: #E80030;
     transform: skew(-10deg);
     position: absolute;
     top: 0;
@@ -25895,7 +25898,7 @@ overflow-scroll.table tr td {
     text-transform: uppercase;
     color: #fff;
     font-family: Montserrat, sans-serif;
-    background: #ffa000
+    background: #E80030
 }
 
 .captain-bage:before {
@@ -25906,7 +25909,7 @@ overflow-scroll.table tr td {
     bottom: 0;
     right: -10px;
     transform: skew(-10deg);
-    background: #ffa000;
+    background: #E80030;
     z-index: -1
 }
 
@@ -25928,7 +25931,7 @@ overflow-scroll.table tr td {
     font-size: 40px;
     font-weight: 700;
     color: #141414;
-    background: #fc0;
+    background: #e4002b;
     top: 0;
     bottom: 0;
     left: 0
@@ -26338,7 +26341,7 @@ table tr td:first-child span {
 
 .donation-item .info:after {
     content: '';
-    background: #fc0;
+    background: #e4002b;
     transform: skew(-13deg);
     position: absolute;
     top: 0;
@@ -26401,7 +26404,7 @@ table tr td:first-child span {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #ffa000;
+    background: #E80030;
     width: 20%
 }
 
@@ -26410,7 +26413,7 @@ table tr td:first-child span {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #ffa000;
+    background: #E80030;
     width: 30%
 }
 
@@ -26419,7 +26422,7 @@ table tr td:first-child span {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #ffa000;
+    background: #E80030;
     width: 40%
 }
 
@@ -26428,14 +26431,14 @@ table tr td:first-child span {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #ffa000;
+    background: #E80030;
     width: 50%
 }
 
 .donation-item .info .progress-line .bar:before {
     content: '';
     width: 4px;
-    background: #ffa000;
+    background: #E80030;
     transform: skew(-10deg);
     position: absolute;
     top: 0;
@@ -26500,7 +26503,7 @@ table tr td:first-child span {
 
 .ct-series-a .ct-line,
 .ct-series-a .ct-point {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 .ct-series-b .ct-line,
@@ -26556,7 +26559,7 @@ table tr td:first-child span {
 }
 
 .contacts-wrap .contact-list li a:hover {
-    color: #ffa000
+    color: #E80030
 }
 
 .contacts-wrap .contact-list li.phone span {
@@ -26670,7 +26673,7 @@ td a {
 #circle-bar .progressbar-text,
 #circle-bar1 .progressbar-text {
     font-size: 12px;
-    color: #fc0;
+    color: #e4002b;
     font-family: Montserrat
 }
 
@@ -26723,7 +26726,7 @@ td a {
 }
 
 .player-hockey-wrap .number {
-    color: #fc0;
+    color: #e4002b;
     font-size: 40px;
     font-family: Montserrat
 }
@@ -26761,7 +26764,7 @@ td a {
     background: #fcfcfc;
     border-radius: 0;
     overflow-x: hidden;
-    border: solid #fc0;
+    border: solid #e4002b;
     border-width: 0 0 0 5px
 }
 
@@ -26794,7 +26797,7 @@ td a {
 }
 
 .team-alert .close:hover:before {
-    background: #fc0
+    background: #e4002b
 }
 
 .team-alert .close:hover span {
@@ -26874,7 +26877,7 @@ td a {
 }
 
 .amateurs-news-list .item .name:hover {
-    color: #fc0
+    color: #e4002b
 }
 
 .amateurs-news-list .item .date {
@@ -26894,7 +26897,7 @@ td a {
 }
 
 .amateurs-news-list .item .date a:hover {
-    color: #fc0
+    color: #e4002b
 }
 
 .amateurs-news-list .item a>img {
@@ -26903,7 +26906,7 @@ td a {
 }
 
 .sidebar-btn {
-    background: #fc0;
+    background: #e4002b;
     font-size: 12px;
     text-transform: uppercase;
     color: #141414
@@ -26929,7 +26932,7 @@ td a {
     width: 10px;
     height: 10px;
     display: inline-block;
-    background: #fc0;
+    background: #e4002b;
     cursor: pointer
 }
 
@@ -26951,13 +26954,13 @@ td a {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #ffa000
+    background: #E80030
 }
 
 .main-slider .progress-line .bar:before {
     content: '';
     width: 4px;
-    background: #ffa000;
+    background: #E80030;
     transform: skew(-10deg);
     position: absolute;
     top: 0;
@@ -27027,7 +27030,7 @@ td a {
 }
 
 .player-hockey-wrap .number {
-    color: #fc0;
+    color: #e4002b;
     font-size: 40px;
     font-family: Montserrat
 }
@@ -27101,7 +27104,7 @@ player-hockey-wrap .wrapper-circle {
     text-transform: uppercase;
     color: #fcfcfc;
     font-family: Montserrat, sans-serif;
-    background: #fc0
+    background: #e4002b
 }
 
 .player-single-wrap .captain-bage:before {
@@ -27112,7 +27115,7 @@ player-hockey-wrap .wrapper-circle {
     bottom: 0;
     right: -10px;
     transform: skew(-10deg);
-    background: #fc0;
+    background: #e4002b;
     z-index: -1
 }
 
@@ -27130,7 +27133,7 @@ player-hockey-wrap .wrapper-circle {
 
 .ct-series-a .ct-line,
 .ct-series-a .ct-point {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 .ct-series-b .ct-line,
@@ -27172,7 +27175,7 @@ player-hockey-wrap .wrapper-circle {
 
 .ct-series-a .ct-line,
 .ct-series-a .ct-point {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 .ct-series-b .ct-line,
@@ -27538,7 +27541,7 @@ table tr td .organisation-name {
 }
 
 .match-lineup .member .card.yellow {
-    background: #ffa000
+    background: #E80030
 }
 
 .match-lineup .member .card.red {
@@ -27734,7 +27737,7 @@ table tr td .organisation-name {
     right: 0;
     height: 0;
     width: 2px;
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -27893,7 +27896,7 @@ table tr td .organisation-name {
     width: 10px;
     height: 10px;
     display: inline-block;
-    background: #fc0;
+    background: #e4002b;
     cursor: pointer;
     float: left
 }
@@ -27917,14 +27920,14 @@ table tr td .organisation-name {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #ffa000;
+    background: #E80030;
     width: 10%
 }
 
 .msp_post_slider .progress-line .bar:before {
     content: '';
     width: 4px;
-    background: #ffa000;
+    background: #E80030;
     transform: skew(-10deg);
     position: absolute;
     top: 0;
@@ -27943,7 +27946,7 @@ table tr td .organisation-name {
     position: absolute;
     color: #000;
     font-size: 12px;
-    background: #fc0
+    background: #e4002b
 }
 
 .msp_post_slider .nav-arrow.left-arrow {
@@ -27960,7 +27963,7 @@ table tr td .organisation-name {
     bottom: 0;
     width: 12px;
     transform: skew(-10deg);
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -27972,7 +27975,7 @@ table tr td .organisation-name {
     bottom: 0;
     width: 12px;
     transform: skew(-10deg);
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -28073,7 +28076,7 @@ table tr td .organisation-name {
     min-width: 80px;
     text-align: center;
     font-size: 32px;
-    color: #141414;
+    color: #ffffff;
     font-weight: 700;
     background: #fff;
     height: 80px;
@@ -28095,10 +28098,10 @@ table tr td .organisation-name {
 
 .msp_post_slider .msp_post_slide .slider-caption .booking a {
     padding: 15px 24px 15px 24px;
-    background: #ffa000;
+    background: #E80030;
     overflow: hidden;
     border-radius: 23px;
-    color: #141414;
+    color: #ffffff;
     font-size: 16px;
     font-family: Montserrat, sans-serif;
     text-transform: uppercase
@@ -28106,7 +28109,7 @@ table tr td .organisation-name {
 
 .msp_post_slider .msp_post_slide .slider-caption .booking a:hover {
     border-radius: 9px;
-    background: #fc0
+    background: #e4002b
 }
 
 .msp_post_slider .msp_post_slide .slider-caption .title {
@@ -28188,7 +28191,7 @@ table tr td .organisation-name {
     left: 0;
     bottom: 0;
     height: 6px;
-    background: #ffa000;
+    background: #E80030;
     transition: all .4s
 }
 
@@ -28219,7 +28222,7 @@ table tr td .organisation-name {
 
 .preloader-wrapper .dark-big {
     display: flex;
-    background: #fc0;
+    background: #e4002b;
     width: 90%;
     z-index: 1;
     opacity: .9;
@@ -28228,7 +28231,7 @@ table tr td .organisation-name {
 
 .preloader-wrapper .dark-small {
     display: flex;
-    background: #fc0;
+    background: #e4002b;
     width: 35%;
     z-index: 2;
     left: -200%
@@ -28240,7 +28243,7 @@ table tr td .organisation-name {
     display: flex;
     width: 13%;
     z-index: 5;
-    background-color: #fc0;
+    background-color: #e4002b;
     right: -200%
 }
 
@@ -28250,7 +28253,7 @@ table tr td .organisation-name {
     display: flex;
     width: 4%;
     z-index: 3;
-    background-color: #fc0;
+    background-color: #e4002b;
     right: -200%
 }
 
@@ -28260,7 +28263,7 @@ table tr td .organisation-name {
     display: flex;
     width: 1%;
     z-index: 3;
-    background-color: #ff9e01;
+    background-color: #e4002b;
     right: -200%
 }
 
@@ -28270,7 +28273,7 @@ table tr td .organisation-name {
     display: flex;
     width: 1%;
     z-index: 3;
-    background-color: #ff9e01;
+    background-color: #e4002b;
     right: -200%
 }
 
@@ -28506,7 +28509,7 @@ table tr td .organisation-name {
 }
 
 .comm-wrap .item:hover {
-    background: #fc0;
+    background: #e4002b;
     z-index: 1
 }
 
@@ -29850,7 +29853,7 @@ table tr td .organisation-name {
 }
 
 .error-wrap .offline-socials li:hover a {
-    color: #ffa000
+    color: #E80030
 }
 
 @media (max-width:600px) {
@@ -30101,7 +30104,7 @@ div.fancy-select ul.options li {
 }
 
 div.fancy-select ul.options li.selected {
-    background: #fc0;
+    background: #e4002b;
     color: #141414
 }
 
@@ -30157,7 +30160,7 @@ div.fancy-select div.trigger:after {
 }
 
 #stackedbar>svg>g>g.ct-series.ct-series-b>line {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 #stackedbar>svg>g>g.ct-series.ct-series-c>line {
@@ -30169,7 +30172,7 @@ div.fancy-select div.trigger:after {
 }
 
 #gaugechart>svg>g.ct-series.ct-series-a>path {
-    fill: #ffa000
+    fill: #E80030
 }
 
 #gaugechart>svg>g.ct-series.ct-series-b>path {
@@ -30209,9 +30212,9 @@ div.fancy-select div.trigger:after {
     position: absolute;
     left: 0;
     content: '';
-    border: 3px solid #ffa000;
+    border: 3px solid #E80030;
     border-radius: 10px;
-    background: #ffa000;
+    background: #E80030;
     margin-right: 10px;
     margin-bottom: 10px
 }
@@ -30264,7 +30267,7 @@ div.fancy-select div.trigger:after {
 }
 
 .svgpath>svg>g>g.ct-series.ct-series-a>path {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 .svgpath>svg>g>g.ct-series.ct-series-b>path {
@@ -30284,7 +30287,7 @@ div.fancy-select div.trigger:after {
 }
 
 .svgpath>svg>g>g.ct-series.ct-series-a>path.ct-area {
-    fill: #ffa000
+    fill: #E80030
 }
 
 .svgpath>svg>g>g.ct-series.ct-series-b>path.ct-area {
@@ -30296,11 +30299,11 @@ div.fancy-select div.trigger:after {
 }
 
 #pickcircle>svg>g>g>line {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 #pickcircle>svg>g>g>circle {
-    fill: #ffa000
+    fill: #E80030
 }
 
 #pickcircle>svg>g.ct-grids>line {
@@ -30410,11 +30413,11 @@ div.fancy-select div.trigger:after {
 }
 
 #diagram>svg>g>g.ct-series.ct-series-a>path {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 #diagram>svg>g>g.ct-series.ct-series-a>.ct-point {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 #diagram>svg>g>g.ct-series.ct-series-b>path {
@@ -30442,11 +30445,11 @@ div.fancy-select div.trigger:after {
 }
 
 .advancesmill>svg>g>g.ct-series.ct-series-a>path {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 .advancesmill>svg>g>g.ct-series.ct-series-a>.ct-point {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 .advancesmill>svg>g>g.ct-series.ct-series-b>path {
@@ -30496,9 +30499,9 @@ div.fancy-select div.trigger:after {
     position: absolute;
     left: 0;
     content: '';
-    border: 3px solid #ffa000;
+    border: 3px solid #E80030;
     border-radius: 10px;
-    background: #ffa000;
+    background: #E80030;
     margin-right: 10px
 }
 
@@ -30564,7 +30567,7 @@ div.fancy-select div.trigger:after {
 }
 
 #donutchart>svg>g.ct-series.ct-series-a>path {
-    fill: #ffa000
+    fill: #E80030
 }
 
 #donutchart>svg>g.ct-series.ct-series-b>path {
@@ -30591,9 +30594,9 @@ div.fancy-select div.trigger:after {
     position: absolute;
     left: 0;
     content: '';
-    border: 3px solid #ffa000;
+    border: 3px solid #E80030;
     border-radius: 10px;
-    background: #ffa000;
+    background: #E80030;
     margin-right: 10px;
     margin-bottom: 10px
 }
@@ -30652,7 +30655,7 @@ div.fancy-select div.trigger:after {
 }
 
 #horizontalbar>svg>g>g.ct-series.ct-series-a>line {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 #horizontalbar>svg>g>g.ct-series.ct-series-b>line {
@@ -30678,9 +30681,9 @@ div.fancy-select div.trigger:after {
     position: absolute;
     left: 0;
     content: '';
-    border: 3px solid #ffa000;
+    border: 3px solid #E80030;
     border-radius: 10px;
-    background: #ffa000;
+    background: #E80030;
     margin-right: 10px
 }
 
@@ -30775,7 +30778,7 @@ div.fancy-select div.trigger:after {
 .ct-bar.ct-threshold-above,
 .ct-line.ct-threshold-above,
 .ct-point.ct-threshold-above {
-    stroke: #ffa000
+    stroke: #E80030
 }
 
 .ct-bar.ct-threshold-below,
@@ -30868,7 +30871,7 @@ div.fancy-select div.trigger:after {
     float: left;
     width: 121px;
     height: 86px;
-    background: #fc0;
+    background: #e4002b;
     display: flex;
     border-radius: 10px 10px 10px 10px/50px 50px 50px 50px
 }
@@ -30890,7 +30893,7 @@ div.fancy-select div.trigger:after {
     position: absolute;
     border-width: 0 53px 25px;
     border-style: solid;
-    border-color: transparent transparent #fc0;
+    border-color: transparent transparent #e4002b;
     transform: rotate(180deg);
     top: 99%;
     right: 6px;
@@ -30947,7 +30950,7 @@ div.fancy-select div.trigger:after {
     border-radius: 4px;
     margin: 24px 0 0 0;
     z-index: 1;
-    background: #fc0
+    background: #e4002b
 }
 
 .sport-team-lp-header ul>li:last-child>a {
@@ -31338,7 +31341,7 @@ div.fancy-select div.trigger:after {
     position: relative;
     padding: 21px 23px 18px 23px;
     display: inline-block;
-    background: #fc0;
+    background: #e4002b;
     border-radius: 10px;
     text-transform: uppercase;
     color: #141414;
@@ -31708,7 +31711,7 @@ div.fancy-select div.trigger:after {
     bottom: 1px;
     left: -30px;
     right: -25px;
-    background-color: #fc0;
+    background-color: #e4002b;
     transform: skew(-10deg);
     background-blend-mode: overlay;
     opacity: .87
@@ -32191,7 +32194,7 @@ div.fancy-select div.trigger:after {
     position: absolute;
     color: #000;
     font-size: 12px;
-    background: #fc0
+    background: #e4002b
 }
 
 .landing-sport-players-slider .main-stuff-slider .nav-arrow.left-arrow {
@@ -32208,7 +32211,7 @@ div.fancy-select div.trigger:after {
     bottom: 0;
     width: 12px;
     transform: skew(-10deg);
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -32220,7 +32223,7 @@ div.fancy-select div.trigger:after {
     bottom: 0;
     width: 12px;
     transform: skew(-10deg);
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -32275,7 +32278,7 @@ div.fancy-select div.trigger:after {
     left: 0;
     bottom: 0;
     height: 6px;
-    background: #ffa000;
+    background: #E80030;
     transition: all .4s
 }
 
@@ -32438,7 +32441,7 @@ div.fancy-select div.trigger:after {
     padding: 15px 24px 13px 24px;
     border-radius: 9px;
     border: none;
-    background: #fc0;
+    background: #e4002b;
     font-size: 16px;
     color: #141414;
     text-transform: uppercase;
@@ -32484,7 +32487,7 @@ div.fancy-select div.trigger:after {
 }
 
 .landing-sport-main-slider .msp_post_slider .owl-dot.active {
-    background: #fc0
+    background: #e4002b
 }
 
 .sport-team-landing-store-filter li a {
@@ -32518,7 +32521,7 @@ div.fancy-select div.trigger:after {
     left: 0;
     bottom: 0;
     height: 6px;
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -36138,7 +36141,7 @@ ul.esport-championship-timline-tabs>li>a:before {
 }
 
 .esport-team-landing-header .clear-header ul>li>a {
-    color: #fc0;
+    color: #e4002b;
     font-family: Montserrat;
     text-transform: uppercase;
     font-size: 14px;
@@ -36265,7 +36268,7 @@ ul.esport-championship-timline-tabs>li>a:before {
         margin: 25px 0 20px 0;
         z-index: 1;
         color: rgba(0, 0, 0, .85);
-        background: #fc0
+        background: #e4002b
     }
 
     .esport-team-landing-header .navbar-collapse.collapse {
@@ -36337,7 +36340,7 @@ ul.esport-championship-timline-tabs>li>a:before {
 }
 
 .esport-team-landing-main-slider .msp_post_slider .owl-dot.active {
-    background: #fc0
+    background: #e4002b
 }
 
 .esport-team-landing-sponsors {
@@ -37129,7 +37132,7 @@ ul.esport-championship-timline-tabs>li>a:before {
 }
 
 .esport-team-landing-subscribe button {
-    background: #fc0;
+    background: #e4002b;
     color: #141414;
     font-size: 14px;
     line-height: 50px;
@@ -37173,7 +37176,7 @@ ul.esport-championship-timline-tabs>li>a:before {
     left: 0;
     bottom: 0;
     height: 6px;
-    background: #fc0;
+    background: #e4002b;
     transition: all .4s
 }
 
@@ -37543,6 +37546,8 @@ ul.esport-championship-timline-tabs>li>a:before {
     color: #cd201f
 }
 
+
+
 @media (max-width:767px) {
     .esport-team-landing-footer-links ul>li>a>i {
         display: block
@@ -37552,3 +37557,4 @@ ul.esport-championship-timline-tabs>li>a:before {
         display: none
     }
 }
+

@@ -40,4 +40,4 @@ class TeamPlayers(models.Model):
     Team_Name = models.ForeignKey(Team, on_delete=CASCADE)
     player = models.ForeignKey(Player, on_delete=CASCADE)
     def __str__(self):
-        return self.player.username + "-"+ self.Team_Name.TeamName
+        return self.player.in_game_name + "-"+ self.Team_Name.TeamName

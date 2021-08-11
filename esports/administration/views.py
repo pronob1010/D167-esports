@@ -20,6 +20,8 @@ def index(request):
 
 def liveMatches(request):
     broadcast_data = broadcast.objects.all()
+    
+
     context = {
         "broadcast_data":broadcast_data,
     }
