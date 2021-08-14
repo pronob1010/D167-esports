@@ -1,7 +1,15 @@
 from matches . models import *
-from administration . models import SiteInfo
+from administration . models import *
+from teams . models import *
 def extras(request):
-    site_data = SiteInfo.objects.get(id=1)
+    sitedata = SiteInfo.objects.all()
+    site_social_media = SocialMediaLinks.objects.all()
+    maindata = SiteInfo.objects.all()
+    site_about = SiteAbout.objects.all()
+    our_teams = CentralTeam.objects.all()
+
+    for i in sitedata:
+        site_data = i
     match_data = MatchGroup.objects.all()
     
     unique_Tournament = []
@@ -24,6 +32,15 @@ def extras(request):
 
     # return {"unique_tournament":unique_tournament,"site_data":site_data}
     if site_data is not None:
-        return {"nav_Tournament":unique_Tournament,"site_data":site_data}
+        context = {
+
+            "our_teams":our_teams,
+            "site_about":site_about,
+            "maindata":maindata,
+            "site_social_media":site_social_media,
+            "nav_Tournament":unique_Tournament,
+            "site_data":site_data
+        }
+        return context 
     else:
         return {}

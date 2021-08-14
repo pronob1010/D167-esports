@@ -3,92 +3,36 @@
 {% block content %}
 <section style="background:url('https://fazeclan.com/images/inner-page/inner-page-brand-bg-tabletMedium.webp')">
 
+     <!--DONATIONS WRAP BEGIN-->
+<section class="donations-wrap"> 
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="hockey-stats-h4"> </h4>
-
-                <div class="single-player-stats players_statistic_slider team_custom_part">
-                    <div class="player-stat-slider tab-content">
-                        <div id="slider" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner tab-content" role="listbox">
-                                <div class="item active tab-pane" id="goalkeepers">
-
-                                    <div class="wrap">
-                                        <a href="">
-                                            <div class="stat stat_custom">
-                                                <div class="progress-wrap">
-                                                    <div class="progress-item">
-                                                        <h2 class="custom_head">Team</h2>
-
-                                                        <h1 class="custom_head_2">
-                                                            CSGO</h1>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="image"
-                                                style="background: url('https://fazeclan.com/images/team-card-bg.png');">
-                                                <a href="" title="player-image">
-                                                    <img class="stat_custom_img" src="https://www.menabytes.com/wp-content/uploads/2019/04/Yalla-Esports-Team.jpg"
-                                                        alt="player-image">
-                                                </a>
-                                            </div>
-                                        </a>
-                                    </div>
+                {% for team in team_data%}
+                <div class="donation-item">
+                    <div class="row no-gutter equal-height">
+                        <div class="col-md-8 col-sm-12">
+                            <div class="img-wrap"><img class="img-responsive" src="{{team.Team_Banner.url}}" alt="donation-item"></div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 position-relative">
+                            <div class="info">
+                                <div class="wrap">
+                                    <div class="title"><h1 class="title">{{team.game}}</h1></div>
+                                    <p>{{team.BS_team.TeamAbout}}</p>
+                                <a href="{% url 'teamdetails' team.slug %}" class="btn small">more</a>
+                                    
                                 </div>
-
-
-
-
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="single-player-stats players_statistic_slider team_custom_part">
-                    <div class="player-stat-slider tab-content">
-                        <div id="slider" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner tab-content" role="listbox">
-                                <div class="item active tab-pane" id="goalkeepers">
-
-                                    <div class="wrap">
-                                        <a href="">
-                                            <div class="stat stat_custom">
-                                                <div class="progress-wrap">
-                                                    <div class="progress-item">
-                                                        <h2 class="custom_head">Team</h2>
-
-                                                        <h1
-                                                            style="padding: 0 rem !important; color: rgb(243, 0, 0);">
-                                                            PUBG MOBILE  EMULATOR</h1>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="image"
-                                                style="background: url('https://fazeclan.com/images/team-card-bg.png');">
-                                                <a href="" title="player-image">
-                                                    <img src="https://www.menabytes.com/wp-content/uploads/2019/04/Yalla-Esports-Team.jpg"
-                                                        alt="player-image">
-                                                </a>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-
-
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+                {% endfor %}
             </div>
-
         </div>
     </div>
+</section>
+<!--DONATIONS WRAP END-->
+ 
 </section>
 <!--CLUB STAFF TOP END-->
 

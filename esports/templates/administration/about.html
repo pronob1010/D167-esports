@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!--CONTACT WRAP BEGIN-->
+<section class="trophey-room">
+    <div class="container">
+        <div class="row">
+            {% for i in site_about%}
+            <div class="col-md-12">
+                <div class="trophey-media">
+                    <img src="{{i.banner.url}}" alt="club-image">
+                </div>
+            </div>
+            <div class="col-md-8   text-justify">
+                {{i.about_us}}
+            </div>
+            {% endfor %}
+            <div class="col-md-4">
+                <ul class="done-list">
+                    {% for i in site_achivment %}
+                    <li>{{i.single_line_achivment}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            <a href="{% url 'contact' %}">
+            <button class="btn btn-small mx-auto" style="color: white;">
+                Get in touch
+            </button>
+            </a>
+        </div>
+    </div>
+    </div>
+
+
+ 
+  <!--MAIN SPONSOR SLIDER BEGIN-->
+  <div class="main-sponsor-slider-background">
+    <div id="main-sponsor-slider" class="carousel slide main-sponsor-slider" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <div class="container">
+                    <div class="row">
+                        {% for i in sponsor %}
+                        <div class="col-xs-4 text-center">
+                            <img class="sponsor-icons" src="{{i.logo.url}}" alt="sponsor-image">	
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>	
+            </div>
+            <div class="item">
+                <div class="container">
+                    <div class="row">
+                        {% for i in sponsor %}
+                        <div class="col-xs-4 text-center">
+                            <img class="sponsor-icons" src="{{i.logo.url}}" alt="sponsor-image">	
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>	
+            </div>
+            <!-- Controls -->
+            <a class="nav-arrow left-arrow" href="#main-sponsor-slider" role="button" data-slide="prev">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="sr-only">Previous</span>
+            </a>
+            <a class="nav-arrow right-arrow" href="#main-sponsor-slider" role="button" data-slide="next">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <span class="sr-only">Next</span>
+            </a>
+        </div>	
+    </div>
+    </div>
+    <!--MAIN SPONSOR SLIDER END-->
+<!--CONTACT WRAP END-->
+</section>
+{% endblock %}

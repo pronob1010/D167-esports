@@ -15,3 +15,12 @@ class TeamAdmin(admin.ModelAdmin):
     inlines = [TeamPlayersAdmin,]
 
 admin.site.register(Team, TeamAdmin)
+
+class CentralTeamAchievementAdmin(admin.StackedInline):
+    model = CentralTeamAchievement
+class OtherLineUpAdmin(admin.StackedInline):
+    model = OtherLineUp
+class CentralTeamAchievementBlock(admin.ModelAdmin):
+    inlines = [OtherLineUpAdmin, CentralTeamAchievementAdmin,]
+
+admin.site.register(CentralTeam, CentralTeamAchievementBlock)

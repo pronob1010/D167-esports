@@ -6,7 +6,6 @@ from django.db.models.fields import TextField
 from . manager import UserManager
 
 class BaseUser(models.Model):
-    photo = models.ImageField(upload_to="user", default='../static/Soldier.png', null=True, blank= True)
     nationality = models.CharField(max_length=200, null=True, blank= True)
     age = models.IntegerField(null=True, blank= True)
     about = models.TextField(max_length=150, null=True, blank=True)
@@ -16,11 +15,13 @@ class BaseUser(models.Model):
 
 
 class User(AbstractUser):
-    email = models.EmailField(unique=True, null=True, blank=True)
+    # email = models.EmailField(unique=True, null=True, blank=True)
     phone = models.CharField(max_length=15, unique=True)
     username = models.CharField(max_length=30, unique=True)
     sub_admin = models.BooleanField(default=False)
     player = models.BooleanField(default=False)
+    photo = models.ImageField(upload_to="user", default="../static/Soldier.png", null=True, blank= True)
+
 
     forget_password = models.CharField(max_length=100, null=True, blank=True)
     last_login_time = models.DateTimeField(null=True, blank=True)
@@ -34,9 +35,20 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 class UserProfile(BaseUser):
-    user = models.OneToOneField(User, on_delete=CASCADE)
+    user = models.OneToOneField(User, on_delete=CASCADE, related_name="user_profile")
     date_of_join = models.DateTimeField(auto_now_add=True)
+
+@receiver(post_save, sender = User)
+def create_player(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user = instance)
+
+@receiver(post_save, sender = User)
+def save_player(sender, instance, **kwargs):
+    instance.user_profile.save()
 
 
 class UserSocialMedia(models.Model):

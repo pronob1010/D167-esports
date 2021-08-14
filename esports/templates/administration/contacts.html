@@ -1,32 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <!--CONTACT WRAP BEGIN-->
-<section class="contacts-wrap" >
+<!--CONTACT WRAP BEGIN-->
+ 
+
+<section class="contacts-wrap ">
+
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <h4>Head office</h4>	
-                <p>Selvage mixtape coloring book, street art swag sriracha activated charcoal vegan hammock selfies distillery wayfarers dreamcatcher lyft beard. </p>
+                <h4>Contuct Us</h4>
                 <div class="contact-office-img">
-                    <img class="img-responsive" src="{% static 'images/soccer/contact-office-img.jpg' %}" alt="contact-office-img">	
+                    {% for i in site_about %}
+                    <img class="img-responsive" src="{{i.banner.url}}"
+                        alt="contact-office-img">
+                        {% endfor %}
                 </div>
                 <ul class="contact-list">
-                    <li><i class="fa fa-flag" aria-hidden="true"></i><span>276 Upper Parliament Street, Liverpool L8, Great Britain</span></li>
-                    <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:team@email.com">team@email.com</a></li>
-                    <li class="phone"><i class="fa fa-phone" aria-hidden="true"></i><span>+61 3 8376 6284</span></li>
+                    {% for i in maindata %}
+                    <li><i class="fa fa-flag" aria-hidden="true"></i><span>{{i.physical_address}}</span></li>
+                    <li><i class="fa fa-envelope" aria-hidden="true"></i><a
+                            href="mailto:team@email.com">{{i.official_mail}}</a></li>
+                    <li class="phone"><i class="fa fa-phone" aria-hidden="true"></i><span>{{i.help_line}}</span></li>
+                {% endfor %}
                 </ul>
                 <ul class="contact-bar">
-                    <li class="facebook"><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-                    <li class="twitter"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                    <li class="google"><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
-                    <li class="pinterest"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                    {% for i in site_social_media %}
+                    <li class="facebook"><a href="{{i.facebook}}"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
+                    <li class="twitter"><a href="{{i.twitch}}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                    <li class="instagram"><a href="{{i.instagram}}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                    <li class="youtube"><a href="{{i.youtube}}"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="col-md-7">
-                <h4>Get in touch</h4>	
+                <h4>Get in touch</h4>
                 <div class="leave-comment-wrap">
-                    <form>								
+                    <form>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="item">
@@ -34,7 +44,7 @@
                                         <span>Name <i>*</i></span>
                                         <input type="text" name="name">
                                     </label>
-                                </div>	
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="item">
@@ -42,7 +52,7 @@
                                         <span>Email <i>*</i></span>
                                         <input type="email" name="email">
                                     </label>
-                                </div>	
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="item">
@@ -50,7 +60,7 @@
                                         <span>Subject</span>
                                         <input type="text" name="subjects">
                                     </label>
-                                </div>	
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="item">
@@ -70,8 +80,13 @@
         </div>
     </div>
     <div class="contacts-map">
-        <img class="img-responsive" src="{% static 'images/soccer/contacts-map.jpg' %}" alt="contacts-map">
+        {% for i in site_about %}
+        <iframe src="{{i.on_google_map}}" width="100%" allowfullscreen="" loading="lazy">
+        </iframe>
+        {% endfor %}
     </div>
 </section>
+
+ 
 <!--CONTACT WRAP END-->
 {% endblock %}

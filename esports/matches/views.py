@@ -4,91 +4,6 @@ from django.shortcuts import render
 
 from . import models
 from django.db.models import F,Q
-# def matches(request):
-#     match_data = MatchGroup.objects.all()
-#     unique_Tournament = []
-#     for s in match_data:
-#         li = []
-#         if s.Tournament.slug not in li:
-#             li.append(s.Tournament.slug)
-#             li.append(s.Tournament.Tournament_title)
-
-#             round= MatchRound.objects.filter(Tournament__slug=s.Tournament.slug)
-#             rounds = {}
-#             for r in round:
-#                 if r.slug not in rounds:
-#                     rounds[r.slug]=r.Round_title
-#             li.append(rounds)
-#         if li not in unique_Tournament:
-#             unique_Tournament.append(li)
-
-#     # print(unique_Tournament)
-
-#     Tournament = request.GET.get('Tournament_slug')
-#     print(Tournament)
-#     # if Tournament is None:
-#     #     Tournament = Tournament.objects.get(pk=1).slug
-    
-#     # Tournament_table_data_1 = Tournament.objects.all()[:1]
-#     # Tournament_table_data = Tournament.objects.all()[1:]
-
-#     # match_table_data = RegisteredTeams.objects.filter(Match__Match_Tournament__slug = Tournament)
-#     # unique_team = {}
-    
-#     # i = 0
-#     # j = 0 
-#     # for u in match_table_data:
-#     #     info = []
-#     #     if u.Team.slug not in info:
-#     #         j+=1
-#     #         slug = u.Team.slug
-#     #         info.append(u.Team.Team_image.url)
-#     #         info.append(u.Team.TeamName)
-            
-            
-#     #         win_count = RegisteredTeams.objects.filter(Q(Match__Match_Tournament__slug = Tournament) & Q(Team__slug = u.Team.slug) & Q(Win = True)).count()
-#     #         play_count = RegisteredTeams.objects.filter(Q(Match__Match_Tournament__slug = Tournament) & Q(Team__slug = u.Team.slug)).count()
-#     #         placement_point = RegisteredTeams.objects.filter(Q(Match__Match_Tournament__slug = Tournament) & Q(Team__slug = u.Team.slug))
-
-
-#     #         pp = []
-#     #         for i in placement_point:
-#     #             pp.append(i.Placement_Point)
-#     #         total_pp = sum(pp)
-            
-#     #         kill_point = PlayersPointTable.objects.filter(Q(Match__Match_Tournament__slug = Tournament) & Q(teamName__Team__slug = u.Team.slug))
-#     #         kills = []
-#     #         for k in kill_point:
-#     #             kills.append(k.kill_Point)
-#     #         total_kill_point = sum(kills)
-#     #         total_point = total_kill_point + total_pp
-#     #         # print(win_count,play_count,total_pp,total_kill_point,total_point)
-#     #         info.append(play_count)
-#     #         info.append(win_count)
-#     #         info.append(total_pp)
-#     #         info.append(total_kill_point) 
-#     #         info.append(total_point)
-#     #         # print(info)
-
-#     #     unique_team[slug] = info
-
-#     # print(unique_team)
-    
-#     # # match_table_data = RegisteredTeams.objects.all()
-    
-
-#     context = {
-        
-#         # "unique_team" :unique_team,
-#         # "match_table_data":match_table_data, 
-#         # "Tournament_table_data_1":Tournament_table_data_1,
-#         # "Tournament_table_data":Tournament_table_data,
-
-#         "nav_Tournament":unique_Tournament,
-#         }
-#     return render(request, 'matches/matches.html', context)
-#     # return render(request, 'matches/matches.html', {})
-
 
 def data_table(request, slug):
     group_slug = request.GET.get('data')
@@ -171,23 +86,7 @@ def data_table(request, slug):
                 if single_match_related_info_sub2 not in single_match_related_info_sub:
                     single_match_related_info_sub.append(single_match_related_info_sub2)
             
-            # single_match_related_info_main.append(single_match_related_info_sub)
-            # player_data_main = []
-            # player_data_sub = []
-            # player_data_main.append(player_data_sub)
             
-            # for k in unique_team_for_match:
-            #     player_data_sub2 = []
-            #     if k.player.player.in_game_name not in player_data_sub2:
-            #         if unique_team_for_match[2].teamName.Team.slug == k.teamName.Team.slug:
-            #             player_data_sub2.append(k.player.player.in_game_name)
-            #             player_data_sub2.append(k.kill_Point)
-            #             print(k.player.player.in_game_name, k.kill_Point)
-            #     if player_data_sub2 not in player_data_sub:
-            #         player_data_sub.append(player_data_sub2)
-                
-            # print(player_data_sub)
-
 
             #for datatable info. This part provide 
             # all teams of an group and related information of teams
@@ -359,7 +258,7 @@ def rankList(request, slug):
         single = []
         single.append(p.player.player.slug)
         single.append(p.player.player.in_game_name)
-        single.append(p.player.player.photo)
+        single.append(p.player.player.user.photo)
         single.append(p.player.player.age)
         single.append(p.player.player.nationality)
         single.append(p.teamName.Team.TeamName)

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{{index_data2}}
 <div class="main-slider-section" style="background: url('{{index_data.main_cover_image.url}}'); background-repeat: no-repeat; background-size: cover;">
     <div class="main-slider">
         <div id="main-slider" class="carousel slide" data-ride="carousel" data-interval="2000">
@@ -579,31 +580,31 @@
         <div class="row">
             <div class="col-md-7">
                 <h4>success story <br>began here</h4>
-                <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you
-                    probably haven't heard of them tumeric venmo deep mixtape semiotics brunch. </p>
+                <p>{{Legend.base_story}}</p>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="icon"><img src="{% static 'images/common/success-icon.png' %}" alt="succes-icon">
+                        <div class="icon"> <br>
                         </div>
-                        <div class="title">Legendary</div>
-                        <p>Next level paleo taxidermy, bespoke messenger bag leggings occupy food truck. </p>
+                        <div class="title">{{Legend.person_1}}</div>
+                        <p>{{Legend.story_of_person_1}}</p>
                     </div>
                     <div class="col-md-6">
-                        <div class="icon"><img src="{% static 'images/common/success-icon1.png' %}" alt="succes-icon">
+                        <div class="icon"> <br>
                         </div>
-                        <div class="title">Legendary</div>
-                        <p>Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep
-                            v mixtape semiotics brunch. </p>
+                        <div class="title">{{Legend.person_2}}</div>
+                        <p>{{Legend.story_of_person_2}} </p>
                     </div>
-                    <div class="col-md-12"><a href="trophies.html" class="booking">trophies</a></div>
+                    {% for i in site_social_media %}
+                    <div class="col-md-12"><a href="{{i.discord}}" class="booking">Join with Discord</a></div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="col-md-5 position-relative">
                 <blockquote class="coach-quote">
-                    <p>Austin mustache man bun vice helvetica.</p>
-                    <p class="name">Brandon Campbell / head coach</p>
+                    <p>{{Legend.Caption}}</p>
+                    
                 </blockquote>
-                <img class="img-responsive" src="{% static 'images/soccer/coach.png' %}" alt="coach-image">
+                <img class="img-responsive" src="{{Legend.image.url}}" alt="coach-image">
             </div>
         </div>
     </div>
@@ -651,127 +652,93 @@
     </div>
 </section>
 <!--SUCCESS STORY END-->
-
+<!-- {% for i in stuff|slice:":1" %}
+{% for k , v in i.items %}
+{% for j in v %}
+{{j.0}}
+{% endfor %}
+{% endfor %}
+{% endfor %} -->
 
 <!--MAIN CLUB STAFF BEGIN-->
 <section class="main-club-stuff">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="soccer-h4">club stuff</h4>
+                <h4 class="soccer-h4">Our Official's</h4>
                 <ul class="player-filters" role="tablist">
+                    {% for i in stuff|slice:":1" %}
+                    {% for k , v in i.items %}
                     <li class="active">
-                        <a href="#managers" role="tab" data-toggle="tab">
-                            Managers
+                        <a href="#{{k.slug}}" role="tab" data-toggle="tab">
+                            {{k.title}}
                         </a>
                     </li>
+                    {% endfor %}
+                    {% endfor %}
+                    {% for i in stuff|slice:"1:" %}
+                    {% for k , v in i.items %}
                     <li>
-                        <a href="#firstteam" role="tab" data-toggle="tab">
-                            First team
+                        <a href="#{{k.slug}}" role="tab" data-toggle="tab">
+                            {{k.title}}
                         </a>
                     </li>
-                    <li>
-                        <a href="#academy" role="tab" data-toggle="tab">
-                            Academy
-                        </a>
-                    </li>
+                    {% endfor %}
+                    {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
 
     <div class="tab-content">
-        <div class="tab-pane active" id="managers" role="tabpanel">
+        {% for i in stuff|slice:":1" %}
+        {% for k , v in i.items %}
+        <div class="tab-pane active" id="{{k.slug}}" role="tabpanel">
             <div id="managers_carousel" class="carousel slide main-stuff-slider" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
                     <div class="item active">
                         <div class="container">
                             <div class="row">
+                                {% for j in v|slice:":3" %}
                                 <div class="col-md-4">
                                     <div class="staff-item">
-                                        <a href="staff.html">
+                                        <a href="#">
                                             <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
+                                                <span class="name">{{j.1}}</span>
+                                                <span class="position">{{k.title}}</span>
                                             </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
+                                            <img src="{{j.2.url}}"
                                                 alt="person-slider">
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
+                    
+                    {% if v|length > 3 %}
                     <div class="item">
                         <div class="container">
                             <div class="row">
+                                {% for j in v|slice:"3:" %}
                                 <div class="col-md-4">
                                     <div class="staff-item">
-                                        <a href="staff.html">
+                                        <a href="#">
                                             <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
+                                                <span class="name">{{j.1}}</span>
+                                                <span class="position">{{k.title}}</span>
                                             </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
+                                            <img src="{{j.2.url}}"
                                                 alt="person-slider">
                                         </a>
                                     </div>
                                 </div>
-
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     <!-- Controls -->
                     <a class="nav-arrow left-arrow" href="#managers_carousel" role="button" data-slide="prev">
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -784,215 +751,51 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
+        {% endfor %}
 
-        <div class="tab-pane" id="academy" role="tabpanel">
-            <div id="academy_carousel" class="carousel slide main-stuff-slider" data-ride="carousel">
+        {% for i in stuff|slice:"1:" %}
+        {% for k , v in i.items %}
+        <div class="tab-pane" id="{{k.slug}}" role="tabpanel">
+            <div id="managers_carousel" class="carousel slide main-stuff-slider" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
                     <div class="item active">
                         <div class="container">
                             <div class="row">
+                                {% for j in v|slice:":3" %}
                                 <div class="col-md-4">
                                     <div class="staff-item">
-                                        <a href="staff.html">
+                                        <a href="#">
                                             <span class="info">
-                                                <span class="name">Vito<br>Palet</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
+                                                <span class="name">{{j.1}}</span>
+                                                <span class="position">{{k.title}}</span>
                                             </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Melet</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
+                                            <img src="{{j.2.url}}"
                                                 alt="person-slider">
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marse</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
+                                {% endfor %}
 
                             </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marsan</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Luscas<br>Mars</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Mafo</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                    
                     <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#academy_carousel" role="button" data-slide="prev">
+                    <a class="nav-arrow left-arrow" href="#managers_carousel" role="button" data-slide="prev">
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="sr-only"></span>
                     </a>
-                    <a class="nav-arrow right-arrow" href="#academy_carousel" role="button" data-slide="next">
+                    <a class="nav-arrow right-arrow" href="#managers_carousel" role="button" data-slide="next">
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                         <span class="sr-only"></span>
                     </a>
                 </div>
             </div>
         </div>
+        {% endfor %}
+        {% endfor %}
 
-        <div class="tab-pane" id="firstteam" role="tabpanel">
-            <div id="firstteam_carousel" class="carousel slide main-stuff-slider" data-ride="carousel">
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">James<br>Deshon</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Deshon<br>James</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">James<br>Deshon</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marsh</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-3.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Luca<br>Mas</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/player-2.jpg' %}" alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucasoto<br>Marsh</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="{% static 'images/soccer/stuff-person.jpg' %}"
-                                                alt="person-slider">
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#firstteam_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#firstteam_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 <!--MAIN CLUB STAFF END-->

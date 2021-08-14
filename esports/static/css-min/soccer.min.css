@@ -26390,7 +26390,7 @@ table tr td:first-child span {
 
 .donation-item .info .details li span {
     padding-right: 10px;
-    color: #141414
+    color: hsl(0, 0%, 100%)
 }
 
 .donation-item .info .progress-line {
@@ -26447,6 +26447,7 @@ table tr td:first-child span {
 }
 
 .donation-item .info .btn {
+    color: white;
     margin: 13px 15px 0 0
 }
 
@@ -37502,6 +37503,7 @@ ul.esport-championship-timline-tabs>li>a:before {
     text-align-last: justify
 }
 
+
 .esport-team-landing-footer-links ul>li {
     display: inline-block
 }
@@ -37513,6 +37515,7 @@ ul.esport-championship-timline-tabs>li>a:before {
     padding: 44px 0;
     display: block
 }
+
 
 .esport-team-landing-footer-links ul>li>a>i {
     display: none
@@ -37546,8 +37549,6 @@ ul.esport-championship-timline-tabs>li>a:before {
     color: #cd201f
 }
 
-
-
 @media (max-width:767px) {
     .esport-team-landing-footer-links ul>li>a>i {
         display: block
@@ -37557,4 +37558,3 @@ ul.esport-championship-timline-tabs>li>a:before {
         display: none
     }
 }
-

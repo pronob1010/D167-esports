@@ -1,6 +1,7 @@
 from typing import DefaultDict
 from django.db import models
 from django.db.models.deletion import CASCADE
+from django.db.models.expressions import F
 from Accounts.models import User
 from django.template.defaultfilters import slugify
 # Create your models here.
@@ -31,7 +32,7 @@ class Player(BaseUser):
         if self.in_game_name is not None:
             return self.in_game_name
         else:
-            return self.user.username
+            return self.user.username 
 
 # @receiver(post_save, sender = User)
 # def create_player(sender, instance, created, **kwargs):
@@ -44,8 +45,10 @@ class Player(BaseUser):
 
 # @receiver(post_save, sender = User)
 
+@receiver(post_save, sender = User)
 def create_player(sender, instance, created, **kwargs):
-    if created==False and instance.player == True:
-        Player.objects.create(user = instance)
+    if Player.objects.filter(user = instance).exists() == False:
+        if created == False and instance.player == True:
+            Player.objects.create(user = instance)
 
-post_save.connect(create_player, User)
+# post_save.connect(create_player, User)
