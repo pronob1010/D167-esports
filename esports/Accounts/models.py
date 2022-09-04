@@ -19,6 +19,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=15, unique=True)
     username = models.CharField(max_length=30, unique=True)
     sub_admin = models.BooleanField(default=False)
+    host = models.BooleanField(default=False)
     player = models.BooleanField(default=False)
     photo = models.ImageField(upload_to="user", default="../static/Soldier.png", null=True, blank= True)
 
