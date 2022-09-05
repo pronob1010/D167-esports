@@ -97,3 +97,10 @@ class TournamentHost(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE, null=True, blank=True)
     def __str__(self):
         return self.user.username
+
+
+@receiver(post_save, sender=User)
+def create_host(sender, instance, created, **kwargs):
+    if TournamentHost.objects.filter(user=instance).exists() == False:
+        if created == False and instance.host == True:
+            TournamentHost.objects.create(user = instance)
