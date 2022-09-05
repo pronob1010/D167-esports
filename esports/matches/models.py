@@ -2,6 +2,7 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import TextField, related
+from Accounts.models import User
 from teams.models import Team
 from django.template.defaultfilters import default, slugify
 
@@ -17,8 +18,8 @@ from django.template.defaultfilters import default, slugify
 #     def __str__(self):
 #         return self.Tournament_title
 class Tournament(models.Model):
-    # Tournament = models.ForeignKey(Tournament,on_delete=CASCADE, null=True, blank=True)
     Tournament_title = models.CharField(max_length=100)
+    # Host = models.OneToOneField(User, on_delete=CASCADE, null=True, blank=True, related_name="tournament_host")
     slug = models.SlugField(unique=True, null=True, blank=True)
     mvp_expected = models.BooleanField(default=False)
     number_of_mvp = models.PositiveIntegerField(default=0)

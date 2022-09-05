@@ -91,3 +91,9 @@ def create_sub_admin(sender, instance, created, **kwargs):
             SubAdmin.objects.create(user=instance)
 
 # post_save.connect()
+
+
+class TournamentHost(models.Model):
+    user = models.OneToOneField(User, on_delete=CASCADE, null=True, blank=True)
+    def __str__(self):
+        return self.user.username
