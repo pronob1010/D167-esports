@@ -61,25 +61,27 @@
                             <ul>
                                 {% for s in nav_Tournament %}
                                 <li class="">
-                                    <a href="{% url "table" s.0 %}"><span>{{s.1}}</span></a>
+                                    {# s.0 is likely tournament/round slug. We need tenant_slug from context #}
+                                    <a href="{% if request.tenant %}{% url "table" tenant_slug=request.tenant.slug slug=s.0 %}{% else %}#{% endif %}"><span>{{s.1}}</span></a>
                                     <ul>
                                         {% for k, v in s.2.items %}
-                                        <li><a href="{% url "table" k %}"><span> {{v}}</span></a> </li>
+                                        {# k is likely group slug #}
+                                        <li><a href="{% if request.tenant %}{% url "table" tenant_slug=request.tenant.slug slug=k %}{% else %}#{% endif %}"><span> {{v}}</span></a> </li>
                                         {% endfor %}
                                         {% if s.3 is True %}
-                                            <li><a href="{% url 'ranklist' s.0 %}">MVP</a></li>
+                                            <li><a href="{% if request.tenant %}{% url 'ranklist' tenant_slug=request.tenant.slug slug=s.0 %}{% else %}#{% endif %}">MVP</a></li>
                                         {% endif %}
                                     </ul>
                                 </li>
                                 {% endfor %}
 
-                                <li><a href="{% url 'upcoming' %}"><span>upcoming match</span></a></li>
+                                <li><a href="{% if request.tenant %}{% url 'upcoming' tenant_slug=request.tenant.slug %}{% else %}#{% endif %}"><span>upcoming match</span></a></li>
 
                                 <li><a href="#"><span>tournament registration </span></a></li>
                             </ul>
                         </li>
                         <li class="{% if url_name == 'teams' %}active{% endif %}">
-                            <a href="{% url 'teams' %}"><span>Team</span></a>
+                            <a href="{% if request.tenant %}{% url 'teams' tenant_slug=request.tenant.slug %}{% else %}#{% endif %}"><span>Team</span></a>
                             
                         </li>
 
@@ -137,7 +139,8 @@
                                     <ul class="foot-left-menu">
                                         <p style="color:#fff"><b>Our Teams</b></p>
                                         {% for team in our_teams %}
-                                    <li><a href="{% url 'teamdetails' team.slug %}" style="color:#fff">{{team.BS_team.TeamName}}</a></li>
+                                    {# team.slug is CentralTeam slug. #}
+                                    <li><a href="{% if request.tenant %}{% url 'teamdetails' tenant_slug=request.tenant.slug slug=team.slug %}{% else %}#{% endif %}" style="color:#fff">{{team.BS_team.TeamName}}</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>

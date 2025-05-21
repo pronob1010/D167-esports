@@ -18,6 +18,7 @@ from django.template.defaultfilters import default, slugify
 #         return self.Tournament_title
 class Tournament(models.Model):
     # Tournament = models.ForeignKey(Tournament,on_delete=CASCADE, null=True, blank=True)
+    tenant = models.ForeignKey('tenants.Tenant', on_delete=models.CASCADE, related_name='tournaments', null=True, blank=True)
     Tournament_title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, null=True, blank=True)
     mvp_expected = models.BooleanField(default=False)

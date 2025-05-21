@@ -21,7 +21,7 @@ class User(AbstractUser):
     sub_admin = models.BooleanField(default=False)
     player = models.BooleanField(default=False)
     photo = models.ImageField(upload_to="user", default="../static/Soldier.png", null=True, blank= True)
-
+    tenant = models.ForeignKey("tenants.Tenant", on_delete=models.SET_NULL, null=True, blank=True, related_name="users")
 
     forget_password = models.CharField(max_length=100, null=True, blank=True)
     last_login_time = models.DateTimeField(null=True, blank=True)

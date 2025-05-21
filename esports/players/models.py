@@ -19,6 +19,11 @@ class Player(BaseUser):
     speciality = models.CharField(max_length=100, null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True)
 
+    # Aggregated stats fields
+    total_kills = models.PositiveIntegerField(default=0)
+    total_matches_played = models.PositiveIntegerField(default=0)
+    mvp_awards = models.PositiveIntegerField(default=0)
+
     def save(self, *args, **kwargs):  # new
         if not self.slug:
             if self.in_game_name is not None:

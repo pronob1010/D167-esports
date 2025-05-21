@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'jazzmin',
     'smart_selects',
     'crispy_forms',
+    'tenants',
     'Accounts',
     'matches',
     'players',
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'tenants.middleware.TenantMiddleware', # Added TenantMiddleware
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -95,8 +97,12 @@ WSGI_APPLICATION = 'esports.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'esports_db',      # Replace with your DB name
+        'USER': 'esports_user',   # Replace with your DB user
+        'PASSWORD': 'securepassword', # Replace with your DB password
+        'HOST': 'localhost',      # Or your DB host
+        'PORT': '5432',           # Default PostgreSQL port
     }
 }
 

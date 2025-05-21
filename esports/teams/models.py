@@ -22,6 +22,7 @@ class TeamGroup(models.Model):
         return self.title
         
 class Team(models.Model):
+    tenant = models.ForeignKey('tenants.Tenant', on_delete=models.CASCADE, related_name='teams', null=True, blank=True)
     TeamName = models.CharField(max_length=50)
     Team_Group = models.ForeignKey(TeamGroup, on_delete=CASCADE, null=True, blank=True)
     Team_image = models.ImageField(upload_to="teams", default = '../static/images/soccer/team-logo5.png', null=True, blank=True)
