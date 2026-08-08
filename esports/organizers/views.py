@@ -7,7 +7,8 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
-from matches.models import Tournament
+from matches import services
+from matches.models import Match, Tournament, TournamentTeam
 from .forms import OrganizerSignUpForm, TournamentForm
 from .models import Game, Organizer, TournamentPayment
 
@@ -161,6 +162,124 @@ def tournament_delete(request, slug):
         request,
         "organizers/tournament_confirm_delete.html",
         {"tournament": tournament},
+    )
+
+
+@organizer_required
+def tournament_teams(request, slug):
+    """Add / remove the teams entered in a tournament."""
+    tournament = _get_owned_tournament(request, slug)
+    if request.method == "POST":
+        name = (request.POST.get("name") or "").strip()
+        if not name:
+            messages.error(request, "Team name is required.")
+        elif tournament.teams.filter(name__iexact=name).exists():
+            messages.error(request, f"'{name}' is already entered.")
+        else:
+            next_seed = tournament.teams.count() + 1
+            TournamentTeam.objects.create(
+                tournament=tournament, name=name, seed=next_seed
+            )
+            messages.success(request, f"Added '{name}'.")
+        return redirect("organizer_tournament_teams", slug=tournament.slug)
+
+    return render(
+        request,
+        "organizers/teams.html",
+        {"tournament": tournament, "teams": tournament.teams.all()},
+    )
+
+
+@organizer_required
+def team_delete(request, slug, team_id):
+    tournament = _get_owned_tournament(request, slug)
+    if request.method == "POST":
+        team = get_object_or_404(TournamentTeam, pk=team_id, tournament=tournament)
+        team.delete()
+        messages.success(request, "Team removed.")
+    return redirect("organizer_tournament_teams", slug=tournament.slug)
+
+
+@organizer_required
+def generate_fixtures(request, slug):
+    """Generate the schedule based on the tournament's format."""
+    tournament = _get_owned_tournament(request, slug)
+    if request.method == "POST":
+        if tournament.teams.count() < 2:
+            messages.error(request, "Add at least two teams first.")
+            return redirect("organizer_tournament_teams", slug=tournament.slug)
+
+        if tournament.format == Tournament.FORMAT_KNOCKOUT:
+            count = services.generate_knockout_fixtures(tournament)
+        else:
+            # League and (for now) groups both use a single round-robin.
+            count = services.generate_league_fixtures(tournament)
+
+        if tournament.status == Tournament.STATUS_DRAFT:
+            tournament.status = Tournament.STATUS_ONGOING
+            tournament.save(update_fields=["status"])
+        messages.success(request, f"Generated {count} matches.")
+    return redirect("organizer_tournament_fixtures", slug=tournament.slug)
+
+
+@organizer_required
+def tournament_fixtures(request, slug):
+    """List matches grouped by round, with inline score entry."""
+    tournament = _get_owned_tournament(request, slug)
+    rounds = []
+    for rnd in tournament.matchround_set.all().order_by("id"):
+        matches = (
+            Match.objects.filter(Match_Round=rnd)
+            .select_related("home_team", "away_team")
+            .order_by("order", "id")
+        )
+        rounds.append({"round": rnd, "matches": matches})
+    return render(
+        request,
+        "organizers/fixtures.html",
+        {"tournament": tournament, "rounds": rounds},
+    )
+
+
+@organizer_required
+def record_score(request, slug, match_id):
+    tournament = _get_owned_tournament(request, slug)
+    match = get_object_or_404(Match, pk=match_id, Match_Tournament=tournament)
+    if request.method == "POST":
+        if not (match.home_team_id and match.away_team_id):
+            messages.error(request, "Both teams must be set before entering a score.")
+            return redirect("organizer_tournament_fixtures", slug=tournament.slug)
+        try:
+            hs = int(request.POST.get("home_score", ""))
+            as_ = int(request.POST.get("away_score", ""))
+            if hs < 0 or as_ < 0:
+                raise ValueError
+        except (ValueError, TypeError):
+            messages.error(request, "Enter valid, non-negative scores.")
+            return redirect("organizer_tournament_fixtures", slug=tournament.slug)
+
+        services.record_result(match, hs, as_)
+        if (
+            tournament.format == Tournament.FORMAT_KNOCKOUT
+            and match.next_match_id is None
+            and match.is_played
+        ):
+            # Final decided -> mark the tournament completed.
+            if match.winner is not None and tournament.status != Tournament.STATUS_COMPLETED:
+                tournament.status = Tournament.STATUS_COMPLETED
+                tournament.save(update_fields=["status"])
+        messages.success(request, "Score saved.")
+    return redirect("organizer_tournament_fixtures", slug=tournament.slug)
+
+
+@organizer_required
+def tournament_standings(request, slug):
+    tournament = _get_owned_tournament(request, slug)
+    rows = services.compute_standings(tournament)
+    return render(
+        request,
+        "organizers/standings.html",
+        {"tournament": tournament, "rows": rows},
     )
 
 

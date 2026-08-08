@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from Accounts.models import User
-from matches.models import Tournament
+from matches.models import Match, Tournament
 from .models import Game, Organizer, TournamentPayment
 
 
@@ -102,3 +102,86 @@ class OrganizerFlowTests(TestCase):
         resp = self.client.get(reverse("organizer_dashboard"))
         self.assertEqual(resp.status_code, 302)
         self.assertIn("login", resp["Location"])
+
+
+class FixtureViewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            phone="01800000001", password="testpass123", username="orgf"
+        )
+        self.org = Organizer.objects.create(user=self.user, name="Fix Org")
+        self.t = Tournament.objects.create(
+            Tournament_title="League Cup", organizer=self.org,
+            format=Tournament.FORMAT_LEAGUE,
+        )
+        self.client.force_login(self.user)
+
+    def _add_team(self, name):
+        return self.client.post(
+            reverse("organizer_tournament_teams", args=[self.t.slug]),
+            {"name": name},
+        )
+
+    def test_add_team_and_generate_and_score(self):
+        for n in ("Alpha", "Bravo", "Charlie", "Delta"):
+            self._add_team(n)
+        self.assertEqual(self.t.teams.count(), 4)
+
+        resp = self.client.post(
+            reverse("organizer_generate_fixtures", args=[self.t.slug])
+        )
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(Match.objects.filter(Match_Tournament=self.t).count(), 6)
+
+        m = Match.objects.filter(Match_Tournament=self.t).first()
+        self.client.post(
+            reverse("organizer_record_score", args=[self.t.slug, m.id]),
+            {"home_score": "2", "away_score": "1"},
+        )
+        m.refresh_from_db()
+        self.assertTrue(m.is_played)
+        self.assertEqual(m.home_score, 2)
+
+        # Fixtures page renders with the generated schedule.
+        resp = self.client.get(
+            reverse("organizer_tournament_fixtures", args=[self.t.slug])
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "Matchday")
+
+    def test_generate_requires_two_teams(self):
+        self._add_team("Solo")
+        self.client.post(reverse("organizer_generate_fixtures", args=[self.t.slug]))
+        self.assertEqual(Match.objects.filter(Match_Tournament=self.t).count(), 0)
+
+    def test_standings_view_renders(self):
+        for n in ("Alpha", "Bravo"):
+            self._add_team(n)
+        self.client.post(reverse("organizer_generate_fixtures", args=[self.t.slug]))
+        resp = self.client.get(
+            reverse("organizer_tournament_standings", args=[self.t.slug])
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "Alpha")
+
+    def test_cannot_manage_another_orgs_tournament(self):
+        other_user = User.objects.create_user(
+            phone="01800000099", password="testpass123", username="other"
+        )
+        other_org = Organizer.objects.create(user=other_user, name="Other Org")
+        other_t = Tournament.objects.create(
+            Tournament_title="Not Yours", organizer=other_org
+        )
+        # Logged in as self.user, try to touch other_org's tournament.
+        for name in (
+            "organizer_tournament_teams",
+            "organizer_tournament_fixtures",
+            "organizer_tournament_standings",
+        ):
+            resp = self.client.get(reverse(name, args=[other_t.slug]))
+            self.assertEqual(resp.status_code, 404, name)
+        resp = self.client.post(
+            reverse("organizer_generate_fixtures", args=[other_t.slug])
+        )
+        self.assertEqual(resp.status_code, 404)
+        self.assertEqual(Match.objects.filter(Match_Tournament=other_t).count(), 0)

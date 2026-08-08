@@ -1,0 +1,57 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Fixtures · {{ tournament.Tournament_title }}{% endblock %}
+{% block content %}
+<div class="spread">
+    <div>
+        <h1>Fixtures</h1>
+        <p class="sub">{{ tournament.Tournament_title }} · {{ tournament.get_format_display }}</p>
+    </div>
+    <div class="row">
+        <a href="{% url 'organizer_tournament_standings' tournament.slug %}" class="btn secondary">Standings</a>
+        <a href="{% url 'organizer_tournament_teams' tournament.slug %}" class="btn ghost">Teams</a>
+    </div>
+</div>
+
+{% if rounds %}
+    {% for r in rounds %}
+    <div class="card">
+        <h2 style="margin-top:0;">{{ r.round.Round_title }}</h2>
+        <table>
+            <tbody>
+                {% for m in r.matches %}
+                <tr>
+                    <td style="text-align:right;width:38%;">{{ m.home_team.name|default:"TBD" }}</td>
+                    <td style="text-align:center;width:24%;">
+                        <form method="post" action="{% url 'organizer_record_score' tournament.slug m.id %}" class="row" style="justify-content:center;gap:6px;flex-wrap:nowrap;">
+                            {% csrf_token %}
+                            <input type="number" min="0" name="home_score" value="{{ m.home_score|default_if_none:'' }}"
+                                   {% if not m.home_team_id or not m.away_team_id %}disabled{% endif %}
+                                   style="width:46px;text-align:center;padding:6px;border-radius:6px;background:var(--bg);border:1px solid var(--border);color:var(--text);">
+                            <span style="color:var(--muted);">–</span>
+                            <input type="number" min="0" name="away_score" value="{{ m.away_score|default_if_none:'' }}"
+                                   {% if not m.home_team_id or not m.away_team_id %}disabled{% endif %}
+                                   style="width:46px;text-align:center;padding:6px;border-radius:6px;background:var(--bg);border:1px solid var(--border);color:var(--text);">
+                            {% if m.home_team_id and m.away_team_id %}
+                                <button type="submit" class="btn sm">Save</button>
+                            {% endif %}
+                        </form>
+                    </td>
+                    <td style="width:38%;">{{ m.away_team.name|default:"TBD" }}</td>
+                    <td style="width:1%;white-space:nowrap;">
+                        {% if m.is_played %}<span class="badge open">Played</span>{% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="card">
+        <div class="empty">
+            <p>No fixtures yet.</p>
+            <a href="{% url 'organizer_tournament_teams' tournament.slug %}" class="btn">Add teams &amp; generate</a>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

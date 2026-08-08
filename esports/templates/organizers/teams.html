@@ -1,0 +1,62 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Teams · {{ tournament.Tournament_title }}{% endblock %}
+{% block content %}
+<div class="spread">
+    <div>
+        <h1>Teams</h1>
+        <p class="sub">{{ tournament.Tournament_title }} · {{ teams|length }} entered</p>
+    </div>
+    <a href="{% url 'organizer_tournament_detail' tournament.slug %}" class="btn ghost">← Back</a>
+</div>
+
+<div class="card" style="max-width: 480px;">
+    <form method="post" class="row" style="align-items:flex-end;">
+        {% csrf_token %}
+        <div style="flex:1;">
+            <label for="name" style="display:block;margin-bottom:5px;font-size:13px;color:var(--muted);">Add a team</label>
+            <input type="text" name="name" id="name" placeholder="Team name" required
+                   style="width:100%;padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);">
+        </div>
+        <button type="submit" class="btn">Add</button>
+    </form>
+</div>
+
+<div class="card">
+    {% if teams %}
+        <table>
+            <thead><tr><th>#</th><th>Team</th><th></th></tr></thead>
+            <tbody>
+                {% for t in teams %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ t.name }}</td>
+                    <td style="text-align:right;">
+                        <form method="post" action="{% url 'organizer_team_delete' tournament.slug t.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn ghost sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty"><p>No teams yet. Add at least two to generate fixtures.</p></div>
+    {% endif %}
+</div>
+
+{% if teams|length >= 2 %}
+<div class="card">
+    <div class="spread">
+        <div>
+            <h2 style="margin:0;">Generate fixtures</h2>
+            <p class="sub" style="margin:4px 0 0;">Format: <strong>{{ tournament.get_format_display }}</strong>. Regenerating replaces existing matches.</p>
+        </div>
+        <form method="post" action="{% url 'organizer_generate_fixtures' tournament.slug %}">
+            {% csrf_token %}
+            <button type="submit" class="btn">Generate</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

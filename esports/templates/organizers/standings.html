@@ -1,0 +1,43 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Standings · {{ tournament.Tournament_title }}{% endblock %}
+{% block content %}
+<div class="spread">
+    <div>
+        <h1>Standings</h1>
+        <p class="sub">{{ tournament.Tournament_title }}</p>
+    </div>
+    <a href="{% url 'organizer_tournament_fixtures' tournament.slug %}" class="btn ghost">Fixtures</a>
+</div>
+
+<div class="card">
+    {% if rows %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th>
+                    <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ row.team.name }}</td>
+                    <td>{{ row.played }}</td>
+                    <td>{{ row.won }}</td>
+                    <td>{{ row.drawn }}</td>
+                    <td>{{ row.lost }}</td>
+                    <td>{{ row.gf }}</td>
+                    <td>{{ row.ga }}</td>
+                    <td>{{ row.gd }}</td>
+                    <td><strong>{{ row.points }}</strong></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="sub" style="margin-top:14px;">Win = 3 points, draw = 1. Ordered by points, then goal difference, then goals for.</p>
+    {% else %}
+        <div class="empty"><p>No teams yet.</p></div>
+    {% endif %}
+</div>
+{% endblock %}

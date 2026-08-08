@@ -26,6 +26,37 @@ urlpatterns = [
         views.tournament_delete,
         name="organizer_tournament_delete",
     ),
+    # Teams, fixtures, scores, standings.
+    path(
+        "tournaments/<slug:slug>/teams/",
+        views.tournament_teams,
+        name="organizer_tournament_teams",
+    ),
+    path(
+        "tournaments/<slug:slug>/teams/<int:team_id>/delete/",
+        views.team_delete,
+        name="organizer_team_delete",
+    ),
+    path(
+        "tournaments/<slug:slug>/generate/",
+        views.generate_fixtures,
+        name="organizer_generate_fixtures",
+    ),
+    path(
+        "tournaments/<slug:slug>/fixtures/",
+        views.tournament_fixtures,
+        name="organizer_tournament_fixtures",
+    ),
+    path(
+        "tournaments/<slug:slug>/fixtures/<int:match_id>/score/",
+        views.record_score,
+        name="organizer_record_score",
+    ),
+    path(
+        "tournaments/<slug:slug>/standings/",
+        views.tournament_standings,
+        name="organizer_tournament_standings",
+    ),
     # Public, read-only organizer page.
     path("o/<slug:slug>/", views.public_organizer, name="public_organizer"),
 ]
