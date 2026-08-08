@@ -17,10 +17,10 @@ class TeamGroup(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
-        
+
     def __str__(self):
         return self.title
-        
+
 class Team(models.Model):
     TeamName = models.CharField(max_length=50)
     Team_Group = models.ForeignKey(TeamGroup, on_delete=CASCADE, null=True, blank=True)
@@ -34,8 +34,8 @@ class Team(models.Model):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.TeamName   
-    
+        return self.TeamName
+
 
 class TeamPlayers(models.Model):
     Team_Name = models.ForeignKey(Team, on_delete=CASCADE)
@@ -44,7 +44,7 @@ class TeamPlayers(models.Model):
         return self.player.in_game_name +"-"+ self.Team_Name.TeamName
 
 class CentralTeam(models.Model):
-    BS_team = models.ForeignKey(Team, on_delete=CASCADE, null=Team, blank=True)
+    BS_team = models.ForeignKey(Team, on_delete=CASCADE, null=True, blank=True)
     game = models.CharField(max_length=40)
     Team_Banner = models.ImageField(upload_to="teams", default = '../static/images/147198.jpg', null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
@@ -55,12 +55,12 @@ class CentralTeam(models.Model):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.BS_team.TeamName+"-"+self.game  
+        return self.BS_team.TeamName+"-"+self.game
 class OtherLineUp(models.Model):
     baseteam = models.ForeignKey(CentralTeam, on_delete=CASCADE)
     title = models.CharField(max_length=50, null=True, blank=True)
-    team = models.ForeignKey(Team, on_delete=CASCADE, null=Team, blank=True)
-    
+    team = models.ForeignKey(Team, on_delete=CASCADE, null=True, blank=True)
+
 class CentralTeamAchievement(models.Model):
     team = models.ForeignKey(CentralTeam, on_delete=CASCADE)
     title = models.CharField(max_length=50, null=True, blank=True)
