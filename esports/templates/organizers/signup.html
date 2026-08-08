@@ -1,0 +1,23 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Become an organizer{% endblock %}
+{% block content %}
+<h1>Host tournaments on D167</h1>
+<p class="sub">Create your organizer account to run turf football tournaments professionally.</p>
+
+<div class="card" style="max-width: 480px;">
+    <form method="post" class="stack" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+            {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+        {% endfor %}
+        <div style="margin-top: 22px;">
+            <button type="submit" class="btn">Create organizer account</button>
+        </div>
+    </form>
+</div>
+<p class="sub" style="margin-top:16px;">Already have an account? <a href="{% url 'login' %}">Log in</a>.</p>
+{% endblock %}

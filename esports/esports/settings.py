@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'smart_selects',
     'crispy_forms',
     'Accounts',
+    'organizers',
     'matches',
     'players',
     'teams',
@@ -167,3 +168,12 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- Platform settings ------------------------------------------------------
+# Business model: "fee per tournament". The amount an organizer is charged for
+# each tournament they create. Override via the TOURNAMENT_FEE env var.
+# (No payment gateway is wired up yet - see PLATFORM_ROADMAP.md Stage D.)
+TOURNAMENT_FEE = os.environ.get('TOURNAMENT_FEE', '500')
+
+# Where organizer auth redirects.
+LOGIN_URL = 'login'

@@ -11,6 +11,7 @@ urlpatterns = [
     path('players/', include('players.urls')),
     path('teams/', include('teams.urls')),
     path('account/', include('Accounts.urls')),
+    path('organizer/', include('organizers.urls')),
     path('chaining/', include('smart_selects.urls')),
 ]
 

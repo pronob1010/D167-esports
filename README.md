@@ -6,6 +6,32 @@ focused), with teams, players, matches, rounds, groups, and rankings.
 > **Roadmap:** This project is being evolved from a single-tenant demo into a
 > rentable, multi-tenant tournament platform. See
 > [`PLATFORM_ROADMAP.md`](PLATFORM_ROADMAP.md) for the plan.
+>
+> **Multi-tenant platform (Stage A + core of Stage B) is now built.** Any user
+> can sign up as an **organizer**, get their own dashboard, and create/manage
+> their own tournaments in isolation from other organizers.
+
+## Organizer platform
+
+Organizers self-serve through a dedicated, login-protected area (separate from
+the public esports site):
+
+| URL | Purpose |
+|-----|---------|
+| `/organizer/signup/` | Register as an organizer (creates user + organizer profile) |
+| `/organizer/dashboard/` | List and manage *your* tournaments only |
+| `/organizer/tournaments/new/` | Create a tournament (draft) |
+| `/organizer/tournaments/<slug>/` | View / change status / manage a tournament |
+| `/organizer/o/<slug>/` | Public read-only page for an organizer |
+
+Key models live in the `organizers` app: **`Organizer`** (the tenant),
+**`Game`** (so new games are data, not code), and **`TournamentPayment`**
+(records the per-tournament fee; the payment gateway is intentionally not wired
+up yet). `Tournament` now carries an `organizer` owner plus `game`, `status`,
+`format`, `entry_fee`, `max_teams`, and dates.
+
+Data isolation is enforced in every organizer view and covered by tests in
+`organizers/tests.py` (run `python manage.py test organizers`).
 
 ## Tech stack
 
