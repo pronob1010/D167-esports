@@ -35,7 +35,7 @@
 <h2>Standings</h2>
 <div class="card">
     <table>
-        <thead><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead>
+        <thead><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>{{ tournament.game.draw_label|default:"D"|slice:":1" }}</th><th>L</th><th>Diff</th><th>Pts</th></tr></thead>
         <tbody>
             {% for row in standings %}
             <tr>

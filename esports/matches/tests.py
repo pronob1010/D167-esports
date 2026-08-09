@@ -1,11 +1,12 @@
 from django.test import TestCase
 
+from organizers.models import Game
 from .models import Match, Tournament, TournamentTeam
 from . import services
 
 
-def make_tournament(n_teams, title="Cup"):
-    t = Tournament.objects.create(Tournament_title=title)
+def make_tournament(n_teams, title="Cup", game=None):
+    t = Tournament.objects.create(Tournament_title=title, game=game)
     for i in range(n_teams):
         TournamentTeam.objects.create(tournament=t, name=f"Team {i+1}", seed=i + 1)
     return t
@@ -120,3 +121,50 @@ class KnockoutFixtureTests(TestCase):
         final.refresh_from_db()
         self.assertEqual(final.home_team_id, w1.id)
         self.assertEqual(final.away_team_id, w2.id)
+
+
+class GameScoringTests(TestCase):
+    """Stage E: standings use each game's own points config."""
+
+    def test_cricket_seed_exists(self):
+        cricket = Game.objects.filter(name="Cricket").first()
+        self.assertIsNotNone(cricket)
+        self.assertEqual(cricket.points_win, 2)
+        self.assertEqual(cricket.score_noun, "runs")
+
+    def _played_league(self, game):
+        # 3 teams: Team 1 beats 2 and 3; Team 2 beats 3.
+        title = f"{game.name} Cup" if game else "No-game Cup"
+        t = make_tournament(3, title=title, game=game)
+        services.generate_league_fixtures(t)
+        for m in Match.objects.filter(Match_Tournament=t):
+            names = {m.home_team.name, m.away_team.name}
+            if names == {"Team 1", "Team 2"}:
+                self._win(m, "Team 1")
+            elif names == {"Team 1", "Team 3"}:
+                self._win(m, "Team 1")
+            elif names == {"Team 2", "Team 3"}:
+                self._win(m, "Team 2")
+        return services.compute_standings(t)
+
+    def _win(self, match, winner_name):
+        if match.home_team.name == winner_name:
+            services.record_result(match, 2, 1)
+        else:
+            services.record_result(match, 1, 2)
+
+    def test_football_uses_three_points(self):
+        football = Game.objects.get(name="Turf Football")
+        rows = self._played_league(football)
+        self.assertEqual(rows[0]["points"], 6)   # 2 wins * 3
+        self.assertEqual(rows[1]["points"], 3)   # 1 win * 3
+
+    def test_cricket_uses_two_points(self):
+        cricket = Game.objects.get(name="Cricket")
+        rows = self._played_league(cricket)
+        self.assertEqual(rows[0]["points"], 4)   # 2 wins * 2
+        self.assertEqual(rows[1]["points"], 2)   # 1 win * 2
+
+    def test_no_game_defaults_to_three_points(self):
+        rows = self._played_league(None)
+        self.assertEqual(rows[0]["points"], 6)

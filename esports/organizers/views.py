@@ -291,7 +291,7 @@ def tournament_standings(request, slug):
     return render(
         request,
         "organizers/standings.html",
-        {"tournament": tournament, "rows": rows},
+        {"tournament": tournament, "rows": rows, "game": tournament.game},
     )
 
 

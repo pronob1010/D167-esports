@@ -7,11 +7,12 @@ focused), with teams, players, matches, rounds, groups, and rankings.
 > rentable, multi-tenant tournament platform. See
 > [`PLATFORM_ROADMAP.md`](PLATFORM_ROADMAP.md) for the plan.
 >
-> **Stages A–D are built.** Any user can sign up as an **organizer**, run
+> **Stages A–E are built.** Any user can sign up as an **organizer**, run
 > tournaments end to end (teams, fixtures, scores, standings, knockout
 > brackets), collect **public team registrations**, and pay the
 > **per-tournament fee via bKash** — all with each organizer isolated from
-> the others.
+> the others. The platform is **multi-game**: **Turf Football** and **Cricket**
+> ship seeded, and each game carries its own scoring rules.
 
 ## Organizer platform
 
@@ -44,6 +45,14 @@ code), **`TournamentPayment`** (per-tournament fee + bKash tracking),
 **`TournamentRegistration`** (public sign-ups awaiting approval). `Tournament`
 carries an `organizer` owner plus `game`, `status`, `format`, `entry_fee`,
 `max_teams`, and dates. Fixture/standings logic lives in `matches/services.py`.
+
+**Multi-game:** each `Game` row carries its own scoring rules — `points_win`,
+`points_draw`, `points_loss`, `score_noun` ("goals"/"runs"), and `draw_label`
+("Draw"/"Tie") — so standings are computed per game (football 3/1/0, cricket
+2/1/0). **Turf Football** and **Cricket** are seeded via migrations; adding
+another game (e.g. Valorant) is a new `Game` row, no code change. Fixture
+generation, brackets, score entry, registration, and payments are all
+game-agnostic.
 
 **Notifications:** registration emails use Django's email backend, which
 defaults to the **console** backend (prints to the server log) in development.

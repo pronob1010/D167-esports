@@ -14,8 +14,11 @@
         <table>
             <thead>
                 <tr>
-                    <th>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th>
-                    <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
+                    <th>#</th><th>Team</th><th>P</th><th>W</th>
+                    <th>{{ game.draw_label|default:"D"|slice:":1" }}</th><th>L</th>
+                    <th title="{{ game.score_noun|default:'goals' }} for">F</th>
+                    <th title="{{ game.score_noun|default:'goals' }} against">A</th>
+                    <th>Diff</th><th>Pts</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +38,12 @@
                 {% endfor %}
             </tbody>
         </table>
-        <p class="sub" style="margin-top:14px;">Win = 3 points, draw = 1. Ordered by points, then goal difference, then goals for.</p>
+        <p class="sub" style="margin-top:14px;">
+            Win = {{ game.points_win|default:3 }} point{{ game.points_win|default:3|pluralize }},
+            {{ game.draw_label|default:"draw"|lower }} = {{ game.points_draw|default:1 }}.
+            Ordered by points, then {{ game.score_noun|default:"goals" }} difference,
+            then {{ game.score_noun|default:"goals" }} for.
+        </p>
     {% else %}
         <div class="empty"><p>No teams yet.</p></div>
     {% endif %}

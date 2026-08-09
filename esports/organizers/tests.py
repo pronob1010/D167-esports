@@ -372,3 +372,45 @@ class PaymentTests(TestCase):
         self.client.force_login(other_user)
         resp = self.client.post(reverse("organizer_payment_start", args=[self.t.slug]))
         self.assertEqual(resp.status_code, 404)
+
+
+class CricketTournamentTests(TestCase):
+    """Stage E: a cricket tournament runs through the same flow as football."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            phone="01500000001", password="testpass123", username="orgc"
+        )
+        self.org = Organizer.objects.create(user=self.user, name="Cricket Org")
+        self.cricket = Game.objects.get(name="Cricket")
+        self.client.force_login(self.user)
+
+    def test_create_cricket_tournament_and_generate(self):
+        resp = self.client.post(
+            reverse("organizer_tournament_create"),
+            {
+                "Tournament_title": "Premier Cricket League",
+                "game": self.cricket.pk,
+                "format": Tournament.FORMAT_LEAGUE,
+                "max_teams": 8,
+                "entry_fee": "0",
+                "about": "Runs, not goals.",
+            },
+        )
+        self.assertEqual(resp.status_code, 302)
+        t = Tournament.objects.get(Tournament_title="Premier Cricket League")
+        self.assertEqual(t.game, self.cricket)
+
+        for n in ("Tigers", "Lions", "Eagles", "Sharks"):
+            self.client.post(
+                reverse("organizer_tournament_teams", args=[t.slug]), {"name": n}
+            )
+        self.client.post(reverse("organizer_generate_fixtures", args=[t.slug]))
+        self.assertEqual(Match.objects.filter(Match_Tournament=t).count(), 6)
+
+        # Standings page renders with cricket's points rule in the footnote.
+        resp = self.client.get(
+            reverse("organizer_tournament_standings", args=[t.slug])
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "runs")
