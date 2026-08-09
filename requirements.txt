@@ -11,3 +11,6 @@ Pillow>=9.0
 
 # Loads variables from a local .env file in development (optional at runtime).
 python-dotenv>=1.0
+
+# HTTP client for the bKash payment gateway (Stage D).
+requests>=2.28

@@ -190,3 +190,16 @@ EMAIL_HOST_USER = os.environ.get('DJANGO_EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = os.environ.get('DJANGO_EMAIL_USE_TLS', 'True').lower() in ('true', '1', 'yes')
 DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_DEFAULT_FROM_EMAIL', 'D167 <noreply@d167.local>')
+
+# --- bKash payment gateway (Tokenized Checkout) -----------------------------
+# When BKASH_ENABLED is false or credentials are missing, a dummy gateway is
+# used so the pay flow works end to end for development/testing. Set
+# BKASH_ENABLED=True with real sandbox/live credentials to use bKash.
+BKASH_ENABLED = os.environ.get('BKASH_ENABLED', 'False').lower() in ('true', '1', 'yes')
+BKASH_BASE_URL = os.environ.get(
+    'BKASH_BASE_URL', 'https://tokenized.sandbox.bka.sh/v1.2.0-beta'
+)
+BKASH_APP_KEY = os.environ.get('BKASH_APP_KEY', '')
+BKASH_APP_SECRET = os.environ.get('BKASH_APP_SECRET', '')
+BKASH_USERNAME = os.environ.get('BKASH_USERNAME', '')
+BKASH_PASSWORD = os.environ.get('BKASH_PASSWORD', '')

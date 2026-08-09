@@ -71,20 +71,26 @@ class Organizer(models.Model):
 
 
 class TournamentPayment(models.Model):
-    """Records the per-tournament fee an organizer owes to run a tournament.
+    """The per-tournament fee an organizer owes to run a tournament.
 
-    The chosen business model is "fee per tournament". This model captures the
-    charge; the actual payment gateway (bKash/Nagad/Stripe) is intentionally
-    NOT wired up yet - see PLATFORM_ROADMAP.md (Stage D).
+    Business model: "fee per tournament". Paid via bKash Tokenized Checkout
+    (see organizers/payments/). A zero fee is auto-waived.
     """
-    STATUS_PENDING = "pending"
+    STATUS_PENDING = "pending"       # owed, not started
+    STATUS_INITIATED = "initiated"   # redirected to the gateway
     STATUS_PAID = "paid"
-    STATUS_WAIVED = "waived"
+    STATUS_FAILED = "failed"
+    STATUS_WAIVED = "waived"         # nothing to pay / comped
     STATUS_CHOICES = [
         (STATUS_PENDING, "Pending"),
+        (STATUS_INITIATED, "Initiated"),
         (STATUS_PAID, "Paid"),
+        (STATUS_FAILED, "Failed"),
         (STATUS_WAIVED, "Waived"),
     ]
+
+    # Statuses that mean "the organizer may go live".
+    SETTLED_STATUSES = (STATUS_PAID, STATUS_WAIVED)
 
     organizer = models.ForeignKey(
         Organizer,
@@ -100,11 +106,19 @@ class TournamentPayment(models.Model):
     status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default=STATUS_PENDING
     )
+    # Gateway tracking.
+    gateway = models.CharField(max_length=20, blank=True)          # e.g. "bkash"
+    gateway_payment_id = models.CharField(max_length=100, blank=True)
+    transaction_id = models.CharField(max_length=100, blank=True)  # bKash trxID
     created_at = models.DateTimeField(default=timezone.now)
     paid_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["-created_at"]
+
+    @property
+    def is_settled(self):
+        return self.status in self.SETTLED_STATUSES
 
     def __str__(self):
         return f"{self.tournament} - {self.amount} ({self.status})"
