@@ -171,8 +171,15 @@ def record_result(match, home_score, away_score):
 def compute_standings(tournament):
     """League table from played two-sided matches. Returns rows sorted best-first.
 
-    Each row: team, played, won, drawn, lost, gf, ga, gd, points (3/1/0).
+    Points come from the tournament's game (football 3/1/0, cricket 2/1/0);
+    defaults to 3/1/0 when no game is set. Each row: team, played, won, drawn,
+    lost, gf, ga, gd, points.
     """
+    game = tournament.game
+    pts_win = game.points_win if game else 3
+    pts_draw = game.points_draw if game else 1
+    pts_loss = game.points_loss if game else 0
+
     table = {}
     for t in tournament.teams.all():
         table[t.id] = {
@@ -197,12 +204,14 @@ def compute_standings(tournament):
         a["gf"] += m.away_score
         a["ga"] += m.home_score
         if m.home_score > m.away_score:
-            h["won"] += 1; h["points"] += 3; a["lost"] += 1
+            h["won"] += 1; h["points"] += pts_win
+            a["lost"] += 1; a["points"] += pts_loss
         elif m.away_score > m.home_score:
-            a["won"] += 1; a["points"] += 3; h["lost"] += 1
+            a["won"] += 1; a["points"] += pts_win
+            h["lost"] += 1; h["points"] += pts_loss
         else:
             h["drawn"] += 1; a["drawn"] += 1
-            h["points"] += 1; a["points"] += 1
+            h["points"] += pts_draw; a["points"] += pts_draw
 
     rows = list(table.values())
     for row in rows:

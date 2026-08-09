@@ -19,6 +19,15 @@ class Game(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=timezone.now)
 
+    # --- Per-game scoring rules -------------------------------------------
+    # These make standings game-aware: football uses 3/1/0 and "goals",
+    # cricket uses 2/1/0 and "runs". A new game is still just a data row.
+    points_win = models.PositiveIntegerField(default=3)
+    points_draw = models.PositiveIntegerField(default=1)
+    points_loss = models.PositiveIntegerField(default=0)
+    score_noun = models.CharField(max_length=20, default="goals")  # e.g. "runs"
+    draw_label = models.CharField(max_length=20, default="Draw")   # e.g. "Tie"
+
     class Meta:
         ordering = ["name"]
 
