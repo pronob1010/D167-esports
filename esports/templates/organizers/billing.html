@@ -1,0 +1,29 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Billing{% endblock %}
+{% block content %}
+<h1>Billing</h1>
+<p class="sub">Per-tournament fees and their status.</p>
+
+<div class="card">
+    {% if payments %}
+        <table>
+            <thead>
+                <tr><th>Tournament</th><th>Amount</th><th>Status</th><th>Transaction</th><th>Paid</th></tr>
+            </thead>
+            <tbody>
+                {% for p in payments %}
+                <tr>
+                    <td><a href="{% url 'organizer_tournament_detail' p.tournament.slug %}">{{ p.tournament.Tournament_title }}</a></td>
+                    <td>৳{{ p.amount }}</td>
+                    <td><span class="badge {{ p.status }}">{{ p.get_status_display }}</span></td>
+                    <td>{{ p.transaction_id|default:"—" }}</td>
+                    <td>{{ p.paid_at|default:"—" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty"><p>No payments yet.</p></div>
+    {% endif %}
+</div>
+{% endblock %}

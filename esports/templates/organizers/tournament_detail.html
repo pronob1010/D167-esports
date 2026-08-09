@@ -57,10 +57,21 @@
     <h2 style="margin-top:0;">Payment</h2>
     {% if payment %}
         <p>
-            Per-tournament fee: <strong>{{ payment.amount }}</strong>
+            Per-tournament fee: <strong>৳{{ payment.amount }}</strong>
             &nbsp;<span class="badge {{ payment.status }}">{{ payment.get_status_display }}</span>
         </p>
-        <p class="notice">Online payment (bKash/Nagad/card) is not enabled yet — this is recorded for when billing goes live.</p>
+        {% if payment.is_settled %}
+            {% if payment.transaction_id %}
+                <p class="sub">Transaction: {{ payment.transaction_id }} ({{ payment.gateway|default:"—" }})</p>
+            {% endif %}
+            <p class="notice">Fee settled — this tournament can open registration.</p>
+        {% else %}
+            <p class="notice">Pay the fee via bKash to open registration and go live.</p>
+            <form method="post" action="{% url 'organizer_payment_start' tournament.slug %}" style="margin-top:10px;">
+                {% csrf_token %}
+                <button type="submit" class="btn">Pay ৳{{ payment.amount }} with bKash</button>
+            </form>
+        {% endif %}
     {% else %}
         <p class="sub">No payment record.</p>
     {% endif %}

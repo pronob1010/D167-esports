@@ -7,10 +7,11 @@ focused), with teams, players, matches, rounds, groups, and rankings.
 > rentable, multi-tenant tournament platform. See
 > [`PLATFORM_ROADMAP.md`](PLATFORM_ROADMAP.md) for the plan.
 >
-> **Stages A–C are built.** Any user can sign up as an **organizer**, run
+> **Stages A–D are built.** Any user can sign up as an **organizer**, run
 > tournaments end to end (teams, fixtures, scores, standings, knockout
-> brackets), and collect **public team registrations** — all with each
-> organizer isolated from the others.
+> brackets), collect **public team registrations**, and pay the
+> **per-tournament fee via bKash** — all with each organizer isolated from
+> the others.
 
 ## Organizer platform
 
@@ -27,6 +28,7 @@ the public esports site):
 | `/organizer/tournaments/<slug>/fixtures/` | Enter scores (league & knockout) |
 | `/organizer/tournaments/<slug>/standings/` | Live league table |
 | `/organizer/tournaments/<slug>/registrations/` | Review & approve/reject team sign-ups |
+| `/organizer/billing/` | Per-tournament fees and their status |
 
 ### Public pages (no login)
 
@@ -37,7 +39,7 @@ the public esports site):
 | `/organizer/t/<slug>/register/` | Team captains register their team |
 
 Key models: **`Organizer`** (the tenant), **`Game`** (so new games are data, not
-code), **`TournamentPayment`** (per-tournament fee; gateway not wired up yet),
+code), **`TournamentPayment`** (per-tournament fee + bKash tracking),
 **`TournamentTeam`** (a tournament's participants), and
 **`TournamentRegistration`** (public sign-ups awaiting approval). `Tournament`
 carries an `organizer` owner plus `game`, `status`, `format`, `entry_fee`,
@@ -47,6 +49,18 @@ carries an `organizer` owner plus `game`, `status`, `format`, `entry_fee`,
 defaults to the **console** backend (prints to the server log) in development.
 Set `DJANGO_EMAIL_BACKEND` and the SMTP vars for real delivery. SMS can be added
 later behind `organizers/notifications.py`.
+
+**Payments (bKash):** the per-tournament fee is paid via **bKash Tokenized
+Checkout**. An organizer must settle the fee before a tournament can open
+registration. The gateway layer lives in `organizers/payments/`:
+
+- If bKash is not configured, a **dummy gateway** is used so the pay flow works
+  end to end in development (no real charge).
+- To enable real bKash, set `BKASH_ENABLED=True` and the credentials:
+  `BKASH_BASE_URL` (defaults to the sandbox), `BKASH_APP_KEY`,
+  `BKASH_APP_SECRET`, `BKASH_USERNAME`, `BKASH_PASSWORD`.
+- The fee amount comes from `TOURNAMENT_FEE` (default 500 BDT); a zero fee is
+  auto-waived. Organizers see their charges at `/organizer/billing/`.
 
 Data isolation is enforced in every organizer view and covered by tests
 (`python manage.py test` — organizers + matches).
@@ -73,7 +87,7 @@ D167-esports/
     ├── teams/              # teams, team players, lineups
     ├── players/            # player profiles
     ├── matches/            # Tournament -> Round -> Group -> Match -> rankings
-    ├── organizers/         # tenant layer: Organizer, Game, registrations
+    ├── organizers/         # tenant layer: Organizer, Game, registrations, payments
     ├── templates/          # HTML templates
     ├── static/             # CSS / JS / images
     └── media/              # user uploads (not tracked in git)
@@ -114,6 +128,8 @@ All commands below are run from the **`esports/`** directory (where `manage.py` 
    | `DJANGO_SECRET_KEY` | insecure dev key | **Must** be set to a random value in production |
    | `DJANGO_DEBUG` | `True` | Set to `False` in production |
    | `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated hostnames |
+   | `TOURNAMENT_FEE` | `500` | Per-tournament fee in BDT (0 = free) |
+   | `BKASH_ENABLED` | `False` | `True` + credentials to use real bKash |
 
 4. **Apply database migrations**
 

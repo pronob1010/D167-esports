@@ -69,7 +69,9 @@
         .badge.ongoing { background: rgba(79,140,255,.16); color: var(--accent); }
         .badge.completed { background: #3a3350; color: #c6b9e6; }
         .badge.pending { background: rgba(224,166,66,.16); color: var(--warn); }
+        .badge.initiated { background: rgba(79,140,255,.16); color: var(--accent); }
         .badge.paid { background: rgba(53,194,142,.16); color: var(--accent-2); }
+        .badge.failed { background: rgba(229,90,90,.16); color: var(--danger); }
         .badge.waived { background: #33405e; color: #b9c6e6; }
         .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
         form.stack label { display: block; margin: 14px 0 5px; font-size: 13px; color: var(--muted); }
@@ -100,6 +102,7 @@
             {% if user.is_authenticated %}
                 <a href="{% url 'organizer_dashboard' %}">Dashboard</a>
                 <a href="{% url 'organizer_tournament_create' %}">New tournament</a>
+                <a href="{% url 'organizer_billing' %}">Billing</a>
                 <a href="{% url 'logout' %}">Log out</a>
             {% else %}
                 <a href="{% url 'login' %}">Log in</a>
