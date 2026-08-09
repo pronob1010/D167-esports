@@ -57,6 +57,18 @@ urlpatterns = [
         views.tournament_standings,
         name="organizer_tournament_standings",
     ),
-    # Public, read-only organizer page.
+    path(
+        "tournaments/<slug:slug>/registrations/",
+        views.registrations,
+        name="organizer_tournament_registrations",
+    ),
+    path(
+        "tournaments/<slug:slug>/registrations/<int:reg_id>/decide/",
+        views.registration_decide,
+        name="organizer_registration_decide",
+    ),
+    # Public pages (no login).
     path("o/<slug:slug>/", views.public_organizer, name="public_organizer"),
+    path("t/<slug:slug>/", views.public_tournament, name="public_tournament"),
+    path("t/<slug:slug>/register/", views.public_register, name="public_register"),
 ]

@@ -177,3 +177,16 @@ TOURNAMENT_FEE = os.environ.get('TOURNAMENT_FEE', '500')
 
 # Where organizer auth redirects.
 LOGIN_URL = 'login'
+
+# Email — defaults to the console backend so registration notifications print to
+# the server log in development. Set DJANGO_EMAIL_BACKEND + SMTP creds for real
+# delivery. (SMS can be added later behind the same notifications helper.)
+EMAIL_BACKEND = os.environ.get(
+    'DJANGO_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend'
+)
+EMAIL_HOST = os.environ.get('DJANGO_EMAIL_HOST', '')
+EMAIL_PORT = int(os.environ.get('DJANGO_EMAIL_PORT', '587'))
+EMAIL_HOST_USER = os.environ.get('DJANGO_EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = os.environ.get('DJANGO_EMAIL_USE_TLS', 'True').lower() in ('true', '1', 'yes')
+DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_DEFAULT_FROM_EMAIL', 'D167 <noreply@d167.local>')

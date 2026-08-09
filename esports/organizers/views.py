@@ -6,10 +6,14 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 
 from matches import services
-from matches.models import Match, Tournament, TournamentTeam
-from .forms import OrganizerSignUpForm, TournamentForm
+from matches.models import (
+    Match, Tournament, TournamentRegistration, TournamentTeam,
+)
+from . import notifications
+from .forms import OrganizerSignUpForm, TeamRegistrationForm, TournamentForm
 from .models import Game, Organizer, TournamentPayment
 
 
@@ -283,6 +287,80 @@ def tournament_standings(request, slug):
     )
 
 
+@organizer_required
+def registrations(request, slug):
+    """Organizer review of incoming team registrations."""
+    tournament = _get_owned_tournament(request, slug)
+    regs = tournament.registrations.all()
+    return render(
+        request,
+        "organizers/registrations.html",
+        {
+            "tournament": tournament,
+            "registrations": regs,
+            "approved_count": tournament.teams.count(),
+        },
+    )
+
+
+@organizer_required
+def registration_decide(request, slug, reg_id):
+    """Approve (-> creates a TournamentTeam) or reject a registration."""
+    tournament = _get_owned_tournament(request, slug)
+    reg = get_object_or_404(
+        TournamentRegistration, pk=reg_id, tournament=tournament
+    )
+    if request.method != "POST":
+        return redirect("organizer_tournament_registrations", slug=tournament.slug)
+
+    action = request.POST.get("action")
+    reg.note = (request.POST.get("note") or "").strip()[:200]
+
+    if action == "approve":
+        if reg.status == TournamentRegistration.STATUS_APPROVED:
+            messages.info(request, "Already approved.")
+            return redirect("organizer_tournament_registrations", slug=tournament.slug)
+        if tournament.teams.count() >= tournament.max_teams:
+            messages.error(
+                request,
+                f"Tournament is full ({tournament.max_teams} teams). "
+                "Increase max teams or reject some registrations.",
+            )
+            return redirect("organizer_tournament_registrations", slug=tournament.slug)
+        if tournament.teams.filter(name__iexact=reg.team_name).exists():
+            messages.error(request, f"A team named '{reg.team_name}' already exists.")
+            return redirect("organizer_tournament_registrations", slug=tournament.slug)
+
+        team = TournamentTeam.objects.create(
+            tournament=tournament,
+            name=reg.team_name,
+            seed=tournament.teams.count() + 1,
+        )
+        reg.status = TournamentRegistration.STATUS_APPROVED
+        reg.tournament_team = team
+        reg.decided_at = timezone.now()
+        reg.save()
+        notifications.notify_registration_decided(reg)
+        messages.success(request, f"Approved '{reg.team_name}'.")
+
+    elif action == "reject":
+        reg.status = TournamentRegistration.STATUS_REJECTED
+        reg.decided_at = timezone.now()
+        # If it had been approved before, remove the created team.
+        if reg.tournament_team_id:
+            reg.tournament_team.delete()
+            reg.tournament_team = None
+        reg.save()
+        notifications.notify_registration_decided(reg)
+        messages.success(request, f"Rejected '{reg.team_name}'.")
+    else:
+        messages.error(request, "Unknown action.")
+
+    return redirect("organizer_tournament_registrations", slug=tournament.slug)
+
+
+# --- Public (no login) -----------------------------------------------------
+
 def public_organizer(request, slug):
     """Public page listing an organizer's published (non-draft) tournaments."""
     organizer = get_object_or_404(Organizer, slug=slug, is_active=True)
@@ -293,4 +371,63 @@ def public_organizer(request, slug):
         request,
         "organizers/public_organizer.html",
         {"organizer": organizer, "tournaments": tournaments},
+    )
+
+
+def _public_tournament_or_404(slug):
+    """A tournament visible publicly (anything an organizer has published)."""
+    return get_object_or_404(
+        Tournament.objects.exclude(status=Tournament.STATUS_DRAFT),
+        slug=slug,
+    )
+
+
+def public_tournament(request, slug):
+    """Public, read-only tournament page with fixtures and standings."""
+    tournament = _public_tournament_or_404(slug)
+    rounds = []
+    for rnd in tournament.matchround_set.all().order_by("id"):
+        matches = (
+            Match.objects.filter(Match_Round=rnd)
+            .select_related("home_team", "away_team")
+            .order_by("order", "id")
+        )
+        rounds.append({"round": rnd, "matches": matches})
+    return render(
+        request,
+        "organizers/public_tournament.html",
+        {
+            "tournament": tournament,
+            "rounds": rounds,
+            "standings": services.compute_standings(tournament),
+            "team_count": tournament.teams.count(),
+        },
+    )
+
+
+def public_register(request, slug):
+    """Anonymous team-captain registration for an open tournament."""
+    tournament = _public_tournament_or_404(slug)
+    if not tournament.registration_open:
+        messages.info(request, "Registration is not open for this tournament.")
+        return redirect("public_tournament", slug=tournament.slug)
+    if tournament.teams.count() >= tournament.max_teams:
+        messages.info(request, "This tournament is already full.")
+        return redirect("public_tournament", slug=tournament.slug)
+
+    form = TeamRegistrationForm(request.POST or None, tournament=tournament)
+    if request.method == "POST" and form.is_valid():
+        reg = form.save(commit=False)
+        reg.tournament = tournament
+        reg.save()
+        notifications.notify_new_registration(reg)
+        return render(
+            request,
+            "organizers/public_register_done.html",
+            {"tournament": tournament, "registration": reg},
+        )
+    return render(
+        request,
+        "organizers/public_register.html",
+        {"tournament": tournament, "form": form},
     )

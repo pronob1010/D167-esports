@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 from Accounts.models import User
-from matches.models import Tournament
+from matches.models import Tournament, TournamentRegistration
 from .models import Organizer
 
 
@@ -67,3 +67,37 @@ class TournamentForm(forms.ModelForm):
         if start and end and end < start:
             self.add_error("end_date", "End date cannot be before the start date.")
         return cleaned
+
+
+class TeamRegistrationForm(forms.ModelForm):
+    """Public form a team captain fills in to register for a tournament."""
+    class Meta:
+        model = TournamentRegistration
+        fields = (
+            "team_name",
+            "captain_name",
+            "captain_phone",
+            "captain_email",
+            "roster",
+        )
+        labels = {
+            "captain_email": "Captain email (optional, for updates)",
+            "roster": "Players (one per line)",
+        }
+        widgets = {
+            "roster": forms.Textarea(attrs={"rows": 6}),
+        }
+
+    def __init__(self, *args, tournament=None, **kwargs):
+        self.tournament = tournament
+        super().__init__(*args, **kwargs)
+
+    def clean_team_name(self):
+        name = self.cleaned_data["team_name"].strip()
+        if self.tournament and self.tournament.registrations.filter(
+            team_name__iexact=name
+        ).exclude(status=TournamentRegistration.STATUS_REJECTED).exists():
+            raise forms.ValidationError(
+                "A team with this name has already registered."
+            )
+        return name
