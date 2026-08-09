@@ -1,0 +1,12 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Registered · {{ tournament.Tournament_title }}{% endblock %}
+{% block content %}
+<h1>Registration submitted 🎉</h1>
+<div class="card" style="max-width: 520px;">
+    <p><strong>{{ registration.team_name }}</strong> has been registered for
+       <strong>{{ tournament.Tournament_title }}</strong>.</p>
+    <p class="sub">The organizer will review your registration and approve your team.
+       {% if registration.captain_email %}We'll email {{ registration.captain_email }} with the decision.{% endif %}</p>
+    <a href="{% url 'public_tournament' tournament.slug %}" class="btn secondary">Back to tournament</a>
+</div>
+{% endblock %}

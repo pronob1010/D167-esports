@@ -7,9 +7,10 @@ focused), with teams, players, matches, rounds, groups, and rankings.
 > rentable, multi-tenant tournament platform. See
 > [`PLATFORM_ROADMAP.md`](PLATFORM_ROADMAP.md) for the plan.
 >
-> **Multi-tenant platform (Stage A + core of Stage B) is now built.** Any user
-> can sign up as an **organizer**, get their own dashboard, and create/manage
-> their own tournaments in isolation from other organizers.
+> **Stages A–C are built.** Any user can sign up as an **organizer**, run
+> tournaments end to end (teams, fixtures, scores, standings, knockout
+> brackets), and collect **public team registrations** — all with each
+> organizer isolated from the others.
 
 ## Organizer platform
 
@@ -22,16 +23,33 @@ the public esports site):
 | `/organizer/dashboard/` | List and manage *your* tournaments only |
 | `/organizer/tournaments/new/` | Create a tournament (draft) |
 | `/organizer/tournaments/<slug>/` | View / change status / manage a tournament |
-| `/organizer/o/<slug>/` | Public read-only page for an organizer |
+| `/organizer/tournaments/<slug>/teams/` | Add teams, generate fixtures |
+| `/organizer/tournaments/<slug>/fixtures/` | Enter scores (league & knockout) |
+| `/organizer/tournaments/<slug>/standings/` | Live league table |
+| `/organizer/tournaments/<slug>/registrations/` | Review & approve/reject team sign-ups |
 
-Key models live in the `organizers` app: **`Organizer`** (the tenant),
-**`Game`** (so new games are data, not code), and **`TournamentPayment`**
-(records the per-tournament fee; the payment gateway is intentionally not wired
-up yet). `Tournament` now carries an `organizer` owner plus `game`, `status`,
-`format`, `entry_fee`, `max_teams`, and dates.
+### Public pages (no login)
 
-Data isolation is enforced in every organizer view and covered by tests in
-`organizers/tests.py` (run `python manage.py test organizers`).
+| URL | Purpose |
+|-----|---------|
+| `/organizer/o/<slug>/` | An organizer's public page (their tournaments) |
+| `/organizer/t/<slug>/` | Public tournament page (fixtures, standings) |
+| `/organizer/t/<slug>/register/` | Team captains register their team |
+
+Key models: **`Organizer`** (the tenant), **`Game`** (so new games are data, not
+code), **`TournamentPayment`** (per-tournament fee; gateway not wired up yet),
+**`TournamentTeam`** (a tournament's participants), and
+**`TournamentRegistration`** (public sign-ups awaiting approval). `Tournament`
+carries an `organizer` owner plus `game`, `status`, `format`, `entry_fee`,
+`max_teams`, and dates. Fixture/standings logic lives in `matches/services.py`.
+
+**Notifications:** registration emails use Django's email backend, which
+defaults to the **console** backend (prints to the server log) in development.
+Set `DJANGO_EMAIL_BACKEND` and the SMTP vars for real delivery. SMS can be added
+later behind `organizers/notifications.py`.
+
+Data isolation is enforced in every organizer view and covered by tests
+(`python manage.py test` — organizers + matches).
 
 ## Tech stack
 
@@ -55,6 +73,7 @@ D167-esports/
     ├── teams/              # teams, team players, lineups
     ├── players/            # player profiles
     ├── matches/            # Tournament -> Round -> Group -> Match -> rankings
+    ├── organizers/         # tenant layer: Organizer, Game, registrations
     ├── templates/          # HTML templates
     ├── static/             # CSS / JS / images
     └── media/              # user uploads (not tracked in git)

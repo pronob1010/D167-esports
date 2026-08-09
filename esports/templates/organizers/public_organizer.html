@@ -14,7 +14,7 @@
             <tbody>
                 {% for t in tournaments %}
                 <tr>
-                    <td>{{ t.Tournament_title }}</td>
+                    <td><a href="{% url 'public_tournament' t.slug %}">{{ t.Tournament_title }}</a></td>
                     <td>{{ t.game.name|default:"—" }}</td>
                     <td><span class="badge {{ t.status }}">{{ t.get_status_display }}</span></td>
                     <td>{{ t.start_date|default:"—" }}</td>

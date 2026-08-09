@@ -1,8 +1,10 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from django.core import mail
+
 from Accounts.models import User
-from matches.models import Match, Tournament
+from matches.models import Match, Tournament, TournamentRegistration, TournamentTeam
 from .models import Game, Organizer, TournamentPayment
 
 
@@ -185,3 +187,114 @@ class FixtureViewTests(TestCase):
         )
         self.assertEqual(resp.status_code, 404)
         self.assertEqual(Match.objects.filter(Match_Tournament=other_t).count(), 0)
+
+
+class PublicRegistrationTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            phone="01900000001", password="testpass123", username="orgr"
+        )
+        self.user.email = "host@example.com"
+        self.user.save()
+        self.org = Organizer.objects.create(
+            user=self.user, name="Reg Org", contact_email="host@example.com"
+        )
+        self.t = Tournament.objects.create(
+            Tournament_title="Open Cup", organizer=self.org,
+            status=Tournament.STATUS_OPEN, registration_open=True, max_teams=4,
+        )
+
+    def _register(self, team="Rangers"):
+        return self.client.post(
+            reverse("public_register", args=[self.t.slug]),
+            {
+                "team_name": team,
+                "captain_name": "Sam",
+                "captain_phone": "01712345678",
+                "captain_email": "sam@example.com",
+                "roster": "Sam\nAlex\nJordan",
+            },
+        )
+
+    def test_public_pages_are_anonymous(self):
+        # No login -> public tournament page renders.
+        resp = self.client.get(reverse("public_tournament", args=[self.t.slug]))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "Open Cup")
+
+    def test_draft_tournament_not_public(self):
+        draft = Tournament.objects.create(
+            Tournament_title="Hidden", organizer=self.org,
+            status=Tournament.STATUS_DRAFT,
+        )
+        resp = self.client.get(reverse("public_tournament", args=[draft.slug]))
+        self.assertEqual(resp.status_code, 404)
+
+    def test_registration_creates_pending_and_emails_organizer(self):
+        resp = self._register()
+        self.assertEqual(resp.status_code, 200)
+        reg = TournamentRegistration.objects.get(team_name="Rangers")
+        self.assertEqual(reg.status, TournamentRegistration.STATUS_PENDING)
+        # Organizer gets notified.
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("host@example.com", mail.outbox[0].to)
+
+    def test_registration_blocked_when_closed(self):
+        self.t.registration_open = False
+        self.t.save()
+        resp = self._register(team="Late")
+        self.assertEqual(resp.status_code, 302)
+        self.assertFalse(TournamentRegistration.objects.filter(team_name="Late").exists())
+
+    def test_duplicate_team_name_rejected(self):
+        self._register(team="Rangers")
+        resp = self._register(team="Rangers")
+        self.assertEqual(resp.status_code, 200)  # re-rendered form with error
+        self.assertEqual(
+            TournamentRegistration.objects.filter(team_name="Rangers").count(), 1
+        )
+
+    def test_approve_creates_team_and_emails_captain(self):
+        self._register(team="Rangers")
+        reg = TournamentRegistration.objects.get(team_name="Rangers")
+        mail.outbox.clear()
+        self.client.force_login(self.user)
+        resp = self.client.post(
+            reverse("organizer_registration_decide", args=[self.t.slug, reg.id]),
+            {"action": "approve"},
+        )
+        self.assertEqual(resp.status_code, 302)
+        reg.refresh_from_db()
+        self.assertEqual(reg.status, TournamentRegistration.STATUS_APPROVED)
+        self.assertIsNotNone(reg.tournament_team)
+        self.assertTrue(self.t.teams.filter(name="Rangers").exists())
+        # Captain notified.
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("sam@example.com", mail.outbox[0].to)
+
+    def test_approve_respects_capacity(self):
+        # Register first (while there's room), then fill the tournament so the
+        # approve-time capacity gate is what blocks it.
+        self._register(team="Overflow")
+        reg = TournamentRegistration.objects.get(team_name="Overflow")
+        for i in range(4):
+            TournamentTeam.objects.create(tournament=self.t, name=f"T{i}", seed=i + 1)
+        self.client.force_login(self.user)
+        self.client.post(
+            reverse("organizer_registration_decide", args=[self.t.slug, reg.id]),
+            {"action": "approve"},
+        )
+        reg.refresh_from_db()
+        self.assertEqual(reg.status, TournamentRegistration.STATUS_PENDING)
+        self.assertFalse(self.t.teams.filter(name="Overflow").exists())
+
+    def test_cannot_review_another_orgs_registrations(self):
+        other_user = User.objects.create_user(
+            phone="01900000099", password="testpass123", username="other2"
+        )
+        Organizer.objects.create(user=other_user, name="Other2")
+        self.client.force_login(other_user)
+        resp = self.client.get(
+            reverse("organizer_tournament_registrations", args=[self.t.slug])
+        )
+        self.assertEqual(resp.status_code, 404)

@@ -1,0 +1,24 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Register · {{ tournament.Tournament_title }}{% endblock %}
+{% block content %}
+<h1>Register your team</h1>
+<p class="sub">{{ tournament.Tournament_title }}{% if tournament.organizer %} · {{ tournament.organizer.name }}{% endif %}</p>
+
+<div class="card" style="max-width: 560px;">
+    <form method="post" class="stack" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+            {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+        {% endfor %}
+        <div class="row" style="margin-top: 22px;">
+            <button type="submit" class="btn">Submit registration</button>
+            <a href="{% url 'public_tournament' tournament.slug %}" class="btn ghost">Cancel</a>
+        </div>
+    </form>
+</div>
+<p class="sub" style="margin-top:14px;">Your registration will be reviewed by the organizer before your team is added.</p>
+{% endblock %}
