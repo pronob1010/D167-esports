@@ -212,6 +212,51 @@ class TournamentTeam(models.Model):
         return f"{self.name} ({self.tournament.Tournament_title})"
 
 
+class TournamentRegistration(models.Model):
+    """A team captain's public request to join a tournament.
+
+    Anonymous (no account needed) - the captain just provides contact details
+    and a roster. On approval the organizer turns this into a TournamentTeam,
+    which is what then flows into fixtures.
+    """
+    STATUS_PENDING = "pending"
+    STATUS_APPROVED = "approved"
+    STATUS_REJECTED = "rejected"
+    STATUS_CHOICES = [
+        (STATUS_PENDING, "Pending"),
+        (STATUS_APPROVED, "Approved"),
+        (STATUS_REJECTED, "Rejected"),
+    ]
+
+    tournament = models.ForeignKey(
+        Tournament, on_delete=CASCADE, related_name="registrations"
+    )
+    team_name = models.CharField(max_length=80)
+    captain_name = models.CharField(max_length=80)
+    captain_phone = models.CharField(max_length=20)
+    captain_email = models.EmailField(blank=True)
+    roster = models.TextField(
+        max_length=1000, blank=True,
+        help_text="One player per line.",
+    )
+    status = models.CharField(
+        max_length=10, choices=STATUS_CHOICES, default=STATUS_PENDING
+    )
+    note = models.CharField(max_length=200, blank=True)  # organizer note
+    tournament_team = models.OneToOneField(
+        TournamentTeam, on_delete=models.SET_NULL,
+        related_name="registration", null=True, blank=True,
+    )
+    created_at = models.DateTimeField(default=timezone.now)
+    decided_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.team_name} -> {self.tournament.Tournament_title} ({self.status})"
+
+
 class RegisteredTeams(models.Model):
     Match = models.ForeignKey(Match, on_delete=CASCADE, null=True, blank=True)
     Team = models.ForeignKey(Team, on_delete=CASCADE, null=True, blank=True)
