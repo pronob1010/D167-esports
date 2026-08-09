@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 
 from matches import services
@@ -15,6 +16,7 @@ from matches.models import (
 from . import notifications
 from .forms import OrganizerSignUpForm, TeamRegistrationForm, TournamentForm
 from .models import Game, Organizer, TournamentPayment
+from .payments import PaymentError, get_gateway
 
 
 def organizer_required(view_func):
@@ -145,13 +147,19 @@ def tournament_set_status(request, slug):
     if request.method == "POST":
         new_status = request.POST.get("status")
         valid = dict(Tournament.STATUS_CHOICES)
-        if new_status in valid:
+        if new_status not in valid:
+            messages.error(request, "Unknown status.")
+        elif new_status == Tournament.STATUS_OPEN and not _payment_settled(tournament):
+            # The "rent": can't go live until the per-tournament fee is paid.
+            messages.error(
+                request,
+                "Pay the tournament fee before opening registration.",
+            )
+        else:
             tournament.status = new_status
             tournament.registration_open = new_status == Tournament.STATUS_OPEN
             tournament.save()
             messages.success(request, f"Status changed to '{valid[new_status]}'.")
-        else:
-            messages.error(request, "Unknown status.")
     return redirect("organizer_tournament_detail", slug=tournament.slug)
 
 
@@ -357,6 +365,102 @@ def registration_decide(request, slug, reg_id):
         messages.error(request, "Unknown action.")
 
     return redirect("organizer_tournament_registrations", slug=tournament.slug)
+
+
+# --- Payments (fee per tournament, via bKash) ------------------------------
+
+def _payment_settled(tournament):
+    payment = getattr(tournament, "payment", None)
+    return payment is None or payment.is_settled
+
+
+def _get_or_create_payment(tournament):
+    payment = getattr(tournament, "payment", None)
+    if payment is None:
+        payment = TournamentPayment.objects.create(
+            organizer=tournament.organizer,
+            tournament=tournament,
+            amount=_tournament_fee(),
+        )
+    return payment
+
+
+@organizer_required
+def payment_start(request, slug):
+    """Begin paying the tournament fee: create a gateway payment and redirect."""
+    tournament = _get_owned_tournament(request, slug)
+    if request.method != "POST":
+        return redirect("organizer_tournament_detail", slug=tournament.slug)
+
+    payment = _get_or_create_payment(tournament)
+    if payment.is_settled:
+        messages.info(request, "This tournament's fee is already settled.")
+        return redirect("organizer_tournament_detail", slug=tournament.slug)
+
+    # A zero (or comped) fee needs no gateway round-trip.
+    if payment.amount <= 0:
+        payment.status = TournamentPayment.STATUS_WAIVED
+        payment.paid_at = timezone.now()
+        payment.save(update_fields=["status", "paid_at"])
+        messages.success(request, "No fee due — you're all set.")
+        return redirect("organizer_tournament_detail", slug=tournament.slug)
+
+    gateway = get_gateway()
+    callback_url = request.build_absolute_uri(
+        reverse("organizer_payment_callback", args=[tournament.slug])
+    )
+    try:
+        result = gateway.create_payment(payment, callback_url)
+    except PaymentError as exc:
+        messages.error(request, f"Could not start payment: {exc}")
+        return redirect("organizer_tournament_detail", slug=tournament.slug)
+
+    payment.gateway = gateway.name
+    payment.gateway_payment_id = result.gateway_payment_id
+    payment.status = TournamentPayment.STATUS_INITIATED
+    payment.save(update_fields=["gateway", "gateway_payment_id", "status"])
+    return redirect(result.redirect_url)
+
+
+@organizer_required
+def payment_callback(request, slug):
+    """Where the payer returns from bKash; verifies and finalizes the payment."""
+    tournament = _get_owned_tournament(request, slug)
+    payment = _get_or_create_payment(tournament)
+    if payment.is_settled:
+        return redirect("organizer_tournament_detail", slug=tournament.slug)
+
+    gateway = get_gateway()
+    try:
+        result = gateway.execute_payment(payment, request.GET)
+    except PaymentError as exc:
+        payment.status = TournamentPayment.STATUS_FAILED
+        payment.save(update_fields=["status"])
+        messages.error(request, f"Payment verification failed: {exc}")
+        return redirect("organizer_tournament_detail", slug=tournament.slug)
+
+    if result.success:
+        payment.status = TournamentPayment.STATUS_PAID
+        payment.transaction_id = result.transaction_id
+        payment.paid_at = timezone.now()
+        payment.save(update_fields=["status", "transaction_id", "paid_at"])
+        messages.success(
+            request, "Payment successful — you can now open registration."
+        )
+    else:
+        payment.status = TournamentPayment.STATUS_FAILED
+        payment.save(update_fields=["status"])
+        messages.error(request, result.message or "Payment was not completed.")
+    return redirect("organizer_tournament_detail", slug=tournament.slug)
+
+
+@organizer_required
+def billing(request):
+    """All of this organizer's tournament payments."""
+    payments = (
+        request.user.organizer.payments.select_related("tournament").all()
+    )
+    return render(request, "organizers/billing.html", {"payments": payments})
 
 
 # --- Public (no login) -----------------------------------------------------

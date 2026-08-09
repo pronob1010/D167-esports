@@ -298,3 +298,77 @@ class PublicRegistrationTests(TestCase):
             reverse("organizer_tournament_registrations", args=[self.t.slug])
         )
         self.assertEqual(resp.status_code, 404)
+
+
+class PaymentTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            phone="01600000001", password="testpass123", username="orgp"
+        )
+        self.org = Organizer.objects.create(user=self.user, name="Pay Org")
+        self.t = Tournament.objects.create(
+            Tournament_title="Paid Cup", organizer=self.org,
+            status=Tournament.STATUS_DRAFT,
+        )
+        self.payment = TournamentPayment.objects.create(
+            organizer=self.org, tournament=self.t, amount=500,
+        )
+        self.client.force_login(self.user)
+
+    def test_default_gateway_is_dummy(self):
+        from organizers.payments import get_gateway
+        self.assertEqual(get_gateway().name, "dummy")
+
+    def test_full_pay_flow_marks_paid(self):
+        # Start -> redirect to the (dummy) gateway URL, which points at callback.
+        resp = self.client.post(reverse("organizer_payment_start", args=[self.t.slug]))
+        self.assertEqual(resp.status_code, 302)
+        self.payment.refresh_from_db()
+        self.assertEqual(self.payment.status, TournamentPayment.STATUS_INITIATED)
+        self.assertIn("paymentID", resp["Location"])
+
+        # Follow the callback the dummy gateway pointed us to.
+        resp = self.client.get(resp["Location"])
+        self.payment.refresh_from_db()
+        self.assertEqual(self.payment.status, TournamentPayment.STATUS_PAID)
+        self.assertTrue(self.payment.transaction_id)
+        self.assertIsNotNone(self.payment.paid_at)
+
+    def test_failed_callback_marks_failed(self):
+        url = reverse("organizer_payment_callback", args=[self.t.slug])
+        resp = self.client.get(url, {"status": "failure", "paymentID": "X"})
+        self.assertEqual(resp.status_code, 302)
+        self.payment.refresh_from_db()
+        self.assertEqual(self.payment.status, TournamentPayment.STATUS_FAILED)
+
+    def test_zero_fee_is_waived(self):
+        self.payment.amount = 0
+        self.payment.save()
+        self.client.post(reverse("organizer_payment_start", args=[self.t.slug]))
+        self.payment.refresh_from_db()
+        self.assertEqual(self.payment.status, TournamentPayment.STATUS_WAIVED)
+
+    def test_cannot_open_registration_until_paid(self):
+        url = reverse("organizer_tournament_status", args=[self.t.slug])
+        self.client.post(url, {"status": Tournament.STATUS_OPEN})
+        self.t.refresh_from_db()
+        self.assertEqual(self.t.status, Tournament.STATUS_DRAFT)
+        self.assertFalse(self.t.registration_open)
+
+    def test_can_open_registration_after_paid(self):
+        self.payment.status = TournamentPayment.STATUS_PAID
+        self.payment.save()
+        url = reverse("organizer_tournament_status", args=[self.t.slug])
+        self.client.post(url, {"status": Tournament.STATUS_OPEN})
+        self.t.refresh_from_db()
+        self.assertEqual(self.t.status, Tournament.STATUS_OPEN)
+        self.assertTrue(self.t.registration_open)
+
+    def test_cannot_pay_another_orgs_tournament(self):
+        other_user = User.objects.create_user(
+            phone="01600000099", password="testpass123", username="otherp"
+        )
+        Organizer.objects.create(user=other_user, name="Other P")
+        self.client.force_login(other_user)
+        resp = self.client.post(reverse("organizer_payment_start", args=[self.t.slug]))
+        self.assertEqual(resp.status_code, 404)

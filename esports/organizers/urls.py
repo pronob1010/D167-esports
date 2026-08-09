@@ -67,6 +67,18 @@ urlpatterns = [
         views.registration_decide,
         name="organizer_registration_decide",
     ),
+    # Payments (fee per tournament).
+    path("billing/", views.billing, name="organizer_billing"),
+    path(
+        "tournaments/<slug:slug>/pay/",
+        views.payment_start,
+        name="organizer_payment_start",
+    ),
+    path(
+        "tournaments/<slug:slug>/pay/callback/",
+        views.payment_callback,
+        name="organizer_payment_callback",
+    ),
     # Public pages (no login).
     path("o/<slug:slug>/", views.public_organizer, name="public_organizer"),
     path("t/<slug:slug>/", views.public_tournament, name="public_tournament"),
