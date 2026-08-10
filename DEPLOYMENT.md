@@ -7,6 +7,90 @@ each step says **what to do** and **why**.
 > **Legend:** ✅ already handled in the code · ⚙️ needs a settings/config change ·
 > ➕ needs something added (dependency, service, or infra).
 
+> **Status:** the **code-side** work for Railway is **already applied** —
+> `DATABASE_URL`/Postgres (`dj-database-url`), WhiteNoise static, `STATIC_ROOT`,
+> production security block, `RAILWAY_PUBLIC_DOMAIN` trust, env-configurable
+> `MEDIA_ROOT`, a production-safe media route, `Procfile`, `runtime.txt`, and the
+> deploy dependencies in `requirements.txt`. Follow **"Deploy to Railway"**
+> below for the click-path. The numbered sections 0–11 are the general reference
+> (and cover VPS/other hosts) — for Railway their ⚙️/➕ code items are done.
+
+---
+
+## Deploy to Railway (recommended — code already wired) 🚂
+
+Everything the app needs for Railway is in the repo. This is the click-path.
+
+### 1. Create the project
+- [ ] Push this branch to GitHub (already there).
+- [ ] Railway → **New Project → Deploy from GitHub repo** → pick this repo and
+      the deployment branch.
+- [ ] Railway auto-detects Python and uses the **`Procfile`**:
+      - `release:` runs `migrate` + `collectstatic` on every deploy
+      - `web:` runs `gunicorn esports.wsgi:application` bound to `$PORT`
+
+### 2. Add PostgreSQL
+- [ ] In the project, **New → Database → PostgreSQL**.
+- [ ] Railway injects **`DATABASE_URL`** into the app service automatically — the
+      settings pick it up via `dj-database-url` (no manual DB config needed).
+
+### 3. Set environment variables (app service → Variables)
+
+| Variable | Value | Notes |
+|----------|-------|-------|
+| `DJANGO_SECRET_KEY` | *(generate)* | `python -c "from django.core.management.utils import get_random_secret_key as g; print(g())"` |
+| `DJANGO_DEBUG` | `False` | |
+| `DJANGO_ALLOWED_HOSTS` | your custom domain(s) | the `*.up.railway.app` domain is trusted automatically via `RAILWAY_PUBLIC_DOMAIN` |
+| `TOURNAMENT_FEE` | e.g. `500` | BDT; `0` = free/auto-waived |
+| `DJANGO_DEFAULT_FROM_EMAIL` | `D167 <no-reply@yourdomain>` | |
+| `DJANGO_EMAIL_BACKEND` + SMTP vars | *(when going live)* | see section 5; until then emails print to logs |
+| `BKASH_ENABLED` / `BKASH_*` | *(when going live)* | start with sandbox; see section 6 |
+
+- [ ] `DATABASE_URL` is present (from the Postgres plugin) — do **not** set it by hand.
+- [ ] `PORT` is provided by Railway automatically — do **not** set it.
+
+### 4. Persist uploaded media (organizer/team logos) — recommended
+Container disks are ephemeral, so uploads vanish on redeploy unless stored on a volume.
+- [ ] App service → **Volumes → New Volume**, mount path e.g. `/data/media`.
+- [ ] Set variable **`MEDIA_ROOT=/data/media`** (settings already read this).
+- [ ] (Skip only if you don't accept image uploads yet; you can add it later.)
+
+### 5. Deploy & initialise
+- [ ] Trigger the deploy. Watch logs: the `release` step should run migrations
+      (seeding **Turf Football** + **Cricket**) and `collectstatic`.
+- [ ] Open a shell (Railway → service → **Shell**, or `railway run`) and create
+      the admin user:
+      ```bash
+      cd esports && python manage.py createsuperuser
+      ```
+      (Log in with a **phone number** — that's the username field.)
+- [ ] In `/admin/`, create one **`SiteInfo`** row so the public esports theme
+      renders its header/nav.
+
+### 6. Domain & HTTPS
+- [ ] Use the generated `*.up.railway.app` URL, or add a **custom domain**
+      (Settings → Domains) and put it in `DJANGO_ALLOWED_HOSTS`.
+- [ ] HTTPS is automatic on Railway; the app is already proxy-aware
+      (`SECURE_PROXY_SSL_HEADER`), so `SECURE_SSL_REDIRECT` and the bKash
+      `https://` callback work correctly.
+
+### 7. Smoke-test the live site
+- [ ] `/organizer/signup/` → create an organizer → dashboard loads **with CSS**
+      (confirms WhiteNoise/`collectstatic` worked).
+- [ ] Create a football **and** a cricket tournament → **Pay** (bKash sandbox, or
+      set `TOURNAMENT_FEE=0` to auto-waive) → open registration.
+- [ ] From an incognito window, open `/organizer/t/<slug>/`, register a team,
+      approve it, generate fixtures, enter a score → standings update with the
+      right points (football 3/1/0, cricket 2/1/0).
+
+### 8. Before real payments / real email
+- [ ] Do the **bKash sandbox** transaction (section 6 of the checklist), then
+      switch `BKASH_BASE_URL` + credentials to live.
+- [ ] Set the **SMTP** variables (section 5) and send a test registration email.
+
+> **Backups:** enable Railway's Postgres backups (or a scheduled `pg_dump`) and
+> ensure the media volume is included — see section 10.
+
 ---
 
 ## 0. Pre-flight (quick sanity)
@@ -48,39 +132,29 @@ python -c "from django.core.management.utils import get_random_secret_key; print
 SQLite is fine for the demo but not for production (concurrent writes, backups,
 integrity). The code is DB-agnostic, so this is a settings + dependency change.
 
+> **Already applied in this repo:** `requirements.txt` includes `psycopg2-binary`
+> and `dj-database-url`, and `settings.py` reads `DATABASE_URL` (falling back to
+> SQLite locally). The snippet below documents what was done / how to do it
+> manually on another host.
+
 **a. Add the driver** (`requirements.txt`):
 
 ```
 psycopg2-binary>=2.9
+dj-database-url>=1.3
 ```
 
-**b. Make `DATABASES` env-driven** — replace the SQLite block in
-`esports/settings.py` with:
+**b. Make `DATABASES` env-driven** (this project uses `dj-database-url`):
 
 ```python
-if os.environ.get("DATABASE_URL") or os.environ.get("POSTGRES_DB"):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ.get("POSTGRES_DB", ""),
-            "USER": os.environ.get("POSTGRES_USER", ""),
-            "PASSWORD": os.environ.get("POSTGRES_PASSWORD", ""),
-            "HOST": os.environ.get("POSTGRES_HOST", "127.0.0.1"),
-            "PORT": os.environ.get("POSTGRES_PORT", "5432"),
-            "CONN_MAX_AGE": 60,
-        }
-    }
-else:
-    DATABASES = {  # local development fallback
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+import dj_database_url
+DATABASES = {
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
+}
 ```
-
-> Or use `dj-database-url` and a single `DATABASE_URL` if your host provides one
-> (Railway/Render/Heroku do).
 
 - [ ] `psycopg2-binary` added and installed.
 - [ ] `DATABASES` reads from env; Postgres credentials set on the host.
@@ -96,14 +170,17 @@ The app serves CSS/JS/images (`static/`) and user uploads (`media/`: team logos,
 match images, organizer logos). In production Django does **not** serve these —
 you need `collectstatic` + a real file server.
 
-**a. Add `STATIC_ROOT`** to `esports/settings.py` (currently missing):
+> **Already applied in this repo:** `STATIC_ROOT`, WhiteNoise middleware +
+> `STATICFILES_STORAGE`, env-configurable `MEDIA_ROOT`, and a production-safe
+> media route in `esports/urls.py` (works when `DEBUG=False`).
+
+**a. `STATIC_ROOT`** (already in `esports/settings.py`):
 
 ```python
 STATIC_ROOT = BASE_DIR / "staticfiles"
 ```
 
-**b. Serve static files.** Simplest is **WhiteNoise** (no nginx needed for
-static):
+**b. Static via WhiteNoise** (already wired):
 
 ```
 # requirements.txt
@@ -111,23 +188,16 @@ whitenoise>=6.0
 ```
 
 ```python
-# settings.py — add right after SecurityMiddleware
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-    # ...the rest unchanged...
-]
-# Django 3.2 (this project):
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# settings.py — right after SecurityMiddleware
+"whitenoise.middleware.WhiteNoiseMiddleware",
+# non-manifest compressed storage (tolerant of legacy template static refs):
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 ```
 
 **c. Media files.** `media/` is **user-uploaded** and must persist and be served.
-Currently `esports/urls.py` serves media via Django unconditionally — fine for
-dev, not for production. Options:
-- **nginx** location block for `/media/` (recommended on a VPS), or
-- object storage (S3-compatible) via `django-storages`, or
-- for a first small launch, keep Django serving media but put it behind your web
-  server and on persistent storage.
+On Railway, mount a **volume** and set `MEDIA_ROOT` to it (see the Railway
+section, step 4). On a VPS, an nginx `/media/` location is ideal; object storage
+(`django-storages`) is the scale-up path.
 
 - [ ] `STATIC_ROOT` set; `python manage.py collectstatic --noinput` runs clean.
 - [ ] Static files load over the deployed site (check the organizer dashboard CSS
@@ -143,8 +213,11 @@ dev, not for production. Options:
 
 ## 4. Security hardening ⚙️
 
-With `DEBUG=False` behind HTTPS, add these to `esports/settings.py` (gate on
-`not DEBUG` so local dev is unaffected):
+With `DEBUG=False` behind HTTPS, these belong in `esports/settings.py` (gated on
+`not DEBUG` so local dev is unaffected).
+
+> **Already applied in this repo:** the block below plus `CSRF_TRUSTED_ORIGINS`
+> derived from `ALLOWED_HOSTS` are in `settings.py`.
 
 ```python
 CSRF_TRUSTED_ORIGINS = [
@@ -152,6 +225,8 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    USE_X_FORWARDED_HOST = True
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
@@ -159,18 +234,14 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    # If behind a reverse proxy / load balancer terminating TLS:
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    USE_X_FORWARDED_HOST = True
 ```
 
-- [ ] The block above added and `python manage.py check --deploy` shows no
-      critical warnings.
+- [ ] `python manage.py check --deploy` shows no critical warnings once a real
+      `DJANGO_SECRET_KEY` is set and `DEBUG=False`.
 - [ ] `CSRF_TRUSTED_ORIGINS` includes your HTTPS domain (needed for all POST
       forms — login, score entry, payments — to work behind HTTPS).
-- [ ] `SECURE_PROXY_SSL_HEADER` set **only if** a proxy terminates TLS (most
-      PaaS and nginx setups) — otherwise the bKash callback URL may be built as
-      `http://` and fail.
+- [ ] `SECURE_PROXY_SSL_HEADER` is set (Railway/most PaaS terminate TLS at a
+      proxy) so the bKash callback URL is built as `https://`.
 
 ---
 
@@ -217,39 +288,36 @@ credentials.
 
 ## 7. Application server ➕
 
-Do **not** use `manage.py runserver` in production. Use Gunicorn:
-
-```
-# requirements.txt
-gunicorn>=21.0
-```
+Do **not** use `manage.py runserver` in production. Use Gunicorn (already in
+`requirements.txt`, and the `Procfile` `web:` line runs it):
 
 ```bash
 # from the esports/ directory
-gunicorn esports.wsgi:application --bind 0.0.0.0:8000 --workers 3
+gunicorn esports.wsgi:application --bind 0.0.0.0:$PORT --workers 3
 ```
 
 - [ ] Gunicorn added and serves the app.
-- [ ] Process is supervised (systemd unit, or the platform's process manager /
-      `Procfile: web: gunicorn esports.wsgi --chdir esports`).
+- [ ] Process is supervised (Railway/PaaS process manager, or a systemd unit on
+      a VPS).
 - [ ] `WEB_CONCURRENCY` / `--workers` tuned to the host (2×CPU + 1 is a start).
 
 ---
 
 ## 8. Web server & TLS ⚙️➕
 
-- [ ] HTTPS enabled with a valid certificate (Let's Encrypt via nginx/Caddy, or
-      automatic on a PaaS).
+- [ ] HTTPS enabled with a valid certificate (automatic on Railway/most PaaS;
+      Let's Encrypt via nginx/Caddy on a VPS).
 - [ ] On a VPS: nginx reverse-proxies to Gunicorn and serves `/static/` and
-      `/media/` directly. On a PaaS: WhiteNoise handles static; use object
-      storage or a mounted volume for media.
+      `/media/` directly. On Railway: WhiteNoise handles static; use a mounted
+      volume for media.
 - [ ] HTTP → HTTPS redirect works (also enforced by `SECURE_SSL_REDIRECT`).
 
 ---
 
 ## 9. Deploy, run & verify ✅➡️
 
-Run these on the server (from `esports/`), in order:
+Run these on the server (from `esports/`), in order (on Railway the `Procfile`
+`release:` step runs the first two automatically):
 
 ```bash
 python manage.py migrate
@@ -299,12 +367,17 @@ git push
 
 ## Quick paths by host
 
-**PaaS (Railway / Render / Fly)** — fastest:
-1. Add `psycopg2-binary`, `gunicorn`, `whitenoise` to `requirements.txt`.
-2. Apply the settings changes in steps 2–4.
-3. Set all env vars in the dashboard; attach a managed Postgres.
-4. Start command: `gunicorn esports.wsgi --chdir esports`.
-5. Run `migrate` + `collectstatic` as a release/deploy hook.
+**Railway** — see the **"Deploy to Railway"** section above; the code, `Procfile`,
+and dependencies are already in the repo, so it's mostly clicking + env vars.
+
+**Other PaaS (Render / Fly)** — same shape as Railway:
+1. Deps (`psycopg2-binary`, `gunicorn`, `whitenoise`, `dj-database-url`) are
+   already in `requirements.txt`; the settings already read `DATABASE_URL`.
+2. Set env vars in the dashboard; attach a managed Postgres (`DATABASE_URL`).
+3. Start command: `gunicorn esports.wsgi:application --chdir esports --bind 0.0.0.0:$PORT`.
+4. Run `migrate` + `collectstatic` as a release/deploy hook (the `Procfile`
+   `release:` line already does this on hosts that honour Procfiles).
+5. Add `<your-host-domain>` to `DJANGO_ALLOWED_HOSTS`.
 
 **VPS (Ubuntu + nginx + systemd)**:
 1. Postgres + a system user + virtualenv install.
