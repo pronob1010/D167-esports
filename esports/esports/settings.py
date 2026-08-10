@@ -46,6 +46,11 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+# Railway injects the app's public domain at runtime; trust it automatically.
+_railway_host = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '').strip()
+if _railway_host and _railway_host not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(_railway_host)
+
 
 # Application definition
 
@@ -70,6 +75,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise serves static files in production (right after SecurityMiddleware).
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -112,11 +119,15 @@ WSGI_APPLICATION = 'esports.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# Use DATABASE_URL when present (Railway provides it for its Postgres plugin);
+# fall back to local SQLite for development.
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
 }
 
 
@@ -157,7 +168,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+# collectstatic gathers everything here; WhiteNoise serves it in production.
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Non-manifest compressed storage: compresses assets without failing on legacy
+# templates that reference static files not present at build time.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+# MEDIA_ROOT can point at a mounted Railway volume so uploads persist across
+# deploys (container disks are ephemeral).
+MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
@@ -203,3 +222,24 @@ BKASH_APP_KEY = os.environ.get('BKASH_APP_KEY', '')
 BKASH_APP_SECRET = os.environ.get('BKASH_APP_SECRET', '')
 BKASH_USERNAME = os.environ.get('BKASH_USERNAME', '')
 BKASH_PASSWORD = os.environ.get('BKASH_PASSWORD', '')
+
+# --- Production security -----------------------------------------------------
+# HTTPS pages must list their origin here for POST forms (login, score entry,
+# payments) to pass CSRF checks.
+CSRF_TRUSTED_ORIGINS = [
+    'https://' + h for h in ALLOWED_HOSTS if h not in ('localhost', '127.0.0.1')
+]
+
+if not DEBUG:
+    # Railway terminates TLS at its edge and forwards X-Forwarded-Proto, so
+    # Django must trust that header to know the request is really HTTPS
+    # (also makes request.build_absolute_uri build https:// bKash callbacks).
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True

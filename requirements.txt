@@ -14,3 +14,9 @@ python-dotenv>=1.0
 
 # HTTP client for the bKash payment gateway (Stage D).
 requests>=2.28
+
+# --- Production / Railway deployment ----------------------------------------
+gunicorn>=21.0            # WSGI application server
+whitenoise>=6.0           # serve static files without nginx
+psycopg2-binary>=2.9      # PostgreSQL driver
+dj-database-url>=1.3      # parse DATABASE_URL (Railway Postgres)
