@@ -1,0 +1,14 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Delete tournament{% endblock %}
+{% block content %}
+<h1>Delete tournament</h1>
+<div class="card" style="max-width: 520px;">
+    <p>Are you sure you want to delete <strong>{{ tournament.Tournament_title }}</strong>?
+       This also removes its rounds, matches, and payment record. This cannot be undone.</p>
+    <form method="post" class="row" style="margin-top: 16px;">
+        {% csrf_token %}
+        <button type="submit" class="btn danger">Yes, delete it</button>
+        <a href="{% url 'organizer_tournament_detail' tournament.slug %}" class="btn ghost">Cancel</a>
+    </form>
+</div>
+{% endblock %}

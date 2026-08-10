@@ -12,10 +12,9 @@ def index(request):
 
     for i in indexdata:
         index_data= i
-    
+
     featured = Match.objects.filter(Featured = True)[:1]
     featured1 = Match.objects.filter(Featured = True)[1:]
-    # print(featured)
 
     stuff = []
     stuff_data = SubAdminCategories.objects.all()
@@ -32,11 +31,9 @@ def index(request):
                 pair_list.append(img)
 
                 admin_li.append(pair_list)
-            # print(admin_li)
             item_dic[i] = admin_li
 
             stuff.append(item_dic)
-    print(stuff)
 
     context = {
         'index_data' : index_data,

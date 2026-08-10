@@ -1,0 +1,29 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}{{ organizer.name }}{% endblock %}
+{% block content %}
+<h1>{{ organizer.name }}</h1>
+{% if organizer.about %}<p class="sub">{{ organizer.about }}</p>{% endif %}
+
+<h2>Tournaments</h2>
+<div class="card">
+    {% if tournaments %}
+        <table>
+            <thead>
+                <tr><th>Tournament</th><th>Game</th><th>Status</th><th>Starts</th></tr>
+            </thead>
+            <tbody>
+                {% for t in tournaments %}
+                <tr>
+                    <td><a href="{% url 'public_tournament' t.slug %}">{{ t.Tournament_title }}</a></td>
+                    <td>{{ t.game.name|default:"—" }}</td>
+                    <td><span class="badge {{ t.status }}">{{ t.get_status_display }}</span></td>
+                    <td>{{ t.start_date|default:"—" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty"><p>No published tournaments yet.</p></div>
+    {% endif %}
+</div>
+{% endblock %}

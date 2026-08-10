@@ -1,0 +1,81 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}{{ tournament.Tournament_title }}{% endblock %}
+{% block content %}
+<div class="spread">
+    <div>
+        <h1>{{ tournament.Tournament_title }}</h1>
+        <p class="sub">
+            <span class="badge {{ tournament.status }}">{{ tournament.get_status_display }}</span>
+            &nbsp;{{ tournament.game.name|default:"No game set" }}
+        </p>
+    </div>
+    <div class="row">
+        <a href="{% url 'organizer_tournament_edit' tournament.slug %}" class="btn secondary">Edit</a>
+        <a href="{% url 'organizer_tournament_delete' tournament.slug %}" class="btn danger">Delete</a>
+    </div>
+</div>
+
+<div class="card">
+    <h2 style="margin-top:0;">Manage</h2>
+    <div class="row">
+        <a href="{% url 'organizer_tournament_teams' tournament.slug %}" class="btn secondary">Teams</a>
+        <a href="{% url 'organizer_tournament_fixtures' tournament.slug %}" class="btn secondary">Fixtures &amp; scores</a>
+        <a href="{% url 'organizer_tournament_standings' tournament.slug %}" class="btn secondary">Standings</a>
+        <a href="{% url 'organizer_tournament_registrations' tournament.slug %}" class="btn secondary">Registrations</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="meta-grid">
+        <div><div class="k">Format</div><div class="v">{{ tournament.get_format_display }}</div></div>
+        <div><div class="k">Max teams</div><div class="v">{{ tournament.max_teams }}</div></div>
+        <div><div class="k">Entry fee</div><div class="v">{{ tournament.entry_fee }}</div></div>
+        <div><div class="k">Starts</div><div class="v">{{ tournament.start_date|default:"—" }}</div></div>
+        <div><div class="k">Ends</div><div class="v">{{ tournament.end_date|default:"—" }}</div></div>
+    </div>
+    {% if tournament.about %}
+        <h2>About</h2>
+        <p>{{ tournament.about }}</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2 style="margin-top:0;">Lifecycle</h2>
+    <p class="sub">Move the tournament through its stages. Opening registration lets teams sign up (registration UI is planned next).</p>
+    <form method="post" action="{% url 'organizer_tournament_status' tournament.slug %}" class="row">
+        {% csrf_token %}
+        <select name="status">
+            {% for value, label in tournament.STATUS_CHOICES %}
+                <option value="{{ value }}" {% if value == tournament.status %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn">Update status</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2 style="margin-top:0;">Payment</h2>
+    {% if payment %}
+        <p>
+            Per-tournament fee: <strong>৳{{ payment.amount }}</strong>
+            &nbsp;<span class="badge {{ payment.status }}">{{ payment.get_status_display }}</span>
+        </p>
+        {% if payment.is_settled %}
+            {% if payment.transaction_id %}
+                <p class="sub">Transaction: {{ payment.transaction_id }} ({{ payment.gateway|default:"—" }})</p>
+            {% endif %}
+            <p class="notice">Fee settled — this tournament can open registration.</p>
+        {% else %}
+            <p class="notice">Pay the fee via bKash to open registration and go live.</p>
+            <form method="post" action="{% url 'organizer_payment_start' tournament.slug %}" style="margin-top:10px;">
+                {% csrf_token %}
+                <button type="submit" class="btn">Pay ৳{{ payment.amount }} with bKash</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p class="sub">No payment record.</p>
+    {% endif %}
+</div>
+
+<p><a href="{% url 'organizer_dashboard' %}">← Back to dashboard</a></p>
+{% endblock %}

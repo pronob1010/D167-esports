@@ -1,0 +1,38 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}{% if mode == "edit" %}Edit tournament{% else %}New tournament{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if mode == "edit" %}Edit tournament{% else %}Create a tournament{% endif %}</h1>
+<p class="sub">
+    {% if mode == "edit" %}Update your tournament details.
+    {% else %}Set up a new tournament. It starts as a draft until you open registration.{% endif %}
+</p>
+
+<div class="card" style="max-width: 620px;">
+    <form method="post" class="stack" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+            {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+        {% endfor %}
+
+        {% if mode != "edit" %}
+        <p class="notice" style="margin-top:18px;">
+            A per-tournament fee applies when you create a tournament. Payment collection
+            isn't enabled yet — for now the charge is just recorded as pending.
+        </p>
+        {% endif %}
+
+        <div class="row" style="margin-top: 22px;">
+            <button type="submit" class="btn">{% if mode == "edit" %}Save changes{% else %}Create tournament{% endif %}</button>
+            {% if mode == "edit" %}
+                <a href="{% url 'organizer_tournament_detail' tournament.slug %}" class="btn ghost">Cancel</a>
+            {% else %}
+                <a href="{% url 'organizer_dashboard' %}" class="btn ghost">Cancel</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

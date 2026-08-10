@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Organizer Dashboard{% endblock %} · D167</title>
+    <style>
+        :root {
+            --bg: #0f1420;
+            --panel: #1a2130;
+            --panel-2: #212a3d;
+            --border: #2c3650;
+            --text: #e8ecf4;
+            --muted: #9aa6be;
+            --accent: #4f8cff;
+            --accent-2: #35c28e;
+            --danger: #e55a5a;
+            --warn: #e0a642;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 24px; background: var(--panel);
+            border-bottom: 1px solid var(--border);
+        }
+        .topbar .brand { font-weight: 700; font-size: 18px; color: var(--text); }
+        .topbar .brand span { color: var(--accent); }
+        .topbar nav a { margin-left: 18px; color: var(--muted); font-size: 14px; }
+        .topbar nav a:hover { color: var(--text); text-decoration: none; }
+        .wrap { max-width: 960px; margin: 0 auto; padding: 28px 24px 60px; }
+        h1 { font-size: 24px; margin: 0 0 4px; }
+        h2 { font-size: 18px; margin: 28px 0 12px; }
+        .sub { color: var(--muted); margin: 0 0 24px; }
+        .card {
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; margin-bottom: 16px;
+        }
+        .btn {
+            display: inline-block; padding: 9px 16px; border-radius: 8px;
+            background: var(--accent); color: #fff; font-size: 14px; font-weight: 600;
+            border: none; cursor: pointer;
+        }
+        .btn:hover { filter: brightness(1.08); text-decoration: none; }
+        .btn.secondary { background: var(--panel-2); color: var(--text); border: 1px solid var(--border); }
+        .btn.danger { background: var(--danger); }
+        .btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+        .btn.sm { padding: 6px 12px; font-size: 13px; }
+        .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .spread { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+        .badge {
+            display: inline-block; padding: 3px 10px; border-radius: 999px;
+            font-size: 12px; font-weight: 600;
+        }
+        .badge.draft { background: #33405e; color: #b9c6e6; }
+        .badge.open { background: rgba(53,194,142,.16); color: var(--accent-2); }
+        .badge.ongoing { background: rgba(79,140,255,.16); color: var(--accent); }
+        .badge.completed { background: #3a3350; color: #c6b9e6; }
+        .badge.pending { background: rgba(224,166,66,.16); color: var(--warn); }
+        .badge.initiated { background: rgba(79,140,255,.16); color: var(--accent); }
+        .badge.paid { background: rgba(53,194,142,.16); color: var(--accent-2); }
+        .badge.failed { background: rgba(229,90,90,.16); color: var(--danger); }
+        .badge.waived { background: #33405e; color: #b9c6e6; }
+        .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+        form.stack label { display: block; margin: 14px 0 5px; font-size: 13px; color: var(--muted); }
+        form.stack input, form.stack select, form.stack textarea {
+            width: 100%; padding: 10px 12px; border-radius: 8px;
+            background: var(--bg); border: 1px solid var(--border); color: var(--text);
+            font-size: 14px; font-family: inherit;
+        }
+        form.stack .helptext { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
+        form.stack .errorlist { color: var(--danger); font-size: 13px; margin: 6px 0 0; padding-left: 18px; }
+        .messages { list-style: none; padding: 0; margin: 0 0 20px; }
+        .messages li {
+            padding: 11px 16px; border-radius: 8px; margin-bottom: 8px; font-size: 14px;
+            border: 1px solid var(--border); background: var(--panel-2);
+        }
+        .messages li.success { border-color: var(--accent-2); }
+        .messages li.error { border-color: var(--danger); }
+        .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+        .meta-grid .k { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+        .meta-grid .v { font-size: 16px; font-weight: 600; margin-top: 2px; }
+        .notice { font-size: 13px; color: var(--muted); border-left: 3px solid var(--accent); padding-left: 12px; }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <div class="brand">D167 · <span>Organizer</span></div>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'organizer_dashboard' %}">Dashboard</a>
+                <a href="{% url 'organizer_tournament_create' %}">New tournament</a>
+                <a href="{% url 'organizer_billing' %}">Billing</a>
+                <a href="{% url 'logout' %}">Log out</a>
+            {% else %}
+                <a href="{% url 'login' %}">Log in</a>
+                <a href="{% url 'organizer_signup' %}">Sign up</a>
+            {% endif %}
+        </nav>
+    </div>
+    <div class="wrap">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Registrations · {{ tournament.Tournament_title }}{% endblock %}
+{% block content %}
+<div class="spread">
+    <div>
+        <h1>Registrations</h1>
+        <p class="sub">{{ tournament.Tournament_title }} · {{ approved_count }}/{{ tournament.max_teams }} teams approved</p>
+    </div>
+    <a href="{% url 'organizer_tournament_detail' tournament.slug %}" class="btn ghost">← Back</a>
+</div>
+
+<div class="card">
+    <p class="sub" style="margin-top:0;">
+        Public registration link:
+        <a href="{% url 'public_tournament' tournament.slug %}">/organizer/t/{{ tournament.slug }}/</a>
+        {% if tournament.registration_open %}
+            <span class="badge open">open</span>
+        {% else %}
+            <span class="badge draft">closed</span> — set status to “Registration open” to accept teams.
+        {% endif %}
+    </p>
+</div>
+
+<div class="card">
+    {% if registrations %}
+        <table>
+            <thead>
+                <tr><th>Team</th><th>Captain</th><th>Status</th><th style="text-align:right;">Action</th></tr>
+            </thead>
+            <tbody>
+                {% for reg in registrations %}
+                <tr>
+                    <td>
+                        {{ reg.team_name }}
+                        {% if reg.roster %}<br><span class="sub" style="font-size:12px;">{{ reg.roster|linebreaksbr }}</span>{% endif %}
+                    </td>
+                    <td>{{ reg.captain_name }}<br><span class="sub" style="font-size:12px;">{{ reg.captain_phone }}</span></td>
+                    <td><span class="badge {{ reg.status }}">{{ reg.get_status_display }}</span></td>
+                    <td style="text-align:right;">
+                        {% if reg.status != 'approved' %}
+                        <form method="post" action="{% url 'organizer_registration_decide' tournament.slug reg.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="approve">
+                            <button type="submit" class="btn sm">Approve</button>
+                        </form>
+                        {% endif %}
+                        {% if reg.status != 'rejected' %}
+                        <form method="post" action="{% url 'organizer_registration_decide' tournament.slug reg.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="reject">
+                            <button type="submit" class="btn ghost sm">Reject</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty"><p>No registrations yet. Share the public link above to collect teams.</p></div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}{{ tournament.Tournament_title }}{% endblock %}
+{% block content %}
+<div class="spread">
+    <div>
+        <h1>{{ tournament.Tournament_title }}</h1>
+        <p class="sub">
+            <span class="badge {{ tournament.status }}">{{ tournament.get_status_display }}</span>
+            &nbsp;{{ tournament.game.name|default:"" }}
+            {% if tournament.organizer %}· hosted by {{ tournament.organizer.name }}{% endif %}
+        </p>
+    </div>
+    {% if tournament.registration_open and team_count < tournament.max_teams %}
+        <a href="{% url 'public_register' tournament.slug %}" class="btn">Register your team</a>
+    {% endif %}
+</div>
+
+{% if tournament.about %}
+<div class="card"><p style="margin:0;">{{ tournament.about }}</p></div>
+{% endif %}
+
+<div class="card">
+    <div class="meta-grid">
+        <div><div class="k">Format</div><div class="v">{{ tournament.get_format_display }}</div></div>
+        <div><div class="k">Teams</div><div class="v">{{ team_count }} / {{ tournament.max_teams }}</div></div>
+        <div><div class="k">Entry fee</div><div class="v">{{ tournament.entry_fee }}</div></div>
+        <div><div class="k">Starts</div><div class="v">{{ tournament.start_date|default:"TBD" }}</div></div>
+    </div>
+    {% if tournament.registration_open %}
+        <p class="notice" style="margin-top:14px;">Registration is open{% if team_count < tournament.max_teams %} — <a href="{% url 'public_register' tournament.slug %}">register your team</a>.{% else %} but the tournament is full.{% endif %}</p>
+    {% endif %}
+</div>
+
+{% if standings %}
+<h2>Standings</h2>
+<div class="card">
+    <table>
+        <thead><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>{{ tournament.game.draw_label|default:"D"|slice:":1" }}</th><th>L</th><th>Diff</th><th>Pts</th></tr></thead>
+        <tbody>
+            {% for row in standings %}
+            <tr>
+                <td>{{ forloop.counter }}</td><td>{{ row.team.name }}</td>
+                <td>{{ row.played }}</td><td>{{ row.won }}</td><td>{{ row.drawn }}</td>
+                <td>{{ row.lost }}</td><td>{{ row.gd }}</td><td><strong>{{ row.points }}</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if rounds %}
+<h2>Fixtures</h2>
+    {% for r in rounds %}
+    <div class="card">
+        <h2 style="margin-top:0;font-size:16px;">{{ r.round.Round_title }}</h2>
+        <table>
+            <tbody>
+                {% for m in r.matches %}
+                <tr>
+                    <td style="text-align:right;width:42%;">{{ m.home_team.name|default:"TBD" }}</td>
+                    <td style="text-align:center;width:16%;color:var(--muted);">
+                        {% if m.is_played %}{{ m.home_score }} – {{ m.away_score }}{% else %}vs{% endif %}
+                    </td>
+                    <td style="width:42%;">{{ m.away_team.name|default:"TBD" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}

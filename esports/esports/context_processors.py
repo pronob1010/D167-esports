@@ -8,6 +8,8 @@ def extras(request):
     site_about = SiteAbout.objects.all()
     our_teams = CentralTeam.objects.all()
 
+    # Default so pages still render on a fresh install with no SiteInfo row yet.
+    site_data = None
     for i in sitedata:
         site_data = i
     match_data = MatchGroup.objects.all()

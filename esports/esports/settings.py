@@ -15,17 +15,41 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Optionally load environment variables from a local .env file (development).
+# python-dotenv is optional; if it isn't installed, real environment variables
+# are still used.
+try:
+    from dotenv import load_dotenv
+    load_dotenv(BASE_DIR / '.env')
+except ImportError:
+    pass
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ir0ac@q6d%v+l67$1g$ib!jiapnl(2p!3j8ho6sp!t94*-z##u'
+# Set DJANGO_SECRET_KEY in the environment (or .env) for any real deployment.
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-dev-only-key-change-me-in-production',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Defaults to True for local development; set DJANGO_DEBUG=False in production.
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = []
+# Comma-separated list of allowed hosts, e.g. "example.com,www.example.com".
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+    if host.strip()
+]
+
+# Railway injects the app's public domain at runtime; trust it automatically.
+_railway_host = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '').strip()
+if _railway_host and _railway_host not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(_railway_host)
 
 
 # Application definition
@@ -35,6 +59,7 @@ INSTALLED_APPS = [
     'smart_selects',
     'crispy_forms',
     'Accounts',
+    'organizers',
     'matches',
     'players',
     'teams',
@@ -50,6 +75,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise serves static files in production (right after SecurityMiddleware).
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,8 +96,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join('BASE_DIR','../templates')
-            # 'templates'
+            BASE_DIR / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -93,11 +119,15 @@ WSGI_APPLICATION = 'esports.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# Use DATABASE_URL when present (Railway provides it for its Postgres plugin);
+# fall back to local SQLite for development.
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
 }
 
 
@@ -138,7 +168,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+# collectstatic gathers everything here; WhiteNoise serves it in production.
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Non-manifest compressed storage: compresses assets without failing on legacy
+# templates that reference static files not present at build time.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+# MEDIA_ROOT can point at a mounted Railway volume so uploads persist across
+# deploys (container disks are ephemeral).
+MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
@@ -149,3 +187,59 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- Platform settings ------------------------------------------------------
+# Business model: "fee per tournament". The amount an organizer is charged for
+# each tournament they create. Override via the TOURNAMENT_FEE env var.
+# (No payment gateway is wired up yet - see PLATFORM_ROADMAP.md Stage D.)
+TOURNAMENT_FEE = os.environ.get('TOURNAMENT_FEE', '500')
+
+# Where organizer auth redirects.
+LOGIN_URL = 'login'
+
+# Email — defaults to the console backend so registration notifications print to
+# the server log in development. Set DJANGO_EMAIL_BACKEND + SMTP creds for real
+# delivery. (SMS can be added later behind the same notifications helper.)
+EMAIL_BACKEND = os.environ.get(
+    'DJANGO_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend'
+)
+EMAIL_HOST = os.environ.get('DJANGO_EMAIL_HOST', '')
+EMAIL_PORT = int(os.environ.get('DJANGO_EMAIL_PORT', '587'))
+EMAIL_HOST_USER = os.environ.get('DJANGO_EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = os.environ.get('DJANGO_EMAIL_USE_TLS', 'True').lower() in ('true', '1', 'yes')
+DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_DEFAULT_FROM_EMAIL', 'D167 <noreply@d167.local>')
+
+# --- bKash payment gateway (Tokenized Checkout) -----------------------------
+# When BKASH_ENABLED is false or credentials are missing, a dummy gateway is
+# used so the pay flow works end to end for development/testing. Set
+# BKASH_ENABLED=True with real sandbox/live credentials to use bKash.
+BKASH_ENABLED = os.environ.get('BKASH_ENABLED', 'False').lower() in ('true', '1', 'yes')
+BKASH_BASE_URL = os.environ.get(
+    'BKASH_BASE_URL', 'https://tokenized.sandbox.bka.sh/v1.2.0-beta'
+)
+BKASH_APP_KEY = os.environ.get('BKASH_APP_KEY', '')
+BKASH_APP_SECRET = os.environ.get('BKASH_APP_SECRET', '')
+BKASH_USERNAME = os.environ.get('BKASH_USERNAME', '')
+BKASH_PASSWORD = os.environ.get('BKASH_PASSWORD', '')
+
+# --- Production security -----------------------------------------------------
+# HTTPS pages must list their origin here for POST forms (login, score entry,
+# payments) to pass CSRF checks.
+CSRF_TRUSTED_ORIGINS = [
+    'https://' + h for h in ALLOWED_HOSTS if h not in ('localhost', '127.0.0.1')
+]
+
+if not DEBUG:
+    # Railway terminates TLS at its edge and forwards X-Forwarded-Proto, so
+    # Django must trust that header to know the request is really HTTPS
+    # (also makes request.build_absolute_uri build https:// bKash callbacks).
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True

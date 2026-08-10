@@ -1,0 +1,51 @@
+{% extends "organizers/base_dashboard.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="spread">
+    <div>
+        <h1>{{ organizer.name }}</h1>
+        <p class="sub">Your tournaments · <a href="{% url 'public_organizer' organizer.slug %}">view public page</a></p>
+    </div>
+    <a href="{% url 'organizer_tournament_create' %}" class="btn">+ New tournament</a>
+</div>
+
+<div class="card">
+    {% if tournaments %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Tournament</th>
+                    <th>Game</th>
+                    <th>Status</th>
+                    <th>Teams</th>
+                    <th>Fee</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in tournaments %}
+                <tr>
+                    <td><a href="{% url 'organizer_tournament_detail' t.slug %}">{{ t.Tournament_title }}</a></td>
+                    <td>{{ t.game.name|default:"—" }}</td>
+                    <td><span class="badge {{ t.status }}">{{ t.get_status_display }}</span></td>
+                    <td>{{ t.max_teams }}</td>
+                    <td>
+                        {% if t.payment %}
+                            <span class="badge {{ t.payment.status }}">{{ t.payment.get_status_display }}</span>
+                        {% else %}—{% endif %}
+                    </td>
+                    <td style="text-align:right;">
+                        <a href="{% url 'organizer_tournament_edit' t.slug %}" class="btn secondary sm">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty">
+            <p>You haven't created any tournaments yet.</p>
+            <a href="{% url 'organizer_tournament_create' %}" class="btn">Create your first tournament</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
